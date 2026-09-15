@@ -1,1 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyVex — AI Study Assistant</title>
 
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f8fc;
+            color: #171717;
+        }
+
+        header {
+            padding: 22px 7%;
+            background: white;
+            border-bottom: 1px solid #e5e5e5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 800;
+        }
+
+        .tagline {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .hero {
+            max-width: 900px;
+            margin: 70px auto 40px;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 18px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 35px;
+        }
+
+        .card {
+            max-width: 850px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+        }
+
+        textarea {
+            width: 100%;
+            height: 260px;
+            padding: 18px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            resize: vertical;
+            font-size: 16px;
+            outline: none;
+        }
+
+        textarea:focus {
+            border-color: #555;
+        }
+
+        .options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .option {
+            padding: 12px 18px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .option:hover {
+            background: #f1f1f1;
+        }
+
+        .generate {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: #171717;
+            color: white;
+            font-size: 17px;
+            cursor: pointer;
+        }
+
+        .generate:hover {
+            background: #333;
+        }
+
+        .tools {
+            max-width: 850px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .tools h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+        }
+
+        .tool {
+            background: white;
+            padding: 22px;
+            border-radius: 14px;
+            border: 1px solid #eee;
+        }
+
+        .tool h3 {
+            margin-bottom: 8px;
+        }
+
+        .tool p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #888;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">StudyVex</div>
+    <div class="tagline">AI Study Assistant</div>
+</header>
+
+<section class="hero">
+    <h1>Study smarter with AI.</h1>
+    <p>
+        Turn your study material into summaries, quizzes, and flashcards.
+    </p>
+
+    <div class="card">
+
+        <textarea placeholder="Paste your chapter or study material here..."></textarea>
+
+        <div class="options">
+            <button class="option">📝 Summary</button>
+            <button class="option">❓ MCQ Quiz</button>
+            <button class="option">🗂️ Flashcards</button>
+        </div>
+
+        <button class="generate">Generate</button>
+
+    </div>
+</section>
+
+<section class="tools">
+
+    <h2>Student Tools</h2>
+
+    <div class="tool-grid">
+
+        <div class="tool">
+            <h3>✍️ Improve Grammar</h3>
+            <p>Tools that help improve your writing and grammar.</p>
+        </div>
+
+        <div class="tool">
+            <h3>🔄 Rewrite & Paraphrase</h3>
+            <p>Rewrite your text and create clearer versions.</p>
+        </div>
+
+        <div class="tool">
+            <h3>🔎 Research</h3>
+            <p>Useful tools for research and studying.</p>
+        </div>
+
+        <div class="tool">
+            <h3>📊 Presentations</h3>
+            <p>Create better presentations and study materials.</p>
+        </div>
+
+    </div>
+
+</section>
+
+<footer>
+    © 2026 StudyVex. Study smarter.
+</footer>
+
+</body>
+</html>
