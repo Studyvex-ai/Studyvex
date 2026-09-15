@@ -1078,7 +1078,24 @@
       }
 
     });
+function filterTools(category) {
 
+  const tools = document.querySelectorAll(".tool");
+
+  tools.forEach(tool => {
+
+    if (
+      category === "all" ||
+      tool.dataset.category === category
+    ) {
+      tool.style.display = "block";
+    } else {
+      tool.style.display = "none";
+    }
+
+  });
+
+}
   </script>
 
 </body>
