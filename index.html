@@ -1,195 +1,360 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyVex — AI Study Assistant</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<title>StudyVex — AI Study Assistant</title>
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #f7f8fc;
-            color: #171717;
-        }
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-        header {
-            padding: 22px 7%;
-            background: white;
-            border-bottom: 1px solid #e5e5e5;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+body {
+    font-family: Arial, sans-serif;
+    background: #f6f7fb;
+    color: #111827;
+}
 
-        .logo {
-            font-size: 26px;
-            font-weight: 800;
-        }
+header {
+    height: 72px;
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 7%;
+}
 
-        .tagline {
-            color: #666;
-            font-size: 14px;
-        }
+.logo {
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
 
-        .hero {
-            max-width: 900px;
-            margin: 70px auto 40px;
-            padding: 0 20px;
-            text-align: center;
-        }
+.logo span {
+    color: #6366f1;
+}
 
-        .hero h1 {
-            font-size: 48px;
-            margin-bottom: 18px;
-        }
+.nav {
+    display: flex;
+    gap: 25px;
+    color: #6b7280;
+    font-size: 14px;
+}
 
-        .hero p {
-            font-size: 18px;
-            color: #666;
-            margin-bottom: 35px;
-        }
+.hero {
+    text-align: center;
+    padding: 75px 20px 35px;
+}
 
-        .card {
-            max-width: 850px;
-            margin: auto;
-            background: white;
-            padding: 30px;
-            border-radius: 18px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
-        }
+.badge {
+    display: inline-block;
+    background: #eef2ff;
+    color: #4f46e5;
+    padding: 8px 14px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
 
-        textarea {
-            width: 100%;
-            height: 260px;
-            padding: 18px;
-            border: 1px solid #ddd;
-            border-radius: 12px;
-            resize: vertical;
-            font-size: 16px;
-            outline: none;
-        }
+.hero h1 {
+    font-size: 52px;
+    line-height: 1.05;
+    letter-spacing: -2px;
+    margin-bottom: 20px;
+}
 
-        .options {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin: 20px 0;
-        }
+.hero h1 span {
+    color: #6366f1;
+}
 
-        .option {
-            padding: 12px 18px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            background: white;
-            cursor: pointer;
-        }
+.hero p {
+    max-width: 650px;
+    margin: auto;
+    color: #6b7280;
+    font-size: 18px;
+    line-height: 1.6;
+}
 
-        .option.selected {
-            background: #171717;
-            color: white;
-            border-color: #171717;
-        }
+.workspace {
+    max-width: 900px;
+    margin: 35px auto 70px;
+    padding: 0 20px;
+}
 
-        .generate {
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 10px;
-            background: #171717;
-            color: white;
-            font-size: 17px;
-            cursor: pointer;
-        }
+.card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.06);
+}
 
-        .generate:disabled {
-            opacity: 0.6;
-            cursor: wait;
-        }
+.card-label {
+    font-weight: 700;
+    margin-bottom: 12px;
+}
 
-        .result {
-            display: none;
-            margin-top: 25px;
-            padding: 22px;
-            background: #f7f8fc;
-            border-radius: 12px;
-            text-align: left;
-            white-space: pre-wrap;
-            line-height: 1.6;
-        }
+textarea {
+    width: 100%;
+    min-height: 270px;
+    border: 1px solid #d1d5db;
+    border-radius: 14px;
+    padding: 18px;
+    resize: vertical;
+    font-size: 16px;
+    font-family: inherit;
+    outline: none;
+}
 
-        .tools {
-            max-width: 850px;
-            margin: 50px auto;
-            padding: 0 20px;
-        }
+textarea:focus {
+    border-color: #6366f1;
+}
 
-        .tools h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+.options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 18px 0;
+}
 
-        .tool-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-        }
+.option {
+    border: 1px solid #d1d5db;
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+}
 
-        .tool {
-            background: white;
-            padding: 22px;
-            border-radius: 14px;
-            border: 1px solid #eee;
-        }
+.option:hover {
+    border-color: #6366f1;
+}
 
-        .tool h3 {
-            margin-bottom: 8px;
-        }
+.option.selected {
+    background: #6366f1;
+    color: white;
+    border-color: #6366f1;
+}
 
-        .tool p {
-            color: #666;
-            font-size: 14px;
-        }
+.generate {
+    width: 100%;
+    border: none;
+    border-radius: 12px;
+    padding: 16px;
+    background: #111827;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+}
 
-        footer {
-            text-align: center;
-            padding: 30px;
-            color: #888;
-            font-size: 13px;
-        }
+.generate:hover {
+    background: #1f2937;
+}
 
-        @media (max-width: 600px) {
-            .hero h1 {
-                font-size: 36px;
-            }
-        }
-    </style>
+.generate:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.result {
+    display: none;
+    margin-top: 22px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 22px;
+    text-align: left;
+    white-space: pre-wrap;
+    line-height: 1.7;
+}
+
+.section {
+    max-width: 1000px;
+    margin: 0 auto 80px;
+    padding: 0 20px;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.section-title h2 {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.section-title p {
+    color: #6b7280;
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.feature {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 25px;
+}
+
+.icon {
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.feature h3 {
+    margin-bottom: 8px;
+}
+
+.feature p {
+    color: #6b7280;
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+.tools {
+    max-width: 1000px;
+    margin: 0 auto 80px;
+    padding: 0 20px;
+}
+
+.tool-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.tool {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.tool h3 {
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.tool p {
+    color: #6b7280;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+footer {
+    background: white;
+    border-top: 1px solid #e5e7eb;
+    text-align: center;
+    padding: 30px;
+    color: #9ca3af;
+    font-size: 13px;
+}
+
+@media (max-width: 750px) {
+
+    .nav {
+        display: none;
+    }
+
+    .hero h1 {
+        font-size: 40px;
+    }
+
+    .options {
+        grid-template-columns: 1fr;
+    }
+
+    .features {
+        grid-template-columns: 1fr;
+    }
+
+    .tool-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 450px) {
+
+    .hero {
+        padding-top: 50px;
+    }
+
+    .hero h1 {
+        font-size: 34px;
+    }
+
+    .card {
+        padding: 18px;
+    }
+
+    .tool-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
 </head>
 
 <body>
 
 <header>
-    <div class="logo">StudyVex</div>
-    <div class="tagline">AI Study Assistant</div>
+
+    <div class="logo">
+        Study<span>Vex</span>
+    </div>
+
+    <div class="nav">
+        <div>AI Study Tools</div>
+        <div>Student Resources</div>
+    </div>
+
 </header>
+
 
 <section class="hero">
 
-    <h1>Study smarter with AI.</h1>
+    <div class="badge">
+        ✨ AI-powered studying
+    </div>
+
+    <h1>
+        Study smarter.<br>
+        <span>Not harder.</span>
+    </h1>
 
     <p>
-        Turn your study material into summaries, quizzes, and flashcards.
+        Turn your study material into clear summaries,
+        practice questions, and flashcards in seconds.
     </p>
+
+</section>
+
+
+<section class="workspace">
 
     <div class="card">
 
-        <textarea id="studyText"
-            placeholder="Paste your chapter or study material here..."></textarea>
+        <div class="card-label">
+            📚 Your study material
+        </div>
+
+        <textarea
+            id="studyText"
+            placeholder="Paste your chapter, lecture notes, or study material here..."
+        ></textarea>
+
 
         <div class="options">
 
@@ -207,9 +372,11 @@
 
         </div>
 
+
         <button class="generate" id="generateBtn">
-            Generate
+            Generate with AI
         </button>
+
 
         <div class="result" id="result"></div>
 
@@ -217,82 +384,178 @@
 
 </section>
 
-<section class="tools">
 
-    <h2>Student Tools</h2>
+<section class="section">
 
-    <div class="tool-grid">
+    <div class="section-title">
 
-        <div class="tool">
-            <h3>✍️ Improve Grammar</h3>
-            <p>Tools that help improve your writing and grammar.</p>
+        <h2>Everything you need to study better</h2>
+
+        <p>
+            Simple AI tools designed around the way students actually study.
+        </p>
+
+    </div>
+
+
+    <div class="features">
+
+        <div class="feature">
+
+            <div class="icon">📝</div>
+
+            <h3>Smart Summaries</h3>
+
+            <p>
+                Turn long chapters and notes into clear,
+                easy-to-review summaries.
+            </p>
+
         </div>
 
-        <div class="tool">
-            <h3>🔄 Rewrite & Paraphrase</h3>
-            <p>Rewrite your text and create clearer versions.</p>
+
+        <div class="feature">
+
+            <div class="icon">❓</div>
+
+            <h3>Practice Questions</h3>
+
+            <p>
+                Generate multiple-choice questions to
+                test your understanding.
+            </p>
+
         </div>
 
-        <div class="tool">
-            <h3>🔎 Research</h3>
-            <p>Useful tools for research and studying.</p>
-        </div>
 
-        <div class="tool">
-            <h3>📊 Presentations</h3>
-            <p>Create better presentations and study materials.</p>
+        <div class="feature">
+
+            <div class="icon">🗂️</div>
+
+            <h3>Flashcards</h3>
+
+            <p>
+                Convert important concepts into
+                quick revision flashcards.
+            </p>
+
         </div>
 
     </div>
 
 </section>
 
+
+<section class="tools">
+
+    <div class="section-title">
+
+        <h2>Student Tools</h2>
+
+        <p>
+            Useful tools for writing, research and studying.
+        </p>
+
+    </div>
+
+
+    <div class="tool-grid">
+
+        <div class="tool">
+            <h3>✍️ Grammar</h3>
+            <p>Improve your writing and grammar.</p>
+        </div>
+
+        <div class="tool">
+            <h3>🔄 Paraphrasing</h3>
+            <p>Rewrite and improve your text.</p>
+        </div>
+
+        <div class="tool">
+            <h3>🔎 Research</h3>
+            <p>Discover useful research tools.</p>
+        </div>
+
+        <div class="tool">
+            <h3>📊 Presentations</h3>
+            <p>Create better presentations.</p>
+        </div>
+
+    </div>
+
+</section>
+
+
 <footer>
     © 2026 StudyVex. Study smarter.
 </footer>
 
+
 <script>
 
-    let selectedTask = "summary";
+let selectedTask = "summary";
 
-    const options = document.querySelectorAll(".option");
-    const generateBtn = document.getElementById("generateBtn");
-    const studyText = document.getElementById("studyText");
-    const result = document.getElementById("result");
+const options = document.querySelectorAll(".option");
 
-    options.forEach(option => {
+const generateBtn =
+    document.getElementById("generateBtn");
 
-        option.addEventListener("click", () => {
+const studyText =
+    document.getElementById("studyText");
 
-            options.forEach(button => {
-                button.classList.remove("selected");
-            });
+const result =
+    document.getElementById("result");
 
-            option.classList.add("selected");
 
-            selectedTask = option.dataset.task;
+options.forEach(option => {
+
+    option.addEventListener("click", () => {
+
+        options.forEach(button => {
+            button.classList.remove("selected");
         });
+
+        option.classList.add("selected");
+
+        selectedTask =
+            option.dataset.task;
 
     });
 
-    generateBtn.addEventListener("click", async () => {
+});
 
-        const text = studyText.value.trim();
 
-        if (!text) {
-            alert("Please paste your study material first.");
-            return;
-        }
+generateBtn.addEventListener("click", async () => {
 
-        generateBtn.disabled = true;
-        generateBtn.textContent = "Generating...";
+    const text =
+        studyText.value.trim();
 
-        result.style.display = "block";
-        result.textContent = "StudyVex AI is generating your result...";
+    if (!text) {
 
-        try {
+        alert(
+            "Please paste your study material first."
+        );
 
-            const response = await fetch("/api/generate", {
+        return;
+    }
+
+
+    generateBtn.disabled = true;
+
+    generateBtn.textContent =
+        "Generating...";
+
+
+    result.style.display = "block";
+
+    result.textContent =
+        "StudyVex AI is generating your result...";
+
+
+    try {
+
+        const response =
+            await fetch("/api/generate", {
 
                 method: "POST",
 
@@ -307,27 +570,40 @@
 
             });
 
-            const data = await response.json();
 
-            if (!response.ok) {
-                throw new Error(data.error || "Something went wrong.");
-            }
+        const data =
+            await response.json();
 
-            result.textContent = data.result;
 
-        } catch (error) {
+        if (!response.ok) {
 
-            result.textContent =
-                "Error: " + error.message;
-
-        } finally {
-
-            generateBtn.disabled = false;
-            generateBtn.textContent = "Generate";
+            throw new Error(
+                data.error ||
+                "Something went wrong."
+            );
 
         }
 
-    });
+
+        result.textContent =
+            data.result;
+
+
+    } catch (error) {
+
+        result.textContent =
+            "Error: " + error.message;
+
+    } finally {
+
+        generateBtn.disabled = false;
+
+        generateBtn.textContent =
+            "Generate with AI";
+
+    }
+
+});
 
 </script>
 
