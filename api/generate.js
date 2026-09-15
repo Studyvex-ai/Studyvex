@@ -5,10 +5,20 @@ export default async function handler(req, res) {
 
   try {
     const { text, task, count } = req.body || {};
+    if (!["summary", "mcq", "flashcards"].includes(task)) {
+  return res.status(400).json({
+    error: "Invalid task."
+  });
+}
 
     if (!text || !text.trim()) {
       return res.status(400).json({
         error: "Please provide study material."
+      });
+    }
+        if (text.length > 20000) {
+      return res.status(400).json({
+        error: "Study material is too long. Please keep it under 20,000 characters."
       });
     }
 
@@ -36,11 +46,7 @@ export default async function handler(req, res) {
         "Create useful study flashcards from the material. Format each one as Question: followed by Answer:. Focus on important concepts rather than trivial details.";
     } 
     
-    else {
-      return res.status(400).json({
-        error: "Invalid task."
-      });
-    }
+    
 
     const response = await fetch(
       "https://api.openai.com/v1/responses",
