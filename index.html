@@ -75,10 +75,6 @@
             outline: none;
         }
 
-        textarea:focus {
-            border-color: #555;
-        }
-
         .options {
             display: flex;
             gap: 10px;
@@ -94,8 +90,10 @@
             cursor: pointer;
         }
 
-        .option:hover {
-            background: #f1f1f1;
+        .option.selected {
+            background: #171717;
+            color: white;
+            border-color: #171717;
         }
 
         .generate {
@@ -109,8 +107,20 @@
             cursor: pointer;
         }
 
-        .generate:hover {
-            background: #333;
+        .generate:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
+        .result {
+            display: none;
+            margin-top: 25px;
+            padding: 22px;
+            background: #f7f8fc;
+            border-radius: 12px;
+            text-align: left;
+            white-space: pre-wrap;
+            line-height: 1.6;
         }
 
         .tools {
@@ -169,24 +179,42 @@
 </header>
 
 <section class="hero">
+
     <h1>Study smarter with AI.</h1>
+
     <p>
         Turn your study material into summaries, quizzes, and flashcards.
     </p>
 
     <div class="card">
 
-        <textarea placeholder="Paste your chapter or study material here..."></textarea>
+        <textarea id="studyText"
+            placeholder="Paste your chapter or study material here..."></textarea>
 
         <div class="options">
-            <button class="option">📝 Summary</button>
-            <button class="option">❓ MCQ Quiz</button>
-            <button class="option">🗂️ Flashcards</button>
+
+            <button class="option selected" data-task="summary">
+                📝 Summary
+            </button>
+
+            <button class="option" data-task="mcq">
+                ❓ MCQ Quiz
+            </button>
+
+            <button class="option" data-task="flashcards">
+                🗂️ Flashcards
+            </button>
+
         </div>
 
-        <button class="generate">Generate</button>
+        <button class="generate" id="generateBtn">
+            Generate
+        </button>
+
+        <div class="result" id="result"></div>
 
     </div>
+
 </section>
 
 <section class="tools">
@@ -222,6 +250,86 @@
 <footer>
     © 2026 StudyVex. Study smarter.
 </footer>
+
+<script>
+
+    let selectedTask = "summary";
+
+    const options = document.querySelectorAll(".option");
+    const generateBtn = document.getElementById("generateBtn");
+    const studyText = document.getElementById("studyText");
+    const result = document.getElementById("result");
+
+    options.forEach(option => {
+
+        option.addEventListener("click", () => {
+
+            options.forEach(button => {
+                button.classList.remove("selected");
+            });
+
+            option.classList.add("selected");
+
+            selectedTask = option.dataset.task;
+        });
+
+    });
+
+    generateBtn.addEventListener("click", async () => {
+
+        const text = studyText.value.trim();
+
+        if (!text) {
+            alert("Please paste your study material first.");
+            return;
+        }
+
+        generateBtn.disabled = true;
+        generateBtn.textContent = "Generating...";
+
+        result.style.display = "block";
+        result.textContent = "StudyVex AI is generating your result...";
+
+        try {
+
+            const response = await fetch("/api/generate", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    text: text,
+                    task: selectedTask
+                })
+
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || "Something went wrong.");
+            }
+
+            result.textContent = data.result;
+
+        } catch (error) {
+
+            result.textContent =
+                "Error: " + error.message;
+
+        } finally {
+
+            generateBtn.disabled = false;
+            generateBtn.textContent = "Generate";
+
+        }
+
+    });
+
+</script>
 
 </body>
 </html>
