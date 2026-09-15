@@ -1,611 +1,508 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudyVex — Study Smarter</title>
 
-<title>StudyVex — AI Study Assistant</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-<style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f7f9fc;
+      color: #172033;
+      line-height: 1.6;
+    }
 
-body {
-    font-family: Arial, sans-serif;
-    background: #f6f7fb;
-    color: #111827;
-}
+    header {
+      background: white;
+      border-bottom: 1px solid #e8ebf2;
+      padding: 18px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-header {
-    height: 72px;
-    background: white;
-    border-bottom: 1px solid #e5e7eb;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 7%;
-}
+    .logo {
+      font-size: 26px;
+      font-weight: 800;
+      color: #5b4df6;
+    }
 
-.logo {
-    font-size: 25px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-}
+    .tagline {
+      font-size: 14px;
+      color: #6b7280;
+    }
 
-.logo span {
-    color: #6366f1;
-}
+    nav a {
+      text-decoration: none;
+      color: #555;
+      margin-left: 25px;
+      font-size: 14px;
+    }
 
-.nav {
-    display: flex;
-    gap: 25px;
-    color: #6b7280;
-    font-size: 14px;
-}
-
-.hero {
-    text-align: center;
-    padding: 75px 20px 35px;
-}
-
-.badge {
-    display: inline-block;
-    background: #eef2ff;
-    color: #4f46e5;
-    padding: 8px 14px;
-    border-radius: 30px;
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 20px;
-}
-
-.hero h1 {
-    font-size: 52px;
-    line-height: 1.05;
-    letter-spacing: -2px;
-    margin-bottom: 20px;
-}
-
-.hero h1 span {
-    color: #6366f1;
-}
-
-.hero p {
-    max-width: 650px;
-    margin: auto;
-    color: #6b7280;
-    font-size: 18px;
-    line-height: 1.6;
-}
-
-.workspace {
-    max-width: 900px;
-    margin: 35px auto 70px;
-    padding: 0 20px;
-}
-
-.card {
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 20px;
-    padding: 28px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.06);
-}
-
-.card-label {
-    font-weight: 700;
-    margin-bottom: 12px;
-}
-
-textarea {
-    width: 100%;
-    min-height: 270px;
-    border: 1px solid #d1d5db;
-    border-radius: 14px;
-    padding: 18px;
-    resize: vertical;
-    font-size: 16px;
-    font-family: inherit;
-    outline: none;
-}
-
-textarea:focus {
-    border-color: #6366f1;
-}
-
-.options {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin: 18px 0;
-}
-
-.option {
-    border: 1px solid #d1d5db;
-    background: white;
-    border-radius: 12px;
-    padding: 15px;
-    cursor: pointer;
-    font-size: 15px;
-    font-weight: 600;
-}
-
-.option:hover {
-    border-color: #6366f1;
-}
-
-.option.selected {
-    background: #6366f1;
-    color: white;
-    border-color: #6366f1;
-}
-
-.generate {
-    width: 100%;
-    border: none;
-    border-radius: 12px;
-    padding: 16px;
-    background: #111827;
-    color: white;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-.generate:hover {
-    background: #1f2937;
-}
-
-.generate:disabled {
-    opacity: 0.6;
-    cursor: wait;
-}
-
-.result {
-    display: none;
-    margin-top: 22px;
-    background: #f9fafb;
-    border: 1px solid #e5e7eb;
-    border-radius: 14px;
-    padding: 22px;
-    text-align: left;
-    white-space: pre-wrap;
-    line-height: 1.7;
-}
-
-.section {
-    max-width: 1000px;
-    margin: 0 auto 80px;
-    padding: 0 20px;
-}
-
-.section-title {
-    text-align: center;
-    margin-bottom: 35px;
-}
-
-.section-title h2 {
-    font-size: 30px;
-    margin-bottom: 10px;
-}
-
-.section-title p {
-    color: #6b7280;
-}
-
-.features {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-}
-
-.feature {
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 16px;
-    padding: 25px;
-}
-
-.icon {
-    font-size: 28px;
-    margin-bottom: 15px;
-}
-
-.feature h3 {
-    margin-bottom: 8px;
-}
-
-.feature p {
-    color: #6b7280;
-    line-height: 1.5;
-    font-size: 14px;
-}
-
-.tools {
-    max-width: 1000px;
-    margin: 0 auto 80px;
-    padding: 0 20px;
-}
-
-.tool-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
-}
-
-.tool {
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 15px;
-    padding: 20px;
-}
-
-.tool h3 {
-    font-size: 16px;
-    margin-bottom: 8px;
-}
-
-.tool p {
-    color: #6b7280;
-    font-size: 13px;
-    line-height: 1.5;
-}
-
-footer {
-    background: white;
-    border-top: 1px solid #e5e7eb;
-    text-align: center;
-    padding: 30px;
-    color: #9ca3af;
-    font-size: 13px;
-}
-
-@media (max-width: 750px) {
-
-    .nav {
-        display: none;
+    .hero {
+      text-align: center;
+      padding: 70px 20px 45px;
     }
 
     .hero h1 {
-        font-size: 40px;
+      font-size: 48px;
+      line-height: 1.15;
+      margin-bottom: 18px;
     }
 
-    .options {
-        grid-template-columns: 1fr;
+    .hero h1 span {
+      color: #5b4df6;
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin: auto;
+      color: #687084;
+      font-size: 18px;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 950px;
+      margin: auto;
+    }
+
+    .study-box {
+      background: white;
+      border-radius: 18px;
+      padding: 28px;
+      box-shadow: 0 10px 35px rgba(20, 30, 60, 0.08);
+      border: 1px solid #e9ecf3;
+    }
+
+    .study-box h2 {
+      margin-bottom: 8px;
+    }
+
+    .study-box p {
+      color: #737b8c;
+      margin-bottom: 20px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 230px;
+      resize: vertical;
+      border: 1px solid #dfe3eb;
+      border-radius: 12px;
+      padding: 16px;
+      font-size: 15px;
+      outline: none;
+      font-family: inherit;
+    }
+
+    textarea:focus {
+      border-color: #5b4df6;
+    }
+
+    .task-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    .task-btn {
+      border: 1px solid #dfe3eb;
+      background: white;
+      padding: 11px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      color: #555;
+    }
+
+    .task-btn:hover {
+      border-color: #5b4df6;
+    }
+
+    .task-btn.selected {
+      background: #5b4df6;
+      color: white;
+      border-color: #5b4df6;
+    }
+
+    .mcq-count {
+      display: none;
+      margin-top: 16px;
+      padding: 15px;
+      background: #f7f7ff;
+      border-radius: 12px;
+    }
+
+    .mcq-count.show {
+      display: block;
+    }
+
+    .mcq-count-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .count-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .count-btn {
+      border: 1px solid #d8dbea;
+      background: white;
+      padding: 8px 16px;
+      border-radius: 9px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .count-btn.selected {
+      background: #172033;
+      color: white;
+      border-color: #172033;
+    }
+
+    .generate-btn {
+      width: 100%;
+      margin-top: 20px;
+      padding: 14px;
+      border: none;
+      border-radius: 11px;
+      background: #172033;
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .generate-btn:hover {
+      background: #252f46;
+    }
+
+    .generate-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .result {
+      margin-top: 25px;
+      background: white;
+      border-radius: 18px;
+      padding: 28px;
+      border: 1px solid #e9ecf3;
+      box-shadow: 0 10px 35px rgba(20, 30, 60, 0.06);
+      display: none;
+    }
+
+    .result h2 {
+      margin-bottom: 15px;
+    }
+
+    #resultText {
+      white-space: pre-wrap;
+      color: #30384a;
     }
 
     .features {
-        grid-template-columns: 1fr;
+      padding: 80px 0;
+    }
+
+    .features h2 {
+      text-align: center;
+      margin-bottom: 35px;
+      font-size: 32px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .feature {
+      background: white;
+      padding: 25px;
+      border-radius: 16px;
+      border: 1px solid #e9ecf3;
+    }
+
+    .feature h3 {
+      margin-bottom: 8px;
+    }
+
+    .feature p {
+      color: #737b8c;
+      font-size: 14px;
+    }
+
+    .tools {
+      padding: 20px 0 80px;
+    }
+
+    .tools h2 {
+      margin-bottom: 10px;
+    }
+
+    .tools > p {
+      color: #737b8c;
+      margin-bottom: 25px;
     }
 
     .tool-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-@media (max-width: 450px) {
-
-    .hero {
-        padding-top: 50px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
     }
 
-    .hero h1 {
-        font-size: 34px;
+    .tool {
+      background: white;
+      padding: 20px;
+      border-radius: 14px;
+      border: 1px solid #e9ecf3;
+      font-weight: 600;
     }
 
-    .card {
-        padding: 18px;
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #858b98;
+      font-size: 13px;
     }
 
-    .tool-grid {
+    @media (max-width: 800px) {
+      .hero h1 {
+        font-size: 38px;
+      }
+
+      .feature-grid {
         grid-template-columns: 1fr;
+      }
+
+      .tool-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      nav {
+        display: none;
+      }
     }
-}
-</style>
+
+    @media (max-width: 500px) {
+      .tool-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .study-box {
+        padding: 20px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
-
-    <div class="logo">
-        Study<span>Vex</span>
+  <header>
+    <div>
+      <div class="logo">StudyVex</div>
+      <div class="tagline">AI Study Assistant</div>
     </div>
 
-    <div class="nav">
-        <div>AI Study Tools</div>
-        <div>Student Resources</div>
-    </div>
+    <nav>
+      <a href="#study">Study</a>
+      <a href="#features">Features</a>
+      <a href="#tools">Tools</a>
+    </nav>
+  </header>
 
-</header>
-
-
-<section class="hero">
-
-    <div class="badge">
-        ✨ AI-powered studying
-    </div>
-
-    <h1>
-        Study smarter.<br>
-        <span>Not harder.</span>
-    </h1>
-
+  <section class="hero">
+    <h1>Study smarter.<br><span>Not harder.</span></h1>
     <p>
-        Turn your study material into clear summaries,
-        practice questions, and flashcards in seconds.
+      Turn your study material into summaries, quizzes, and flashcards
+      with the power of AI.
     </p>
+  </section>
 
-</section>
+  <main class="container">
 
+    <section class="study-box" id="study">
+      <h2>What are you studying?</h2>
+      <p>Paste your notes, lecture, chapter, or study material below.</p>
 
-<section class="workspace">
+      <textarea id="studyText" placeholder="Paste your study material here..."></textarea>
 
-    <div class="card">
-
-        <div class="card-label">
-            📚 Your study material
-        </div>
-
-        <textarea
-            id="studyText"
-            placeholder="Paste your chapter, lecture notes, or study material here..."
-        ></textarea>
-
-
-        <div class="options">
-
-            <button class="option selected" data-task="summary">
-                📝 Summary
-            </button>
-
-            <button class="option" data-task="mcq">
-                ❓ MCQ Quiz
-            </button>
-
-            <button class="option" data-task="flashcards">
-                🗂️ Flashcards
-            </button>
-
-        </div>
-
-
-        <button class="generate" id="generateBtn">
-            Generate with AI
+      <div class="task-buttons">
+        <button class="task-btn selected" data-task="summary">
+          Summary
         </button>
 
+        <button class="task-btn" data-task="mcq">
+          MCQ Quiz
+        </button>
 
-        <div class="result" id="result"></div>
+        <button class="task-btn" data-task="flashcards">
+          Flashcards
+        </button>
+      </div>
 
-    </div>
+      <div class="mcq-count" id="mcqCount">
+        <div class="mcq-count-title">
+          How many questions?
+        </div>
 
-</section>
+        <div class="count-buttons">
+          <button class="count-btn selected" data-count="10">10</button>
+          <button class="count-btn" data-count="20">20</button>
+          <button class="count-btn" data-count="30">30</button>
+        </div>
+      </div>
 
+      <button class="generate-btn" id="generateBtn">
+        Generate with AI
+      </button>
+    </section>
 
-<section class="section">
+    <section class="result" id="result">
+      <h2>Your Result</h2>
+      <div id="resultText"></div>
+    </section>
 
-    <div class="section-title">
+  </main>
 
-        <h2>Everything you need to study better</h2>
+  <section class="features" id="features">
+    <div class="container">
+      <h2>Everything you need to study better</h2>
 
-        <p>
-            Simple AI tools designed around the way students actually study.
-        </p>
-
-    </div>
-
-
-    <div class="features">
+      <div class="feature-grid">
+        <div class="feature">
+          <h3>AI Summaries</h3>
+          <p>
+            Turn long study material into clear and useful summaries.
+          </p>
+        </div>
 
         <div class="feature">
-
-            <div class="icon">📝</div>
-
-            <h3>Smart Summaries</h3>
-
-            <p>
-                Turn long chapters and notes into clear,
-                easy-to-review summaries.
-            </p>
-
+          <h3>Practice Quizzes</h3>
+          <p>
+            Generate university-level MCQs to test your understanding.
+          </p>
         </div>
-
 
         <div class="feature">
-
-            <div class="icon">❓</div>
-
-            <h3>Practice Questions</h3>
-
-            <p>
-                Generate multiple-choice questions to
-                test your understanding.
-            </p>
-
+          <h3>Flashcards</h3>
+          <p>
+            Create focused flashcards from your study material.
+          </p>
         </div>
-
-
-        <div class="feature">
-
-            <div class="icon">🗂️</div>
-
-            <h3>Flashcards</h3>
-
-            <p>
-                Convert important concepts into
-                quick revision flashcards.
-            </p>
-
-        </div>
-
+      </div>
     </div>
+  </section>
 
-</section>
+  <section class="tools" id="tools">
+    <div class="container">
+      <h2>Student Tools</h2>
+      <p>More tools to help you study, write, and research.</p>
 
-
-<section class="tools">
-
-    <div class="section-title">
-
-        <h2>Student Tools</h2>
-
-        <p>
-            Useful tools for writing, research and studying.
-        </p>
-
+      <div class="tool-grid">
+        <div class="tool">Grammar</div>
+        <div class="tool">Paraphrasing</div>
+        <div class="tool">Research</div>
+        <div class="tool">Presentations</div>
+      </div>
     </div>
+  </section>
 
-
-    <div class="tool-grid">
-
-        <div class="tool">
-            <h3>✍️ Grammar</h3>
-            <p>Improve your writing and grammar.</p>
-        </div>
-
-        <div class="tool">
-            <h3>🔄 Paraphrasing</h3>
-            <p>Rewrite and improve your text.</p>
-        </div>
-
-        <div class="tool">
-            <h3>🔎 Research</h3>
-            <p>Discover useful research tools.</p>
-        </div>
-
-        <div class="tool">
-            <h3>📊 Presentations</h3>
-            <p>Create better presentations.</p>
-        </div>
-
-    </div>
-
-</section>
-
-
-<footer>
+  <footer>
     © 2026 StudyVex. Study smarter.
-</footer>
+  </footer>
 
+  <script>
+    let selectedTask = "summary";
+    let selectedCount = 10;
 
-<script>
+    const taskButtons = document.querySelectorAll(".task-btn");
+    const countButtons = document.querySelectorAll(".count-btn");
+    const mcqCount = document.getElementById("mcqCount");
+    const generateBtn = document.getElementById("generateBtn");
+    const studyText = document.getElementById("studyText");
+    const result = document.getElementById("result");
+    const resultText = document.getElementById("resultText");
 
-let selectedTask = "summary";
+    taskButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        taskButtons.forEach(btn => btn.classList.remove("selected"));
+        button.classList.add("selected");
 
-const options = document.querySelectorAll(".option");
+        selectedTask = button.dataset.task;
 
-const generateBtn =
-    document.getElementById("generateBtn");
-
-const studyText =
-    document.getElementById("studyText");
-
-const result =
-    document.getElementById("result");
-
-
-options.forEach(option => {
-
-    option.addEventListener("click", () => {
-
-        options.forEach(button => {
-            button.classList.remove("selected");
-        });
-
-        option.classList.add("selected");
-
-        selectedTask =
-            option.dataset.task;
-
+        if (selectedTask === "mcq") {
+          mcqCount.classList.add("show");
+        } else {
+          mcqCount.classList.remove("show");
+        }
+      });
     });
 
-});
+    countButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        countButtons.forEach(btn => btn.classList.remove("selected"));
+        button.classList.add("selected");
 
+        selectedCount = Number(button.dataset.count);
+      });
+    });
 
-generateBtn.addEventListener("click", async () => {
+    generateBtn.addEventListener("click", async () => {
+      const text = studyText.value.trim();
 
-    const text =
-        studyText.value.trim();
-
-    if (!text) {
-
-        alert(
-            "Please paste your study material first."
-        );
-
+      if (!text) {
+        alert("Please paste your study material first.");
         return;
-    }
+      }
 
+      generateBtn.disabled = true;
+      generateBtn.textContent = "Generating...";
+      result.style.display = "block";
+      resultText.textContent = "AI is generating your result...";
 
-    generateBtn.disabled = true;
+      try {
+        const response = await fetch("/api/generate", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            text,
+            task: selectedTask,
+            count: selectedCount
+          })
+        });
 
-    generateBtn.textContent =
-        "Generating...";
-
-
-    result.style.display = "block";
-
-    result.textContent =
-        "StudyVex AI is generating your result...";
-
-
-    try {
-
-        const response =
-            await fetch("/api/generate", {
-
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify({
-                    text: text,
-                    task: selectedTask
-                })
-
-            });
-
-
-        const data =
-            await response.json();
-
+        const data = await response.json();
 
         if (!response.ok) {
-
-            throw new Error(
-                data.error ||
-                "Something went wrong."
-            );
-
+          throw new Error(data.error || "Something went wrong.");
         }
 
-
-        result.textContent =
-            data.result;
-
-
-    } catch (error) {
-
-        result.textContent =
-            "Error: " + error.message;
-
-    } finally {
-
+        resultText.textContent = data.result;
+      } catch (error) {
+        resultText.textContent = "Error: " + error.message;
+      } finally {
         generateBtn.disabled = false;
-
-        generateBtn.textContent =
-            "Generate with AI";
-
-    }
-
-});
-
-</script>
+        generateBtn.textContent = "Generate with AI";
+      }
+    });
+  </script>
 
 </body>
 </html>
