@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StudyVex — Study Smarter</title>
+
+  <title>StudyVex — AI Study Assistant</title>
+  <meta name="description" content="StudyVex turns your study material into AI summaries, MCQ quizzes, and flashcards.">
 
   <style>
     * {
@@ -195,6 +197,8 @@
       cursor: not-allowed;
     }
 
+    /* RESULT */
+
     .result {
       margin-top: 25px;
       background: white;
@@ -205,14 +209,59 @@
       display: none;
     }
 
-    .result h2 {
-      margin-bottom: 15px;
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eceff5;
+    }
+
+    .result-header h2 {
+      font-size: 22px;
+    }
+
+    .copy-btn {
+      border: 1px solid #dfe3eb;
+      background: white;
+      padding: 8px 14px;
+      border-radius: 9px;
+      cursor: pointer;
+      font-weight: 600;
+      color: #555;
+    }
+
+    .copy-btn:hover {
+      border-color: #5b4df6;
+      color: #5b4df6;
     }
 
     #resultText {
-      white-space: pre-wrap;
       color: #30384a;
+      font-size: 15px;
     }
+
+    .result-content {
+      white-space: pre-wrap;
+      overflow-wrap: break-word;
+    }
+
+    .loading {
+      color: #5b4df6;
+      font-weight: 600;
+    }
+
+    .error {
+      color: #c0392b;
+      background: #fff5f4;
+      border: 1px solid #f1d1ce;
+      padding: 14px;
+      border-radius: 10px;
+    }
+
+    /* FEATURES */
 
     .features {
       padding: 80px 0;
@@ -245,6 +294,8 @@
       color: #737b8c;
       font-size: 14px;
     }
+
+    /* TOOLS */
 
     .tools {
       padding: 20px 0 80px;
@@ -306,6 +357,14 @@
       .study-box {
         padding: 20px;
       }
+
+      .result {
+        padding: 20px;
+      }
+
+      .result-header {
+        align-items: flex-start;
+      }
     }
   </style>
 </head>
@@ -327,6 +386,7 @@
 
   <section class="hero">
     <h1>Study smarter.<br><span>Not harder.</span></h1>
+
     <p>
       Turn your study material into summaries, quizzes, and flashcards
       with the power of AI.
@@ -336,12 +396,20 @@
   <main class="container">
 
     <section class="study-box" id="study">
-      <h2>What are you studying?</h2>
-      <p>Paste your notes, lecture, chapter, or study material below.</p>
 
-      <textarea id="studyText" placeholder="Paste your study material here..."></textarea>
+      <h2>What are you studying?</h2>
+
+      <p>
+        Paste your notes, lecture, chapter, or study material below.
+      </p>
+
+      <textarea
+        id="studyText"
+        placeholder="Paste your study material here..."
+      ></textarea>
 
       <div class="task-buttons">
+
         <button class="task-btn selected" data-task="summary">
           Summary
         </button>
@@ -353,39 +421,70 @@
         <button class="task-btn" data-task="flashcards">
           Flashcards
         </button>
+
       </div>
 
       <div class="mcq-count" id="mcqCount">
+
         <div class="mcq-count-title">
           How many questions?
         </div>
 
         <div class="count-buttons">
-          <button class="count-btn selected" data-count="10">10</button>
-          <button class="count-btn" data-count="20">20</button>
-          <button class="count-btn" data-count="30">30</button>
+
+          <button class="count-btn selected" data-count="10">
+            10
+          </button>
+
+          <button class="count-btn" data-count="20">
+            20
+          </button>
+
+          <button class="count-btn" data-count="30">
+            30
+          </button>
+
         </div>
+
       </div>
 
       <button class="generate-btn" id="generateBtn">
         Generate with AI
       </button>
+
     </section>
 
+
     <section class="result" id="result">
-      <h2>Your Result</h2>
-      <div id="resultText"></div>
+
+      <div class="result-header">
+
+        <h2>Your Result</h2>
+
+        <button class="copy-btn" id="copyBtn">
+          Copy
+        </button>
+
+      </div>
+
+      <div id="resultText" class="result-content"></div>
+
     </section>
 
   </main>
 
+
   <section class="features" id="features">
+
     <div class="container">
+
       <h2>Everything you need to study better</h2>
 
       <div class="feature-grid">
+
         <div class="feature">
           <h3>AI Summaries</h3>
+
           <p>
             Turn long study material into clear and useful summaries.
           </p>
@@ -393,6 +492,7 @@
 
         <div class="feature">
           <h3>Practice Quizzes</h3>
+
           <p>
             Generate university-level MCQs to test your understanding.
           </p>
@@ -400,108 +500,249 @@
 
         <div class="feature">
           <h3>Flashcards</h3>
+
           <p>
             Create focused flashcards from your study material.
           </p>
         </div>
+
       </div>
+
     </div>
+
   </section>
 
+
   <section class="tools" id="tools">
+
     <div class="container">
+
       <h2>Student Tools</h2>
-      <p>More tools to help you study, write, and research.</p>
+
+      <p>
+        More tools to help you study, write, and research.
+      </p>
 
       <div class="tool-grid">
+
         <div class="tool">Grammar</div>
         <div class="tool">Paraphrasing</div>
         <div class="tool">Research</div>
         <div class="tool">Presentations</div>
+
       </div>
+
     </div>
+
   </section>
+
 
   <footer>
     © 2026 StudyVex. Study smarter.
   </footer>
 
+
   <script>
+
     let selectedTask = "summary";
     let selectedCount = 10;
 
-    const taskButtons = document.querySelectorAll(".task-btn");
-    const countButtons = document.querySelectorAll(".count-btn");
-    const mcqCount = document.getElementById("mcqCount");
-    const generateBtn = document.getElementById("generateBtn");
-    const studyText = document.getElementById("studyText");
-    const result = document.getElementById("result");
-    const resultText = document.getElementById("resultText");
+    const taskButtons =
+      document.querySelectorAll(".task-btn");
+
+    const countButtons =
+      document.querySelectorAll(".count-btn");
+
+    const mcqCount =
+      document.getElementById("mcqCount");
+
+    const generateBtn =
+      document.getElementById("generateBtn");
+
+    const studyText =
+      document.getElementById("studyText");
+
+    const result =
+      document.getElementById("result");
+
+    const resultText =
+      document.getElementById("resultText");
+
+    const copyBtn =
+      document.getElementById("copyBtn");
+
+
+    /* TASK SELECTION */
 
     taskButtons.forEach(button => {
+
       button.addEventListener("click", () => {
-        taskButtons.forEach(btn => btn.classList.remove("selected"));
+
+        taskButtons.forEach(btn =>
+          btn.classList.remove("selected")
+        );
+
         button.classList.add("selected");
 
-        selectedTask = button.dataset.task;
+        selectedTask =
+          button.dataset.task;
 
         if (selectedTask === "mcq") {
+
           mcqCount.classList.add("show");
+
         } else {
+
           mcqCount.classList.remove("show");
+
         }
+
       });
+
     });
+
+
+    /* MCQ COUNT */
 
     countButtons.forEach(button => {
+
       button.addEventListener("click", () => {
-        countButtons.forEach(btn => btn.classList.remove("selected"));
+
+        countButtons.forEach(btn =>
+          btn.classList.remove("selected")
+        );
+
         button.classList.add("selected");
 
-        selectedCount = Number(button.dataset.count);
+        selectedCount =
+          Number(button.dataset.count);
+
       });
+
     });
 
+
+    /* GENERATE */
+
     generateBtn.addEventListener("click", async () => {
-      const text = studyText.value.trim();
+
+      const text =
+        studyText.value.trim();
 
       if (!text) {
+
         alert("Please paste your study material first.");
+
         return;
       }
 
+
       generateBtn.disabled = true;
-      generateBtn.textContent = "Generating...";
-      result.style.display = "block";
-      resultText.textContent = "AI is generating your result...";
+
+      generateBtn.textContent =
+        "Generating...";
+
+
+      result.style.display =
+        "block";
+
+
+      resultText.innerHTML =
+        '<div class="loading">AI is generating your result...</div>';
+
 
       try {
-        const response = await fetch("/api/generate", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            text,
-            task: selectedTask,
-            count: selectedCount
-          })
-        });
 
-        const data = await response.json();
+        const response =
+          await fetch("/api/generate", {
+
+            method: "POST",
+
+            headers: {
+              "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+
+              text: text,
+
+              task: selectedTask,
+
+              count: selectedCount
+
+            })
+
+          });
+
+
+        const data =
+          await response.json();
+
 
         if (!response.ok) {
-          throw new Error(data.error || "Something went wrong.");
+
+          throw new Error(
+            data.error ||
+            "Something went wrong."
+          );
+
         }
 
-        resultText.textContent = data.result;
+
+        resultText.textContent =
+          data.result;
+
+
       } catch (error) {
-        resultText.textContent = "Error: " + error.message;
+
+        resultText.innerHTML =
+          '<div class="error">Error: ' +
+          error.message +
+          '</div>';
+
       } finally {
+
         generateBtn.disabled = false;
-        generateBtn.textContent = "Generate with AI";
+
+        generateBtn.textContent =
+          "Generate with AI";
+
       }
+
     });
+
+
+    /* COPY RESULT */
+
+    copyBtn.addEventListener("click", async () => {
+
+      const text =
+        resultText.innerText;
+
+      if (!text) return;
+
+      try {
+
+        await navigator.clipboard.writeText(text);
+
+        copyBtn.textContent =
+          "Copied!";
+
+        setTimeout(() => {
+
+          copyBtn.textContent =
+            "Copy";
+
+        }, 1500);
+
+      } catch {
+
+        alert("Unable to copy the result.");
+
+      }
+
+    });
+
   </script>
 
 </body>
