@@ -1,1128 +1,965 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>StudyVex — AI Study Assistant</title>
-  <meta name="description" content="StudyVex turns your study material into AI summaries, MCQ quizzes, and flashcards.">
-  <meta name="robots" content="index, follow">
-<meta name="author" content="StudyVex">
-
-<meta property="og:title" content="StudyVex — AI Study Assistant">
-<meta property="og:description" content="Turn your study material into AI summaries, MCQ quizzes, and flashcards.">
-<meta property="og:type" content="website">
+  <title>StudyVex | AI Study Tools</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    @import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      --navy: #10233f;
+      --violet: #6b4eff;
+      --mint: #46d5bc;
+      --paper: #f6f8ff;
+      --muted: #657188;
+      --line: #e4e9f7;
+      --white: #fff;
+      --shadow: 0 18px 50px rgba(25, 43, 85, .12);
     }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f7f9fc;
-      color: #172033;
-      line-height: 1.6;
-    }
-
-    header {
-      background: white;
-      border-bottom: 1px solid #e8ebf2;
-      padding: 18px 7%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      font-size: 26px;
-      font-weight: 800;
-      color: #5b4df6;
-    }
-
-    .tagline {
-      font-size: 14px;
-      color: #6b7280;
-    }
-
-    nav a {
-      text-decoration: none;
-      color: #555;
-      margin-left: 25px;
-      font-size: 14px;
-    }
-
-    .hero {
-      text-align: center;
-      padding: 70px 20px 45px;
-    }
-
-    .hero h1 {
-      font-size: 48px;
-      line-height: 1.15;
-      margin-bottom: 18px;
-    }
-
-    .hero h1 span {
-      color: #5b4df6;
-    }
-
-    .hero p {
-      max-width: 650px;
-      margin: auto;
-      color: #687084;
-      font-size: 18px;
+      margin: 0;
+      font-family: Alexandria, Arial, sans-serif;
+      background: var(--paper);
+      color: var(--navy);
+      line-height: 1.7;
     }
 
     .container {
-      width: 90%;
-      max-width: 950px;
+      width: min(1140px, 92%);
       margin: auto;
     }
 
-    .study-box {
+    .topbar {
+      background: #0c1c35;
+      color: #dce6ff;
+      text-align: center;
+      padding: 9px;
+      font-size: 12px;
+    }
+
+    .topbar strong { color: #7bf1d4; }
+
+    header {
+      height: 82px;
+      display: flex;
+      align-items: center;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .nav {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      color: var(--navy);
+      text-decoration: none;
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .brand span { color: var(--violet); }
+
+    .nav-links {
+      display: flex;
+      gap: 25px;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    .nav-links a:hover { color: var(--violet); }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    button, .button {
+      border: 0;
+      border-radius: 12px;
+      font-family: inherit;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .language-btn {
+      background: #eeebff;
+      color: #5d45d1;
+      padding: 9px 12px;
+    }
+
+    .start-btn,
+    .primary-btn {
+      background: var(--violet);
+      color: white;
+      padding: 10px 17px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #eef0ff, #f9faff 55%, #edfff9);
+      padding: 85px 0 75px;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
       background: white;
+      border: 1px solid #dedaff;
+      color: #5e48d5;
+      border-radius: 99px;
+      padding: 7px 13px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: var(--mint);
+      border-radius: 50%;
+      box-shadow: 0 0 0 4px #d8fff6;
+    }
+
+    .hero h1 {
+      font-size: clamp(35px, 4.5vw, 62px);
+      line-height: 1.2;
+      margin: 17px 0;
+      letter-spacing: -2px;
+    }
+
+    .hero h1 span { color: var(--violet); }
+
+    .hero p {
+      max-width: 610px;
+      color: var(--muted);
+      margin-bottom: 25px;
+      font-size: 16px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .primary-btn {
+      padding: 14px 22px;
+      box-shadow: 0 9px 18px rgba(107, 78, 255, .22);
+    }
+
+    .secondary-btn {
+      background: white;
+      border: 1px solid #dfe4f4;
+      color: var(--navy);
+      padding: 14px 22px;
+      text-decoration: none;
+    }
+
+    .preview {
+      background: white;
+      border: 1px solid #e4e1ff;
+      border-radius: 24px;
+      padding: 17px;
+      box-shadow: var(--shadow);
+      transform: rotate(-2deg);
+    }
+
+    .preview-top {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 11px;
+      padding-bottom: 14px;
+    }
+
+    .preview-main {
+      background: linear-gradient(135deg, #1b2453, #45378e);
+      color: white;
+      padding: 22px;
+      border-radius: 16px;
+    }
+
+    .preview-main small { color: #c6cbff; }
+    .preview-main h3 { margin: 7px 0 15px; }
+
+    .lines {
+      display: grid;
+      gap: 8px;
+    }
+
+    .lines div {
+      height: 8px;
+      border-radius: 20px;
+      background: rgba(255,255,255,.22);
+    }
+
+    .lines div:nth-child(2) { width: 80%; }
+    .lines div:nth-child(3) { width: 60%; }
+
+    .mini-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .mini-card {
+      background: #f6f7ff;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 11px;
+    }
+
+    .mini-card strong {
+      display: block;
+      color: var(--violet);
+      margin-bottom: 4px;
+    }
+
+    section { padding: 80px 0; }
+
+    .section-title {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 35px;
+    }
+
+    .section-title h2 {
+      font-size: 31px;
+      margin: 0 0 8px;
+    }
+
+    .section-title p {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .service-card {
+      background: white;
+      border: 1px solid var(--line);
+      padding: 20px;
       border-radius: 18px;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .service-card:hover,
+    .service-card.active {
+      border-color: #9683ff;
+      box-shadow: 0 12px 28px rgba(95,70,218,.13);
+      transform: translateY(-3px);
+    }
+
+    .service-icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      background: #eeeaff;
+      border-radius: 12px;
+      color: #6047e5;
+      font-size: 21px;
+    }
+
+    .service-card h3 {
+      font-size: 15px;
+      margin: 13px 0 5px;
+    }
+
+    .service-card p {
+      font-size: 11px;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .studio {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 25px;
       padding: 28px;
-      box-shadow: 0 10px 35px rgba(20, 30, 60, 0.08);
-      border: 1px solid #e9ecf3;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 30px;
     }
 
-    .study-box h2 {
-      margin-bottom: 8px;
+    .steps {
+      border-right: 1px solid var(--line);
+      padding-right: 24px;
     }
 
-    .study-box p {
-      color: #737b8c;
-      margin-bottom: 20px;
+    .steps h3 { margin-top: 0; }
+    .steps p { font-size: 12px; color: var(--muted); }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      margin: 16px 0;
+    }
+
+    .step strong {
+      display: grid;
+      place-items: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 9px;
+      background: #f0edff;
+      color: var(--violet);
+    }
+
+    .step.active {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    .step.active strong {
+      background: var(--violet);
+      color: white;
+    }
+
+    .studio-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 17px;
+    }
+
+    .studio-heading h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .free-badge {
+      background: #effbf8;
+      color: #168a76;
+      padding: 5px 9px;
+      border-radius: 8px;
+      font-size: 10px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .field {
+      display: grid;
+      gap: 7px;
+    }
+
+    .field.full { grid-column: 1 / -1; }
+
+    label {
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    input, textarea {
+      width: 100%;
+      border: 1px solid #dfe4f2;
+      background: #fbfcff;
+      border-radius: 11px;
+      padding: 12px;
+      font: inherit;
+      font-size: 13px;
+      outline: none;
     }
 
     textarea {
-      width: 100%;
-      min-height: 230px;
+      min-height: 145px;
       resize: vertical;
-      border: 1px solid #dfe3eb;
-      border-radius: 12px;
-      padding: 16px;
-      font-size: 15px;
-      outline: none;
-      font-family: inherit;
     }
 
-    textarea:focus {
-      border-color: #5b4df6;
+    input:focus, textarea:focus {
+      border-color: var(--violet);
+      box-shadow: 0 0 0 3px #eeeaff;
     }
 
-    .task-buttons {
-      display: flex;
-      gap: 10px;
-      margin-top: 18px;
-      flex-wrap: wrap;
-    }
-
-    .task-btn {
-      border: 1px solid #dfe3eb;
-      background: white;
-      padding: 11px 18px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 600;
-      color: #555;
-    }
-
-    .task-btn:hover {
-      border-color: #5b4df6;
-    }
-
-    .task-btn.selected {
-      background: #5b4df6;
-      color: white;
-      border-color: #5b4df6;
-    }
-
-    .mcq-count {
-      display: none;
-      margin-top: 16px;
-      padding: 15px;
-      background: #f7f7ff;
-      border-radius: 12px;
-    }
-
-    .mcq-count.show {
-      display: block;
-    }
-
-    .mcq-count-title {
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-
-    .count-buttons {
-      display: flex;
+    .page-range {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 8px;
+    }
+
+    .options {
+      display: flex;
       flex-wrap: wrap;
+      gap: 8px;
     }
 
-    .count-btn {
-      border: 1px solid #d8dbea;
-      background: white;
-      padding: 8px 16px;
+    .option {
+      border: 1px solid #dfe4f2;
       border-radius: 9px;
-      cursor: pointer;
-      font-weight: 600;
+      background: white;
+      padding: 8px 10px;
+      font-size: 11px;
     }
 
-    .count-btn.selected {
-      background: #172033;
-      color: white;
-      border-color: #172033;
+    .option.selected {
+      border-color: var(--violet);
+      color: var(--violet);
+      background: #f6f4ff;
     }
 
     .generate-btn {
       width: 100%;
-      margin-top: 20px;
       padding: 14px;
-      border: none;
-      border-radius: 11px;
-      background: #172033;
-      color: white;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .generate-btn:hover {
-      background: #252f46;
-    }
-
-    .generate-btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    /* RESULT */
-
-    .result {
-      margin-top: 25px;
-      background: white;
-      border-radius: 18px;
-      padding: 28px;
-      border: 1px solid #e9ecf3;
-      box-shadow: 0 10px 35px rgba(20, 30, 60, 0.06);
-      display: none;
-    }
-
-    .result-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 20px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid #eceff5;
-    }
-
-    .result-header h2 {
-      font-size: 22px;
-    }
-
-    .result-actions {
-      display: flex;
-      gap: 8px;
-    }
-
-    .copy-btn {
-      border: 1px solid #dfe3eb;
-      background: white;
-      padding: 8px 14px;
-      border-radius: 9px;
-      cursor: pointer;
-      font-weight: 600;
-      color: #555;
-    }
-
-    .copy-btn:hover {
-      border-color: #5b4df6;
-      color: #5b4df6;
-    }
-
-    #resultText {
-      color: #30384a;
-      font-size: 15px;
-    }
-
-    .result-content {
-      overflow-wrap: break-word;
-    }
-
-    .text-result {
-      white-space: pre-wrap;
-    }
-
-    .loading {
-      color: #5b4df6;
-      font-weight: 600;
-    }
-
-    .error {
-      color: #c0392b;
-      background: #fff5f4;
-      border: 1px solid #f1d1ce;
-      padding: 14px;
-      border-radius: 10px;
-    }
-
-    /* FLASHCARDS */
-
-    .flashcards-container {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
-
-    .flashcard {
-      min-height: 190px;
-      perspective: 1000px;
-      cursor: pointer;
-    }
-
-    .flashcard-inner {
-      position: relative;
-      width: 100%;
-      min-height: 190px;
-      transition: transform 0.5s;
-      transform-style: preserve-3d;
-    }
-
-    .flashcard.flipped .flashcard-inner {
-      transform: rotateY(180deg);
-    }
-
-    .flashcard-front,
-    .flashcard-back {
-      position: absolute;
-      width: 100%;
-      min-height: 190px;
-      backface-visibility: hidden;
-      border-radius: 15px;
-      padding: 22px;
-      border: 1px solid #e2e5ed;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .flashcard-front {
-      background: #f8f7ff;
-    }
-
-    .flashcard-back {
-      background: #172033;
-      color: white;
-      transform: rotateY(180deg);
-    }
-
-    .flashcard-label {
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 10px;
-      opacity: 0.65;
-    }
-
-    .flashcard-question,
-    .flashcard-answer {
-      font-size: 16px;
-      font-weight: 600;
-    }
-
-    .flashcard-hint {
-      margin-top: 15px;
-      font-size: 12px;
-      color: #777;
-    }
-
-    .flashcard-back .flashcard-label {
-      color: #c9c5ff;
-    }
-
-    /* FEATURES */
-
-    .features {
-      padding: 80px 0;
-    }
-
-    .features h2 {
-      text-align: center;
-      margin-bottom: 35px;
-      font-size: 32px;
-    }
-
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
-    .feature {
-      background: white;
-      padding: 25px;
-      border-radius: 16px;
-      border: 1px solid #e9ecf3;
-    }
-
-    .feature h3 {
-      margin-bottom: 8px;
-    }
-
-    .feature p {
-      color: #737b8c;
+      margin-top: 17px;
       font-size: 14px;
     }
 
-    /* TOOLS */
-
-    .tools {
-      padding: 20px 0 80px;
-    }
-
-    .tools h2 {
-      margin-bottom: 10px;
-    }
-
-    .tools > p {
-      color: #737b8c;
-      margin-bottom: 25px;
-    }
-
-    .tool-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 15px;
-    }
-    .tool-filters {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-}
-
-.tool-filters button {
-  border: 1px solid #dfe3eb;
-  background: white;
-  padding: 8px 14px;
-  border-radius: 9px;
-  cursor: pointer;
-  font-weight: 600;
-  color: #555;
-}
-
-.tool-filters button:hover {
-  border-color: #5b4df6;
-  color: #5b4df6;
-}
-
-    .tool {
-      background: white;
-      padding: 20px;
-      border-radius: 14px;
-      border: 1px solid #e9ecf3;
-      font-weight: 600;
-    }
-
-    footer {
+    .ad-space {
+      border: 1px dashed #ccd4ea;
+      color: #8390a8;
+      background: #fafbff;
+      border-radius: 10px;
+      padding: 10px;
       text-align: center;
-      padding: 30px;
-      color: #858b98;
+      font-size: 10px;
+      margin-top: 17px;
+    }
+
+    .result {
+      display: none;
+      border-top: 1px solid var(--line);
+      margin-top: 22px;
+      padding-top: 22px;
+    }
+
+    .result.show { display: block; }
+
+    .result-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .result-box {
+      background: #f8f9ff;
+      padding: 17px;
+      border-radius: 13px;
+      white-space: pre-wrap;
       font-size: 13px;
     }
 
-    @media (max-width: 800px) {
-      .hero h1 {
-        font-size: 38px;
-      }
-
-      .feature-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .tool-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .flashcards-container {
-        grid-template-columns: 1fr;
-      }
-
-      nav {
-        display: none;
-      }
+    .copy-btn {
+      background: white;
+      border: 1px solid var(--line);
+      padding: 7px 10px;
+      font-size: 11px;
     }
 
-    @media (max-width: 500px) {
-      .tool-grid {
-        grid-template-columns: 1fr;
+    footer {
+      background: #09172c;
+      color: #9facc4;
+      padding: 35px 0;
+      font-size: 12px;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .footer-content strong {
+      font-size: 18px;
+      color: white;
+    }
+
+    .footer-content strong span { color: #8e75ff; }
+
+    @media (max-width: 850px) {
+      .hero-grid,
+      .studio { grid-template-columns: 1fr; }
+
+      .services { grid-template-columns: 1fr 1fr; }
+
+      .steps {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+        padding: 0 0 18px;
       }
 
-      .study-box {
-        padding: 20px;
-      }
+      .nav-links { display: none; }
+    }
 
-      .result {
-        padding: 20px;
-      }
+    @media (max-width: 520px) {
+      .services,
+      .form-grid,
+      .page-range { grid-template-columns: 1fr; }
 
-      .result-header {
+      .field.full { grid-column: auto; }
+
+      .hero { padding: 55px 0; }
+
+      .footer-content {
+        flex-direction: column;
         align-items: flex-start;
       }
+
+      .start-btn { display: none; }
     }
   </style>
 </head>
 
 <body>
 
-  <header>
-    <div>
-      <div class="logo">StudyVex</div>
-      <div class="tagline">AI Study Assistant</div>
-    </div>
+  <div class="topbar">
+    Free learning tools supported by ads —
+    <strong>optional premium subscriptions later.</strong>
+  </div>
 
-    <nav>
-      <a href="#study">Study</a>
-      <a href="#features">Features</a>
-      <a href="#tools">Tools</a>
-    </nav>
+  <header>
+    <div class="container nav">
+      <a href="#home" class="brand">Study<span>Vex</span></a>
+
+      <nav class="nav-links">
+        <a href="#services" data-en="Services" data-ar="الخدمات">Services</a>
+        <a href="#studio" data-en="Study Studio" data-ar="استوديو الدراسة">Study Studio</a>
+        <a href="#why" data-en="Why StudyVex?" data-ar="لماذا StudyVex؟">Why StudyVex?</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="language-btn" id="languageBtn">العربية</button>
+        <a href="#studio" class="start-btn" data-en="Start now" data-ar="ابدأ الآن">Start now</a>
+      </div>
+    </div>
   </header>
 
+  <main id="home">
 
-  <section class="hero">
-    <h1>Study smarter.<br><span>Not harder.</span></h1>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="badge">
+            <span class="dot"></span>
+            <span data-en="Learn smarter, your way" data-ar="تعلّم بذكاء، وعلى طريقتك">
+              Learn smarter, your way
+            </span>
+          </div>
 
-    <p>
-      Turn your study material into summaries, quizzes, and flashcards
-      with the power of AI.
-    </p>
-  </section>
+          <h1>
+            <span data-en="Turn any material into" data-ar="حوّل أي محتوى إلى">
+              Turn any material into
+            </span>
+            <br>
+            <span data-en="real understanding." data-ar="فهم حقيقي.">
+              real understanding.
+            </span>
+          </h1>
 
+          <p data-en="Summarize books and chapters, create quizzes and flashcards, and build complete presentations from one topic, book, or link."
+             data-ar="لخّص الكتب والفصول، اصنع اختبارات وبطاقات مراجعة، وابنِ عروضًا تقديمية كاملة من فكرة أو كتاب أو رابط واحد.">
+            Summarize books and chapters, create quizzes and flashcards, and build complete presentations from one topic, book, or link.
+          </p>
 
-  <main class="container">
+          <div class="hero-buttons">
+            <a href="#studio" class="primary-btn" data-en="Try the tools for free" data-ar="جرّب الأدوات مجانًا">
+              Try the tools for free
+            </a>
 
-    <section class="study-box" id="study">
-
-      <h2>What are you studying?</h2>
-
-      <p>
-        Paste your notes, lecture, chapter, or study material below.
-      </p>
-
-      <textarea
-        id="studyText"
-        placeholder="Paste your study material here..."
-      ></textarea>
-
-
-      <div class="task-buttons">
-
-        <button class="task-btn selected" data-task="summary">
-          Summary
-        </button>
-
-        <button class="task-btn" data-task="mcq">
-          MCQ Quiz
-        </button>
-
-        <button class="task-btn" data-task="flashcards">
-          Flashcards
-        </button>
-
-      </div>
-
-
-      <div class="mcq-count" id="mcqCount">
-
-        <div class="mcq-count-title">
-          How many questions?
+            <a href="#services" class="secondary-btn" data-en="Explore services" data-ar="اكتشف الخدمات">
+              Explore services
+            </a>
+          </div>
         </div>
 
-        <div class="count-buttons">
+        <div class="preview">
+          <div class="preview-top">
+            <span>StudyVex Studio</span>
+            <span>● ● ●</span>
+          </div>
 
-          <button class="count-btn selected" data-count="10">
-            10
-          </button>
+          <div class="preview-main">
+            <small data-en="Chapter 3 Summary" data-ar="ملخص الفصل الثالث">Chapter 3 Summary</small>
+            <h3 data-en="Project Management Fundamentals" data-ar="أساسيات إدارة المشاريع">
+              Project Management Fundamentals
+            </h3>
 
-          <button class="count-btn" data-count="20">
-            20
-          </button>
+            <div class="lines">
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
 
-          <button class="count-btn" data-count="30">
-            30
-          </button>
+          <div class="mini-cards">
+            <div class="mini-card">
+              <strong data-en="12 Flashcards" data-ar="12 بطاقة">12 Flashcards</strong>
+              <span data-en="Ready to review" data-ar="جاهزة للمراجعة">Ready to review</span>
+            </div>
 
+            <div class="mini-card">
+              <strong data-en="10 Questions" data-ar="10 أسئلة">10 Questions</strong>
+              <span data-en="Test yourself now" data-ar="اختبر نفسك الآن">Test yourself now</span>
+            </div>
+          </div>
         </div>
-
       </div>
-
-
-      <button class="generate-btn" id="generateBtn">
-        Generate with AI
-      </button>
-
     </section>
 
+    <section id="services">
+      <div class="container">
+        <div class="section-title">
+          <h2 data-en="Everything you need to understand and revise"
+              data-ar="كل ما تحتاجه لفهم المادة ومراجعتها">
+            Everything you need to understand and revise
+          </h2>
 
-    <section class="result" id="result">
-
-      <div class="result-header">
-
-        <h2 id="resultTitle">
-          Your Result
-        </h2>
-
-        <div class="result-actions">
-
-          <button class="copy-btn" id="copyBtn">
-            Copy
-          </button>
-
+          <p data-en="Choose a service, add your source, and let StudyVex organize the work."
+             data-ar="اختر الخدمة، أضف المادة أو تفاصيل الكتاب، ثم دع StudyVex يرتب العمل.">
+            Choose a service, add your source, and let StudyVex organize the work.
+          </p>
         </div>
 
+        <div class="services">
+          <article class="service-card active" data-mode="book">
+            <div class="service-icon">▤</div>
+            <h3 data-en="Book & Chapter Summary" data-ar="تلخيص كتاب أو فصل">Book & Chapter Summary</h3>
+            <p data-en="Summarize a chapter, a book section, or selected pages."
+               data-ar="لخّص فصلًا أو جزءًا من كتاب أو صفحات محددة.">
+              Summarize a chapter, a book section, or selected pages.
+            </p>
+          </article>
+
+          <article class="service-card" data-mode="pages">
+            <div class="service-icon">⌁</div>
+            <h3 data-en="Pages to Quiz & Flashcards" data-ar="صفحات إلى Quiz وFlashcards">
+              Pages to Quiz & Flashcards
+            </h3>
+            <p data-en="Enter a book title and a page range for focused revision."
+               data-ar="أدخل اسم الكتاب ونطاق الصفحات لمراجعة مركزة.">
+              Enter a book title and a page range for focused revision.
+            </p>
+          </article>
+
+          <article class="service-card" data-mode="presentation">
+            <div class="service-icon">▰</div>
+            <h3 data-en="Presentation Builder" data-ar="صانع العروض التقديمية">
+              Presentation Builder
+            </h3>
+            <p data-en="Create a presentation from a topic, book, or website."
+               data-ar="أنشئ عرضًا من موضوع أو كتاب أو موقع.">
+              Create a presentation from a topic, book, or website.
+            </p>
+          </article>
+
+          <article class="service-card" data-mode="summary">
+            <div class="service-icon">✦</div>
+            <h3 data-en="Quick Summary" data-ar="تلخيص سريع">Quick Summary</h3>
+            <p data-en="Paste notes, lectures, or articles for a clean summary."
+               data-ar="ألصق ملاحظاتك أو محاضراتك أو مقالاتك للحصول على ملخص واضح.">
+              Paste notes, lectures, or articles for a clean summary.
+            </p>
+          </article>
+        </div>
       </div>
+    </section>
 
+    <section id="studio">
+      <div class="container">
+        <div class="studio">
 
-      <div id="resultText" class="result-content"></div>
+          <aside class="steps">
+            <h3 data-en="Study Studio" data-ar="استوديو الدراسة">Study Studio</h3>
 
+            <p data-en="From raw material to a result ready to study or present."
+               data-ar="من محتوى خام إلى نتيجة جاهزة للمذاكرة أو العرض.">
+              From raw material to a result ready to study or present.
+            </p>
+
+            <div class="step active"><strong>1</strong><span data-en="Choose the service" data-ar="اختر الخدمة">Choose the service</span></div>
+            <div class="step"><strong>2</strong><span data-en="Add your source" data-ar="أضف المصدر">Add your source</span></div>
+            <div class="step"><strong>3</strong><span data-en="Receive your result" data-ar="استلم النتيجة">Receive your result</span></div>
+          </aside>
+
+          <div>
+            <div class="studio-heading">
+              <h2 id="formTitle">Book & Chapter Summary</h2>
+              <span class="free-badge" data-en="Free and ad-supported" data-ar="مجاني ومدعوم بالإعلانات">
+                Free and ad-supported
+              </span>
+            </div>
+
+            <div class="form-grid">
+              <div class="field">
+                <label data-en="Book name or topic" data-ar="اسم الكتاب أو الموضوع">Book name or topic</label>
+                <input id="bookName" placeholder="Example: Principles of Marketing">
+              </div>
+
+              <div class="field" id="chapterField">
+                <label data-en="Chapter or unit" data-ar="الفصل أو الباب">Chapter or unit</label>
+                <input id="chapter" placeholder="Example: Chapter 3">
+              </div>
+
+              <div class="field" id="pagesField">
+                <label data-en="Page range" data-ar="نطاق الصفحات">Page range</label>
+                <div class="page-range">
+                  <input id="fromPage" type="number" min="1" placeholder="From page 15">
+                  <input id="toPage" type="number" min="1" placeholder="To page 20">
+                </div>
+              </div>
+
+              <div class="field">
+                <label data-en="Result type" data-ar="نوع النتيجة">Result type</label>
+
+                <div class="options">
+                  <button class="option selected" data-output="summary">Summary</button>
+                  <button class="option" data-output="quiz">Quiz</button>
+                  <button class="option" data-output="flashcards">Flashcards</button>
+                  <button class="option" data-output="voice">Voice Summary</button>
+                </div>
+              </div>
+
+              <div class="field full">
+                <label id="sourceLabel" data-en="Add content, notes, or a source link" data-ar="أضف المحتوى أو الملاحظات أو رابط المصدر">
+                  Add content, notes, or a source link
+                </label>
+
+                <textarea id="sourceText" placeholder="Paste a chapter, lecture notes, website link, or instructions here..."></textarea>
+              </div>
+            </div>
+
+            <button class="primary-btn generate-btn" id="generateBtn">
+              Create my result
+            </button>
+
+            <div class="ad-space">
+              Future advertisement space — Ads keep the essential tools free.
+            </div>
+
+            <div class="result" id="result">
+              <div class="result-head">
+                <h3 id="resultTitle">Your Result</h3>
+                <button class="copy-btn" id="copyBtn">Copy result</button>
+              </div>
+
+              <div class="result-box" id="resultText"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
   </main>
 
-
-  <section class="features" id="features">
-
-    <div class="container">
-
-      <h2>Everything you need to study better</h2>
-
-      <div class="feature-grid">
-
-        <div class="feature">
-          <h3>AI Summaries</h3>
-          <p>
-            Turn long study material into clear and useful summaries.
-          </p>
-        </div>
-
-        <div class="feature">
-          <h3>Practice Quizzes</h3>
-          <p>
-            Generate university-level MCQs to test your understanding.
-          </p>
-        </div>
-
-        <div class="feature">
-          <h3>Flashcards</h3>
-          <p>
-            Create focused flashcards from your study material.
-          </p>
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <section class="tools" id="tools">
-
-  <div class="container">
-
-    <h2>Student Tools</h2>
-
-    <p>
-      Recommended AI tools to help you study, write, and research.
-    </p>
-
-    <div class="tool-filters">
-
-  <button onclick="filterTools('all')">All</button>
-  <button onclick="filterTools('writing')">Writing</button>
-  <button onclick="filterTools('paraphrasing')">Paraphrasing</button>
-  <button onclick="filterTools('research')">Research</button>
-  <button onclick="filterTools('presentations')">Presentations</button>
-
-</div>
-    <div class="tool-grid">
-
-      <div class="tool" data-category="paraphrasing">
-        <h3>QuillBot</h3>
-        <p>
-          Paraphrase, summarize, improve your writing, and create citations.
-        </p>
-        <a href="https://try.quillbot.com/ycwokrvgm16y" target="_blank" rel="noopener noreferrer">
-          Use QuillBot →
-        </a>
-      </div>
-
-      <div class="tool" data-category="writing">
-        <h3>Grammarly</h3>
-        <p>
-          Improve grammar, clarity, spelling, and overall writing quality.
-        </p>
-        <a href="#" target="_blank" rel="noopener noreferrer">
-          Use Grammarly →
-        </a>
-      </div>
-
-      <div class="tool" data-category="writing">
-        <h3>Writesonic</h3>
-        <p>
-          Create and improve written content with AI.
-        </p>
-        <a href="#" target="_blank" rel="noopener noreferrer">
-          Use Writesonic →
-        </a>
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
   <footer>
-    © 2026 StudyVex. Study smarter.
+    <div class="container footer-content">
+      <div>
+        <strong>Study<span>Vex</span></strong>
+        <div data-en="Smart study tools for ambitious students."
+             data-ar="أدوات دراسة ذكية للطلاب الطموحين.">
+          Smart study tools for ambitious students.
+        </div>
+      </div>
+
+      <span>© 2026 StudyVex</span>
+    </div>
   </footer>
 
-
   <script>
+    let currentLanguage = "en";
+    let selectedMode = "book";
+    let selectedOutput = "summary";
 
-    let selectedTask = "summary";
-    let selectedCount = 10;
+    const serviceCards = document.querySelectorAll(".service-card");
+    const outputButtons = document.querySelectorAll(".option");
 
-    const taskButtons =
-      document.querySelectorAll(".task-btn");
+    const modes = {
+      book: {
+        en: "Book & Chapter Summary",
+        ar: "تلخيص كتاب أو فصل"
+      },
+      pages: {
+        en: "Pages to Quiz & Flashcards",
+        ar: "صفحات إلى Quiz وFlashcards"
+      },
+      presentation: {
+        en: "Presentation Builder",
+        ar: "صانع العروض التقديمية"
+      },
+      summary: {
+        en: "Quick Summary",
+        ar: "تلخيص سريع"
+      }
+    };
 
-    const countButtons =
-      document.querySelectorAll(".count-btn");
+    function updateLanguage() {
+      const isArabic = currentLanguage === "ar";
 
-    const mcqCount =
-      document.getElementById("mcqCount");
+      document.documentElement.lang = isArabic ? "ar" : "en";
+      document.documentElement.dir = isArabic ? "rtl" : "ltr";
 
-    const generateBtn =
-      document.getElementById("generateBtn");
-
-    const studyText =
-      document.getElementById("studyText");
-
-    const result =
-      document.getElementById("result");
-
-    const resultText =
-      document.getElementById("resultText");
-
-    const resultTitle =
-      document.getElementById("resultTitle");
-
-    const copyBtn =
-      document.getElementById("copyBtn");
-
-
-    /* TASK SELECTION */
-
-    taskButtons.forEach(button => {
-
-      button.addEventListener("click", () => {
-
-        taskButtons.forEach(btn =>
-          btn.classList.remove("selected")
-        );
-
-        button.classList.add("selected");
-
-        selectedTask =
-          button.dataset.task;
-
-        if (selectedTask === "mcq") {
-
-          mcqCount.classList.add("show");
-
-        } else {
-
-          mcqCount.classList.remove("show");
-
-        }
-
+      document.querySelectorAll("[data-en]").forEach(el => {
+        el.textContent = isArabic ? el.dataset.ar : el.dataset.en;
       });
 
+      document.getElementById("languageBtn").textContent =
+        isArabic ? "English" : "العربية";
+
+      document.getElementById("formTitle").textContent =
+        modes[selectedMode][currentLanguage];
+
+      document.getElementById("generateBtn").textContent =
+        isArabic ? "أنشئ النتيجة الآن" : "Create my result";
+
+      document.getElementById("resultTitle").textContent =
+        isArabic ? "نتيجتك" : "Your Result";
+
+      document.getElementById("copyBtn").textContent =
+        isArabic ? "نسخ النتيجة" : "Copy result";
+    }
+
+    document.getElementById("languageBtn").addEventListener("click", () => {
+      currentLanguage = currentLanguage === "en" ? "ar" : "en";
+      updateLanguage();
     });
 
+    serviceCards.forEach(card => {
+      card.addEventListener("click", () => {
+        selectedMode = card.dataset.mode;
 
-    /* MCQ COUNT */
+        serviceCards.forEach(item => item.classList.remove("active"));
+        card.classList.add("active");
 
-    countButtons.forEach(button => {
+        document.getElementById("formTitle").textContent =
+          modes[selectedMode][currentLanguage];
 
-      button.addEventListener("click", () => {
-
-        countButtons.forEach(btn =>
-          btn.classList.remove("selected")
-        );
-
-        button.classList.add("selected");
-
-        selectedCount =
-          Number(button.dataset.count);
-
+        document.getElementById("studio").scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
       });
-
     });
 
+    outputButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        selectedOutput = button.dataset.output;
 
-    /* GENERATE */
+        outputButtons.forEach(item => item.classList.remove("selected"));
+        button.classList.add("selected");
+      });
+    });
 
-    generateBtn.addEventListener("click", async () => {
+    document.getElementById("generateBtn").addEventListener("click", async () => {
+      const text = document.getElementById("sourceText").value.trim();
+      const book = document.getElementById("bookName").value.trim();
 
-      const text =
-        studyText.value.trim();
-
-      if (!text) {
-
-        alert("Please paste your study material first.");
-
+      if (!text && !book) {
+        alert(currentLanguage === "ar"
+          ? "أضف اسم الكتاب أو المحتوى أولًا."
+          : "Please add a book name or content first.");
         return;
       }
 
+      const button = document.getElementById("generateBtn");
+      const result = document.getElementById("result");
+      const resultText = document.getElementById("resultText");
 
-      generateBtn.disabled = true;
+      button.disabled = true;
+      button.textContent = currentLanguage === "ar"
+        ? "جارٍ تجهيز النتيجة..."
+        : "Creating your result...";
 
-      generateBtn.textContent =
-        "Generating...";
-
-
-      result.style.display =
-        "block";
-
-
-      resultTitle.textContent =
-        selectedTask === "summary"
-          ? "AI Summary"
-          : selectedTask === "mcq"
-          ? "Practice Quiz"
-          : "Flashcards";
-
-
-      resultText.innerHTML =
-        '<div class="loading">AI is generating your result...</div>';
-
+      result.classList.add("show");
+      resultText.textContent = currentLanguage === "ar"
+        ? "StudyVex يعمل على المحتوى..."
+        : "StudyVex is working on your content...";
 
       try {
-
-        const response =
-          await fetch("/api/generate", {
-
-            method: "POST",
-
-            headers: {
-              "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-
-              text: text,
-
-              task: selectedTask,
-
-              count: selectedCount
-
-            })
-
-          });
-
-
-        const data =
-          await response.json();
-
-
-        if (!response.ok) {
-
-          throw new Error(
-            data.error ||
-            "Something went wrong."
-          );
-
-        }
-
-
-        if (selectedTask === "flashcards") {
-
-          renderFlashcards(data.result);
-
-        } else {
-
-          resultText.innerHTML =
-            '<div class="text-result"></div>';
-
-          resultText
-            .querySelector(".text-result")
-            .textContent = data.result;
-
-        }
-
-
-      } catch (error) {
-
-        resultText.innerHTML =
-          '<div class="error">Error: ' +
-          error.message +
-          '</div>';
-
-      } finally {
-
-        generateBtn.disabled = false;
-
-        generateBtn.textContent =
-          "Generate with AI";
-
-      }
-
-    });
-
-
-    /* FLASHCARD RENDERER */
-
-    function renderFlashcards(text) {
-
-      const lines =
-        text
-          .split("\n")
-          .map(line => line.trim())
-          .filter(line => line.length > 0);
-
-
-      const cards = [];
-
-      let currentQuestion = "";
-      let currentAnswer = "";
-
-
-      for (const line of lines) {
-
-        const lower =
-          line.toLowerCase();
-
-
-        if (
-          lower.startsWith("question:") ||
-          lower.startsWith("q:")
-        ) {
-
-          if (currentQuestion && currentAnswer) {
-
-            cards.push({
-              question: currentQuestion,
-              answer: currentAnswer
-            });
-
-          }
-
-          currentQuestion =
-            line
-              .replace(/^question:\s*/i, "")
-              .replace(/^q:\s*/i, "");
-
-          currentAnswer = "";
-
-        } else if (
-          lower.startsWith("answer:") ||
-          lower.startsWith("a:")
-        ) {
-
-          currentAnswer =
-            line
-              .replace(/^answer:\s*/i, "")
-              .replace(/^a:\s*/i, "");
-
-        } else if (currentQuestion && !currentAnswer) {
-
-          currentQuestion += " " + line;
-
-        } else if (currentQuestion && currentAnswer) {
-
-          currentAnswer += " " + line;
-
-        }
-
-      }
-
-
-      if (currentQuestion && currentAnswer) {
-
-        cards.push({
-          question: currentQuestion,
-          answer: currentAnswer
+        const response = await fetch("/api/generate", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            text,
+            book,
+            chapter: document.getElementById("chapter").value.trim(),
+            fromPage: document.getElementById("fromPage").value,
+            toPage: document.getElementById("toPage").value,
+            mode: selectedMode,
+            task: selectedOutput,
+            language: currentLanguage
+          })
         });
 
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || "Unable to generate the result.");
+        }
+
+        resultText.textContent = data.result;
+
+      } catch (error) {
+        resultText.textContent = currentLanguage === "ar"
+          ? "تعذر الاتصال بخدمة الذكاء الاصطناعي. أرسل لي ملف generate.js لأربط الخدمات الجديدة."
+          : "Unable to connect to the AI service. Send me generate.js and I will connect the new services.";
+      } finally {
+        button.disabled = false;
+        button.textContent = currentLanguage === "ar"
+          ? "أنشئ النتيجة الآن"
+          : "Create my result";
       }
-
-
-      /* FALLBACK */
-
-      if (cards.length === 0) {
-
-        resultText.innerHTML =
-          '<div class="text-result"></div>';
-
-        resultText
-          .querySelector(".text-result")
-          .textContent = text;
-
-        return;
-
-      }
-
-
-      const wrapper =
-        document.createElement("div");
-
-      wrapper.className =
-        "flashcards-container";
-
-
-      cards.forEach((card, index) => {
-
-        const cardElement =
-          document.createElement("div");
-
-        cardElement.className =
-          "flashcard";
-
-        cardElement.innerHTML = `
-
-          <div class="flashcard-inner">
-
-            <div class="flashcard-front">
-
-              <div class="flashcard-label">
-                Question ${index + 1}
-              </div>
-
-              <div class="flashcard-question">
-                ${escapeHTML(card.question)}
-              </div>
-
-              <div class="flashcard-hint">
-                Click to reveal answer
-              </div>
-
-            </div>
-
-
-            <div class="flashcard-back">
-
-              <div class="flashcard-label">
-                Answer
-              </div>
-
-              <div class="flashcard-answer">
-                ${escapeHTML(card.answer)}
-              </div>
-
-            </div>
-
-          </div>
-
-        `;
-
-
-        cardElement.addEventListener(
-          "click",
-          () => {
-
-            cardElement.classList.toggle("flipped");
-
-          }
-        );
-
-
-        wrapper.appendChild(cardElement);
-
-      });
-
-
-      resultText.innerHTML = "";
-
-      resultText.appendChild(wrapper);
-
-    }
-
-
-    /* HTML SAFETY */
-
-    function escapeHTML(text) {
-
-      const div =
-        document.createElement("div");
-
-      div.textContent = text;
-
-      return div.innerHTML;
-
-    }
-
-
-    /* COPY */
-
-    copyBtn.addEventListener("click", async () => {
-
-      const text =
-        resultText.innerText;
-
-      if (!text) return;
-
-
-      try {
-
-        await navigator.clipboard.writeText(text);
-
-        copyBtn.textContent =
-          "Copied!";
-
-        setTimeout(() => {
-
-          copyBtn.textContent =
-            "Copy";
-
-        }, 1500);
-
-      } catch {
-
-        alert("Unable to copy the result.");
-
-      }
-
     });
-function filterTools(category) {
 
-  const tools = document.querySelectorAll(".tool");
+    document.getElementById("copyBtn").addEventListener("click", async () => {
+      await navigator.clipboard.writeText(
+        document.getElementById("resultText").innerText
+      );
 
-  tools.forEach(tool => {
-
-    if (
-      category === "all" ||
-      tool.dataset.category === category
-    ) {
-      tool.style.display = "block";
-    } else {
-      tool.style.display = "none";
-    }
-
-  });
-
-}
+      document.getElementById("copyBtn").textContent =
+        currentLanguage === "ar" ? "تم النسخ ✓" : "Copied ✓";
+    });
   </script>
 
 </body>
