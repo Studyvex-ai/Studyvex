@@ -941,15 +941,15 @@
         resultText.textContent = data.result;
 
       } catch (error) {
-        resultText.textContent = currentLanguage === "ar"
-          ? "تعذر الاتصال بخدمة الذكاء الاصطناعي. أرسل لي ملف generate.js لأربط الخدمات الجديدة."
-          : "Unable to connect to the AI service. Send me generate.js and I will connect the new services.";
-      } finally {
-        button.disabled = false;
-        button.textContent = currentLanguage === "ar"
-          ? "أنشئ النتيجة الآن"
-          : "Create my result";
-      }
+  resultText.textContent =
+    "Error: " + error.message;
+} finally {
+  button.disabled = false;
+
+  button.textContent = currentLanguage === "ar"
+    ? "أنشئ النتيجة الآن"
+    : "Create my result";
+}
     });
 
     document.getElementById("copyBtn").addEventListener("click", async () => {
