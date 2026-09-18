@@ -59,17 +59,14 @@ export default async function handler(req, res) {
       التلخيص والـ Quiz والـ Flashcards يجب أن تعتمد على نص فعلي
       حتى لا يخترع النظام محتوى كتاب غير متوفر.
     */
-    if (
-      mode !== "presentation" &&
-      !cleanText
-    ) {
-      return res.status(400).json({
-        error:
-          language === "ar"
-            ? "ألصق نص الفصل أو الصفحات أولًا حتى ننتج نتيجة دقيقة."
-            : "Please paste the chapter or page text first for an accurate result.",
-      });
-    }
+  if (!cleanText && !cleanBook) {
+  return res.status(400).json({
+    error:
+      language === "ar"
+        ? "أضف اسم الكتاب أو الصق المحتوى أولًا."
+        : "Please add a book name or paste content first.",
+  });
+}
 
     /*
       العرض التقديمي يمكن إنشاؤه من موضوع أو عنوان كتاب أو محتوى.
@@ -187,7 +184,13 @@ Context:
 ${metadata}
 
 User-provided study material:
-${cleanText || "No pasted content was supplied. Use only the topic for a general presentation outline."}
+${cleanText || `
+No page text was provided.
+
+Create a helpful general study guide based on the book title, chapter, and requested page range.
+Clearly state that this is a general guide and may not match the exact wording or content of the requested pages.
+Do not invent quotes, page-specific claims, or citations.
+`}
 `;
 
     const response = await fetch(
