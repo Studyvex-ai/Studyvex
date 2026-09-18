@@ -1,61 +1,77 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>StudyVex | AI Study Tools</title>
+  <title>StudyVex — AI Learning Studio</title>
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800&display=swap');
+    @import url("https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap");
 
     :root {
-      --navy: #10233f;
-      --violet: #6b4eff;
-      --mint: #46d5bc;
-      --paper: #f6f8ff;
-      --muted: #657188;
-      --line: #e4e9f7;
-      --white: #fff;
-      --shadow: 0 18px 50px rgba(25, 43, 85, .12);
+      --navy: #11213d;
+      --navy-2: #182d4f;
+      --violet: #7055f6;
+      --violet-light: #f0edff;
+      --mint: #47d6b7;
+      --ink: #172238;
+      --muted: #68758d;
+      --paper: #f6f8fc;
+      --line: #e4e9f4;
+      --white: #ffffff;
+      --shadow: 0 22px 55px rgba(24, 45, 79, 0.11);
     }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       margin: 0;
-      font-family: Alexandria, Arial, sans-serif;
       background: var(--paper);
-      color: var(--navy);
-      line-height: 1.7;
+      color: var(--ink);
+      font-family: "DM Sans", "Alexandria", Arial, sans-serif;
+      line-height: 1.65;
+    }
+
+    [dir="rtl"] body,
+    [dir="rtl"] input,
+    [dir="rtl"] textarea,
+    [dir="rtl"] button {
+      font-family: "Alexandria", Arial, sans-serif;
     }
 
     .container {
-      width: min(1140px, 92%);
+      width: min(1180px, 92%);
       margin: auto;
     }
 
     .topbar {
-      background: #0c1c35;
-      color: #dce6ff;
+      background: #0b1931;
+      color: #cbd7ed;
+      padding: 9px 0;
       text-align: center;
-      padding: 9px;
       font-size: 12px;
     }
 
-    .topbar strong { color: #7bf1d4; }
+    .topbar strong {
+      color: #75e8cf;
+    }
 
     header {
-      height: 82px;
+      height: 78px;
+      background: rgba(255, 255, 255, 0.93);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
       display: flex;
       align-items: center;
-      background: rgba(255,255,255,.92);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--line);
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 20;
     }
 
     .nav {
@@ -63,231 +79,321 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
+      gap: 18px;
     }
 
     .brand {
-      color: var(--navy);
-      text-decoration: none;
       font-size: 24px;
       font-weight: 800;
+      letter-spacing: -1px;
+      color: var(--navy);
+      text-decoration: none;
     }
 
-    .brand span { color: var(--violet); }
+    .brand span {
+      color: var(--violet);
+    }
 
     .nav-links {
       display: flex;
-      gap: 25px;
+      gap: 24px;
     }
 
     .nav-links a {
       color: var(--muted);
-      text-decoration: none;
       font-size: 13px;
+      text-decoration: none;
+      font-weight: 600;
     }
 
-    .nav-links a:hover { color: var(--violet); }
+    .nav-links a:hover {
+      color: var(--violet);
+    }
 
-    .header-actions {
+    .nav-actions {
       display: flex;
       gap: 8px;
       align-items: center;
     }
 
-    button, .button {
+    button,
+    .button {
       border: 0;
-      border-radius: 12px;
-      font-family: inherit;
-      cursor: pointer;
+      font: inherit;
       font-weight: 700;
+      border-radius: 11px;
+      cursor: pointer;
+      transition: 0.2s ease;
     }
 
-    .language-btn {
-      background: #eeebff;
-      color: #5d45d1;
+    .lang-btn {
+      background: var(--violet-light);
+      color: #5942c9;
       padding: 9px 12px;
+      font-size: 12px;
     }
 
-    .start-btn,
-    .primary-btn {
-      background: var(--violet);
-      color: white;
-      padding: 10px 17px;
-      text-decoration: none;
+    .main-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 8px;
+      background: var(--violet);
+      color: white;
+      text-decoration: none;
+      padding: 11px 17px;
+      font-size: 13px;
+      box-shadow: 0 9px 18px rgba(112, 85, 246, 0.2);
+    }
+
+    .main-btn:hover {
+      transform: translateY(-2px);
+      background: #5f45e5;
     }
 
     .hero {
-      background: linear-gradient(135deg, #eef0ff, #f9faff 55%, #edfff9);
-      padding: 85px 0 75px;
       overflow: hidden;
+      position: relative;
+      background: linear-gradient(135deg, #eef0ff 0%, #fbfcff 53%, #effff9 100%);
+      padding: 82px 0 72px;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(5px);
+      opacity: 0.72;
+    }
+
+    .hero::before {
+      width: 380px;
+      height: 380px;
+      background: #d9d3ff;
+      top: -190px;
+      right: -100px;
+    }
+
+    .hero::after {
+      width: 270px;
+      height: 270px;
+      background: #cbfaee;
+      bottom: -145px;
+      left: -90px;
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 60px;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 58px;
       align-items: center;
+      position: relative;
+      z-index: 1;
     }
 
-    .badge {
+    .eyebrow {
       display: inline-flex;
       gap: 8px;
       align-items: center;
+      color: #5f46d5;
       background: white;
-      border: 1px solid #dedaff;
-      color: #5e48d5;
-      border-radius: 99px;
-      padding: 7px 13px;
+      border: 1px solid #ddd8ff;
+      border-radius: 999px;
       font-size: 12px;
       font-weight: 700;
+      padding: 7px 12px;
     }
 
-    .dot {
+    .live-dot {
       width: 8px;
       height: 8px;
-      background: var(--mint);
       border-radius: 50%;
-      box-shadow: 0 0 0 4px #d8fff6;
+      background: var(--mint);
+      box-shadow: 0 0 0 4px #d9fff5;
     }
 
-    .hero h1 {
-      font-size: clamp(35px, 4.5vw, 62px);
-      line-height: 1.2;
+    h1 {
       margin: 17px 0;
-      letter-spacing: -2px;
+      color: var(--navy);
+      font-size: clamp(38px, 5vw, 64px);
+      line-height: 1.12;
+      letter-spacing: -2.5px;
     }
 
-    .hero h1 span { color: var(--violet); }
+    h1 em {
+      color: var(--violet);
+      font-style: normal;
+    }
 
     .hero p {
-      max-width: 610px;
       color: var(--muted);
-      margin-bottom: 25px;
       font-size: 16px;
+      max-width: 610px;
+      margin: 0 0 25px;
     }
 
-    .hero-buttons {
+    .hero-actions {
       display: flex;
-      flex-wrap: wrap;
       gap: 12px;
+      flex-wrap: wrap;
     }
 
-    .primary-btn {
-      padding: 14px 22px;
-      box-shadow: 0 9px 18px rgba(107, 78, 255, .22);
+    .hero-actions .main-btn {
+      padding: 14px 20px;
     }
 
-    .secondary-btn {
+    .outline-btn {
       background: white;
-      border: 1px solid #dfe4f4;
+      border: 1px solid #dfe5f2;
       color: var(--navy);
-      padding: 14px 22px;
+      padding: 14px 20px;
       text-decoration: none;
+      font-size: 13px;
     }
 
-    .preview {
+    .preview-card {
       background: white;
-      border: 1px solid #e4e1ff;
-      border-radius: 24px;
-      padding: 17px;
+      border: 1px solid #e3e1ff;
+      border-radius: 25px;
       box-shadow: var(--shadow);
+      padding: 17px;
       transform: rotate(-2deg);
     }
 
-    .preview-top {
+    .preview-heading {
       display: flex;
       justify-content: space-between;
       color: var(--muted);
       font-size: 11px;
-      padding-bottom: 14px;
+      padding: 1px 4px 13px;
+    }
+
+    .preview-heading span:last-child {
+      letter-spacing: 3px;
+      color: #b8c1d3;
     }
 
     .preview-main {
-      background: linear-gradient(135deg, #1b2453, #45378e);
-      color: white;
-      padding: 22px;
       border-radius: 16px;
+      color: white;
+      padding: 21px;
+      background: linear-gradient(135deg, #172950, #55439f);
     }
 
-    .preview-main small { color: #c6cbff; }
-    .preview-main h3 { margin: 7px 0 15px; }
-
-    .lines {
-      display: grid;
-      gap: 8px;
+    .preview-main small {
+      color: #cbd1ff;
     }
 
-    .lines div {
+    .preview-main h3 {
+      margin: 7px 0 14px;
+      font-size: 18px;
+    }
+
+    .line {
       height: 8px;
-      border-radius: 20px;
-      background: rgba(255,255,255,.22);
+      width: 100%;
+      background: rgba(255,255,255,.2);
+      border-radius: 10px;
+      margin-top: 8px;
     }
 
-    .lines div:nth-child(2) { width: 80%; }
-    .lines div:nth-child(3) { width: 60%; }
+    .line.short {
+      width: 64%;
+    }
 
-    .mini-cards {
+    .line.medium {
+      width: 82%;
+    }
+
+    .preview-bottom {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
-      margin-top: 12px;
+      margin-top: 11px;
     }
 
-    .mini-card {
+    .preview-box {
       background: #f6f7ff;
-      border-radius: 12px;
       padding: 12px;
+      border-radius: 12px;
       font-size: 11px;
+      color: var(--muted);
     }
 
-    .mini-card strong {
-      display: block;
+    .preview-box strong {
       color: var(--violet);
+      display: block;
       margin-bottom: 4px;
     }
 
-    section { padding: 80px 0; }
-
-    .section-title {
-      text-align: center;
-      max-width: 700px;
-      margin: 0 auto 35px;
+    .trust-row {
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+      background: white;
     }
 
-    .section-title h2 {
-      font-size: 31px;
-      margin: 0 0 8px;
-    }
-
-    .section-title p {
+    .trust-inner {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      flex-wrap: wrap;
       color: var(--muted);
-      font-size: 14px;
-      margin: 0;
+      font-size: 12px;
     }
 
-    .services {
+    .trust-inner strong {
+      color: var(--navy);
+    }
+
+    section {
+      padding: 80px 0;
+    }
+
+    .section-heading {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 37px;
+    }
+
+    .section-heading h2 {
+      font-size: 32px;
+      letter-spacing: -1px;
+      line-height: 1.3;
+      margin: 0 0 9px;
+    }
+
+    .section-heading p {
+      margin: 0;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .service-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
     }
 
     .service-card {
       background: white;
       border: 1px solid var(--line);
-      padding: 20px;
       border-radius: 18px;
+      padding: 20px;
       cursor: pointer;
-      transition: .2s;
+      transition: 0.2s ease;
+      min-height: 184px;
     }
 
     .service-card:hover,
     .service-card.active {
-      border-color: #9683ff;
-      box-shadow: 0 12px 28px rgba(95,70,218,.13);
-      transform: translateY(-3px);
+      transform: translateY(-4px);
+      border-color: #9c8dff;
+      box-shadow: 0 15px 32px rgba(77, 59, 174, 0.12);
+    }
+
+    .service-card.active {
+      background: #fbfaff;
     }
 
     .service-icon {
@@ -295,59 +401,81 @@
       height: 42px;
       display: grid;
       place-items: center;
-      background: #eeeaff;
       border-radius: 12px;
-      color: #6047e5;
-      font-size: 21px;
+      background: #eeeaff;
+      color: #654be7;
+      font-size: 20px;
     }
 
     .service-card h3 {
+      margin: 14px 0 5px;
       font-size: 15px;
-      margin: 13px 0 5px;
     }
 
     .service-card p {
-      font-size: 11px;
-      color: var(--muted);
       margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.75;
+    }
+
+    .studio-section {
+      background: linear-gradient(180deg, transparent, #eef1ff);
     }
 
     .studio {
+      display: grid;
+      grid-template-columns: 245px 1fr;
+      gap: 30px;
       background: white;
       border: 1px solid var(--line);
       border-radius: 25px;
-      padding: 28px;
+      padding: 27px;
       box-shadow: var(--shadow);
-      display: grid;
-      grid-template-columns: 250px 1fr;
-      gap: 30px;
     }
 
-    .steps {
+    .studio-side {
       border-right: 1px solid var(--line);
-      padding-right: 24px;
+      padding-right: 23px;
     }
 
-    .steps h3 { margin-top: 0; }
-    .steps p { font-size: 12px; color: var(--muted); }
+    [dir="rtl"] .studio-side {
+      border-right: 0;
+      border-left: 1px solid var(--line);
+      padding-right: 0;
+      padding-left: 23px;
+    }
+
+    .studio-side h3 {
+      margin: 0 0 6px;
+      font-size: 17px;
+    }
+
+    .studio-side p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 12px;
+    }
 
     .step {
       display: flex;
       align-items: center;
       gap: 10px;
+      margin: 16px 0;
       color: var(--muted);
       font-size: 12px;
-      margin: 16px 0;
     }
 
-    .step strong {
-      display: grid;
-      place-items: center;
+    .step span:first-child {
       width: 26px;
       height: 26px;
+      flex: none;
+      display: grid;
+      place-items: center;
       border-radius: 9px;
-      background: #f0edff;
       color: var(--violet);
+      background: var(--violet-light);
+      font-weight: 700;
     }
 
     .step.active {
@@ -355,30 +483,59 @@
       font-weight: 700;
     }
 
-    .step.active strong {
-      background: var(--violet);
+    .step.active span:first-child {
       color: white;
+      background: var(--violet);
     }
 
-    .studio-heading {
+    .studio-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
+      gap: 15px;
+      margin-bottom: 18px;
+    }
+
+    .studio-top h2 {
+      margin: 0;
+      font-size: 21px;
+    }
+
+    .demo-status {
+      color: #187d6c;
+      background: #effbf8;
+      border-radius: 8px;
+      padding: 5px 8px;
+      font-size: 10px;
+      white-space: nowrap;
+    }
+
+    .source-tabs,
+    .output-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .source-tabs {
       margin-bottom: 17px;
     }
 
-    .studio-heading h2 {
-      margin: 0;
-      font-size: 20px;
+    .source-tab,
+    .output-tab {
+      color: var(--muted);
+      background: white;
+      border: 1px solid #dfe5f2;
+      border-radius: 9px;
+      padding: 8px 11px;
+      font-size: 11px;
     }
 
-    .free-badge {
-      background: #effbf8;
-      color: #168a76;
-      padding: 5px 9px;
-      border-radius: 8px;
-      font-size: 10px;
+    .source-tab.active,
+    .output-tab.active {
+      color: var(--violet);
+      border-color: var(--violet);
+      background: #f7f5ff;
     }
 
     .form-grid {
@@ -392,160 +549,302 @@
       gap: 7px;
     }
 
-    .field.full { grid-column: 1 / -1; }
+    .field.full {
+      grid-column: 1 / -1;
+    }
 
     label {
       font-size: 12px;
       font-weight: 700;
     }
 
-    input, textarea {
+    input,
+    textarea,
+    select {
       width: 100%;
-      border: 1px solid #dfe4f2;
+      color: var(--ink);
       background: #fbfcff;
+      border: 1px solid #dce3f0;
       border-radius: 11px;
+      outline: none;
       padding: 12px;
       font: inherit;
       font-size: 13px;
-      outline: none;
     }
 
     textarea {
-      min-height: 145px;
       resize: vertical;
+      min-height: 132px;
     }
 
-    input:focus, textarea:focus {
+    input:focus,
+    textarea:focus {
       border-color: var(--violet);
-      box-shadow: 0 0 0 3px #eeeaff;
+      box-shadow: 0 0 0 3px #f0edff;
     }
 
-    .page-range {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
+    .upload-box {
+      grid-column: 1 / -1;
+      padding: 17px;
+      border: 1px dashed #bac7dd;
+      border-radius: 12px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 12px;
+      background: #fafcff;
     }
 
-    .options {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
+    .upload-box input {
+      display: none;
     }
 
-    .option {
-      border: 1px solid #dfe4f2;
-      border-radius: 9px;
-      background: white;
-      padding: 8px 10px;
-      font-size: 11px;
-    }
-
-    .option.selected {
-      border-color: var(--violet);
+    .upload-box label {
       color: var(--violet);
-      background: #f6f4ff;
+      cursor: pointer;
     }
 
     .generate-btn {
       width: 100%;
-      padding: 14px;
       margin-top: 17px;
+      padding: 14px;
       font-size: 14px;
     }
 
-    .ad-space {
-      border: 1px dashed #ccd4ea;
-      color: #8390a8;
-      background: #fafbff;
+    .ad-note {
+      border: 1px dashed #cbd5e7;
       border-radius: 10px;
-      padding: 10px;
-      text-align: center;
+      padding: 9px;
+      margin-top: 16px;
+      color: #8692a7;
       font-size: 10px;
-      margin-top: 17px;
+      text-align: center;
     }
 
     .result {
       display: none;
-      border-top: 1px solid var(--line);
       margin-top: 22px;
-      padding-top: 22px;
+      padding-top: 21px;
+      border-top: 1px solid var(--line);
     }
 
-    .result.show { display: block; }
+    .result.show {
+      display: block;
+    }
 
-    .result-head {
+    .result-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 10px;
       margin-bottom: 12px;
     }
 
-    .result-box {
-      background: #f8f9ff;
-      padding: 17px;
-      border-radius: 13px;
-      white-space: pre-wrap;
-      font-size: 13px;
+    .result-header h3 {
+      margin: 0;
+      font-size: 17px;
     }
 
     .copy-btn {
+      padding: 7px 10px;
+      color: var(--muted);
       background: white;
       border: 1px solid var(--line);
-      padding: 7px 10px;
       font-size: 11px;
     }
 
-    footer {
-      background: #09172c;
-      color: #9facc4;
-      padding: 35px 0;
-      font-size: 12px;
+    .result-body {
+      padding: 18px;
+      color: #2f3d55;
+      background: #f8f9ff;
+      border-radius: 14px;
+      font-size: 13px;
     }
 
-    .footer-content {
+    .result-body h4 {
+      margin: 0 0 8px;
+      color: var(--navy);
+      font-size: 15px;
+    }
+
+    .result-body p {
+      margin: 8px 0;
+    }
+
+    .result-body ul {
+      padding-inline-start: 20px;
+      margin: 8px 0;
+    }
+
+    .slide-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .slide {
       display: flex;
-      justify-content: space-between;
-      gap: 20px;
+      gap: 10px;
       align-items: center;
+      background: white;
+      border: 1px solid #e5e9f4;
+      border-radius: 10px;
+      padding: 10px;
     }
 
-    .footer-content strong {
-      font-size: 18px;
+    .slide-number {
+      width: 25px;
+      height: 25px;
+      display: grid;
+      place-items: center;
+      flex: none;
+      border-radius: 7px;
+      color: var(--violet);
+      background: #eeebff;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .youtube-link {
+      display: inline-flex;
+      margin-top: 10px;
+      padding: 9px 12px;
+      border-radius: 9px;
+      color: #d82222;
+      background: #fff0f0;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .why {
+      color: white;
+      background: var(--navy);
+    }
+
+    .why .section-heading h2 {
       color: white;
     }
 
-    .footer-content strong span { color: #8e75ff; }
-
-    @media (max-width: 850px) {
-      .hero-grid,
-      .studio { grid-template-columns: 1fr; }
-
-      .services { grid-template-columns: 1fr 1fr; }
-
-      .steps {
-        border-right: 0;
-        border-bottom: 1px solid var(--line);
-        padding: 0 0 18px;
-      }
-
-      .nav-links { display: none; }
+    .why .section-heading p {
+      color: #b6c3dc;
     }
 
-    @media (max-width: 520px) {
-      .services,
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .why-card {
+      padding: 22px;
+      border: 1px solid rgba(255,255,255,.13);
+      border-radius: 18px;
+      background: rgba(255,255,255,.04);
+    }
+
+    .why-card .why-icon {
+      color: #75e8d1;
+      font-size: 22px;
+    }
+
+    .why-card h3 {
+      margin: 9px 0 5px;
+      font-size: 15px;
+    }
+
+    .why-card p {
+      margin: 0;
+      color: #bec9df;
+      font-size: 12px;
+    }
+
+    footer {
+      padding: 34px 0;
+      color: #9eabc1;
+      background: #09172b;
+      font-size: 12px;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .footer-brand {
+      font-size: 18px;
+      color: white;
+      font-weight: 800;
+    }
+
+    .footer-brand span {
+      color: #937cff;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid,
+      .studio {
+        grid-template-columns: 1fr;
+      }
+
+      .preview-card {
+        max-width: 480px;
+        margin: auto;
+      }
+
+      .service-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .studio-side,
+      [dir="rtl"] .studio-side {
+        padding: 0 0 18px;
+        border: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 540px) {
+      header {
+        height: 68px;
+      }
+
+      .hero {
+        padding: 55px 0;
+      }
+
+      .service-grid,
       .form-grid,
-      .page-range { grid-template-columns: 1fr; }
+      .why-grid {
+        grid-template-columns: 1fr;
+      }
 
-      .field.full { grid-column: auto; }
+      .field.full {
+        grid-column: auto;
+      }
 
-      .hero { padding: 55px 0; }
+      .start-button {
+        display: none;
+      }
 
-      .footer-content {
+      .footer-inner {
         flex-direction: column;
         align-items: flex-start;
       }
 
-      .start-btn { display: none; }
+      .studio {
+        padding: 18px;
+      }
+
+      .studio-top {
+        align-items: flex-start;
+        flex-direction: column;
+      }
     }
   </style>
 </head>
@@ -553,8 +852,8 @@
 <body>
 
   <div class="topbar">
-    Free learning tools supported by ads —
-    <strong>optional premium subscriptions later.</strong>
+    <span data-i18n="topbar">Free learning tools supported by ads — </span>
+    <strong data-i18n="topbarStrong">premium options can come later.</strong>
   </div>
 
   <header>
@@ -562,14 +861,14 @@
       <a href="#home" class="brand">Study<span>Vex</span></a>
 
       <nav class="nav-links">
-        <a href="#services" data-en="Services" data-ar="الخدمات">Services</a>
-        <a href="#studio" data-en="Study Studio" data-ar="استوديو الدراسة">Study Studio</a>
-        <a href="#why" data-en="Why StudyVex?" data-ar="لماذا StudyVex؟">Why StudyVex?</a>
+        <a href="#services" data-i18n="navServices">Services</a>
+        <a href="#studio" data-i18n="navStudio">Study Studio</a>
+        <a href="#why" data-i18n="navWhy">Why StudyVex?</a>
       </nav>
 
-      <div class="header-actions">
-        <button class="language-btn" id="languageBtn">العربية</button>
-        <a href="#studio" class="start-btn" data-en="Start now" data-ar="ابدأ الآن">Start now</a>
+      <div class="nav-actions">
+        <button class="lang-btn" id="languageButton">العربية</button>
+        <a href="#studio" class="main-btn start-button" data-i18n="navStart">Start now</a>
       </div>
     </div>
   </header>
@@ -578,213 +877,238 @@
 
     <section class="hero">
       <div class="container hero-grid">
+
         <div>
-          <div class="badge">
-            <span class="dot"></span>
-            <span data-en="Learn smarter, your way" data-ar="تعلّم بذكاء، وعلى طريقتك">
-              Learn smarter, your way
-            </span>
+          <div class="eyebrow">
+            <span class="live-dot"></span>
+            <span data-i18n="eyebrow">Your all-in-one AI learning space</span>
           </div>
 
           <h1>
-            <span data-en="Turn any material into" data-ar="حوّل أي محتوى إلى">
-              Turn any material into
-            </span>
-            <br>
-            <span data-en="real understanding." data-ar="فهم حقيقي.">
-              real understanding.
-            </span>
+            <span data-i18n="heroFirst">Study smarter.</span><br>
+            <em data-i18n="heroSecond">Create, learn, and grow.</em>
           </h1>
 
-          <p data-en="Summarize books and chapters, create quizzes and flashcards, and build complete presentations from one topic, book, or link."
-             data-ar="لخّص الكتب والفصول، اصنع اختبارات وبطاقات مراجعة، وابنِ عروضًا تقديمية كاملة من فكرة أو كتاب أو رابط واحد.">
-            Summarize books and chapters, create quizzes and flashcards, and build complete presentations from one topic, book, or link.
+          <p data-i18n="heroText">
+            One place for presentations, quizzes, flashcards, student questions,
+            kid-friendly learning activities, and useful video explanations.
           </p>
 
-          <div class="hero-buttons">
-            <a href="#studio" class="primary-btn" data-en="Try the tools for free" data-ar="جرّب الأدوات مجانًا">
-              Try the tools for free
-            </a>
-
-            <a href="#services" class="secondary-btn" data-en="Explore services" data-ar="اكتشف الخدمات">
-              Explore services
-            </a>
+          <div class="hero-actions">
+            <a href="#studio" class="main-btn" data-i18n="heroCTA">Explore StudyVex</a>
+            <a href="#services" class="outline-btn" data-i18n="heroSecondary">See all services</a>
           </div>
         </div>
 
-        <div class="preview">
-          <div class="preview-top">
+        <div class="preview-card">
+          <div class="preview-heading">
             <span>StudyVex Studio</span>
             <span>● ● ●</span>
           </div>
 
           <div class="preview-main">
-            <small data-en="Chapter 3 Summary" data-ar="ملخص الفصل الثالث">Chapter 3 Summary</small>
-            <h3 data-en="Project Management Fundamentals" data-ar="أساسيات إدارة المشاريع">
-              Project Management Fundamentals
-            </h3>
-
-            <div class="lines">
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
+            <small data-i18n="previewLabel">Presentation created from a topic</small>
+            <h3 data-i18n="previewTitle">The Future of Renewable Energy</h3>
+            <div class="line"></div>
+            <div class="line medium"></div>
+            <div class="line short"></div>
           </div>
 
-          <div class="mini-cards">
-            <div class="mini-card">
-              <strong data-en="12 Flashcards" data-ar="12 بطاقة">12 Flashcards</strong>
-              <span data-en="Ready to review" data-ar="جاهزة للمراجعة">Ready to review</span>
+          <div class="preview-bottom">
+            <div class="preview-box">
+              <strong data-i18n="previewSlides">10 Slides</strong>
+              <span data-i18n="previewSlidesText">Ready to present</span>
             </div>
 
-            <div class="mini-card">
-              <strong data-en="10 Questions" data-ar="10 أسئلة">10 Questions</strong>
-              <span data-en="Test yourself now" data-ar="اختبر نفسك الآن">Test yourself now</span>
+            <div class="preview-box">
+              <strong data-i18n="previewCards">16 Flashcards</strong>
+              <span data-i18n="previewCardsText">Ready to revise</span>
             </div>
           </div>
         </div>
+
       </div>
     </section>
+
+    <div class="trust-row">
+      <div class="container trust-inner">
+        <span data-i18n="trustOne">Built for <strong>students</strong>, teachers, and parents</span>
+        <span data-i18n="trustTwo"><strong>English & Arabic</strong> learning support</span>
+        <span data-i18n="trustThree">One platform, <strong>six smart services</strong></span>
+      </div>
+    </div>
 
     <section id="services">
       <div class="container">
-        <div class="section-title">
-          <h2 data-en="Everything you need to understand and revise"
-              data-ar="كل ما تحتاجه لفهم المادة ومراجعتها">
-            Everything you need to understand and revise
-          </h2>
-
-          <p data-en="Choose a service, add your source, and let StudyVex organize the work."
-             data-ar="اختر الخدمة، أضف المادة أو تفاصيل الكتاب، ثم دع StudyVex يرتب العمل.">
-            Choose a service, add your source, and let StudyVex organize the work.
+        <div class="section-heading">
+          <h2 data-i18n="servicesTitle">Everything a student needs in one place</h2>
+          <p data-i18n="servicesText">
+            Pick a service below. Each one has its own focused experience,
+            rather than forcing every task into one confusing box.
           </p>
         </div>
 
-        <div class="services">
-          <article class="service-card active" data-mode="book">
-            <div class="service-icon">▤</div>
-            <h3 data-en="Book & Chapter Summary" data-ar="تلخيص كتاب أو فصل">Book & Chapter Summary</h3>
-            <p data-en="Summarize a chapter, a book section, or selected pages."
-               data-ar="لخّص فصلًا أو جزءًا من كتاب أو صفحات محددة.">
-              Summarize a chapter, a book section, or selected pages.
-            </p>
-          </article>
+        <div class="service-grid">
 
-          <article class="service-card" data-mode="pages">
-            <div class="service-icon">⌁</div>
-            <h3 data-en="Pages to Quiz & Flashcards" data-ar="صفحات إلى Quiz وFlashcards">
-              Pages to Quiz & Flashcards
-            </h3>
-            <p data-en="Enter a book title and a page range for focused revision."
-               data-ar="أدخل اسم الكتاب ونطاق الصفحات لمراجعة مركزة.">
-              Enter a book title and a page range for focused revision.
-            </p>
-          </article>
-
-          <article class="service-card" data-mode="presentation">
+          <article class="service-card active" data-service="presentation">
             <div class="service-icon">▰</div>
-            <h3 data-en="Presentation Builder" data-ar="صانع العروض التقديمية">
-              Presentation Builder
-            </h3>
-            <p data-en="Create a presentation from a topic, book, or website."
-               data-ar="أنشئ عرضًا من موضوع أو كتاب أو موقع.">
-              Create a presentation from a topic, book, or website.
-            </p>
+            <h3 data-i18n="servicePresentation">Presentation Studio</h3>
+            <p data-i18n="servicePresentationText">Build a complete presentation from a topic, book, website, or notes.</p>
           </article>
 
-          <article class="service-card" data-mode="summary">
+          <article class="service-card" data-service="study">
             <div class="service-icon">✦</div>
-            <h3 data-en="Quick Summary" data-ar="تلخيص سريع">Quick Summary</h3>
-            <p data-en="Paste notes, lectures, or articles for a clean summary."
-               data-ar="ألصق ملاحظاتك أو محاضراتك أو مقالاتك للحصول على ملخص واضح.">
-              Paste notes, lectures, or articles for a clean summary.
-            </p>
+            <h3 data-i18n="serviceStudy">Study Builder</h3>
+            <p data-i18n="serviceStudyText">Turn text, websites, books, or topics into summaries, quizzes, and flashcards.</p>
           </article>
+
+          <article class="service-card" data-service="chat">
+            <div class="service-icon">◌</div>
+            <h3 data-i18n="serviceChat">Ask StudyVex</h3>
+            <p data-i18n="serviceChatText">Ask a question naturally and get a clear student-friendly answer.</p>
+          </article>
+
+          <article class="service-card" data-service="youtube">
+            <div class="service-icon">▶</div>
+            <h3 data-i18n="serviceYoutube">Learn with YouTube</h3>
+            <p data-i18n="serviceYoutubeText">Get an answer plus a useful video search for the same topic.</p>
+          </article>
+
+          <article class="service-card" data-service="powerpoint">
+            <div class="service-icon">▣</div>
+            <h3 data-i18n="servicePowerpoint">PowerPoint Creator</h3>
+            <p data-i18n="servicePowerpointText">Create a polished slide plan and narration script from scratch.</p>
+          </article>
+
+          <article class="service-card" data-service="kids">
+            <div class="service-icon">★</div>
+            <h3 data-i18n="serviceKids">Kids & Teachers Zone</h3>
+            <p data-i18n="serviceKidsText">Create fun, safe, age-appropriate quizzes and learning games.</p>
+          </article>
+
         </div>
       </div>
     </section>
 
-    <section id="studio">
+    <section class="studio-section" id="studio">
       <div class="container">
+
+        <div class="section-heading">
+          <h2 data-i18n="studioPageTitle">StudyVex Studio</h2>
+          <p data-i18n="studioPageText">Choose a service, add your idea or source, then preview the result.</p>
+        </div>
+
         <div class="studio">
 
-          <aside class="steps">
-            <h3 data-en="Study Studio" data-ar="استوديو الدراسة">Study Studio</h3>
+          <aside class="studio-side">
+            <h3 data-i18n="sideTitle">Your learning flow</h3>
+            <p data-i18n="sideText">Simple from the first idea to a ready-to-use study result.</p>
 
-            <p data-en="From raw material to a result ready to study or present."
-               data-ar="من محتوى خام إلى نتيجة جاهزة للمذاكرة أو العرض.">
-              From raw material to a result ready to study or present.
-            </p>
+            <div class="step active">
+              <span>1</span>
+              <span data-i18n="stepOne">Choose a service</span>
+            </div>
 
-            <div class="step active"><strong>1</strong><span data-en="Choose the service" data-ar="اختر الخدمة">Choose the service</span></div>
-            <div class="step"><strong>2</strong><span data-en="Add your source" data-ar="أضف المصدر">Add your source</span></div>
-            <div class="step"><strong>3</strong><span data-en="Receive your result" data-ar="استلم النتيجة">Receive your result</span></div>
+            <div class="step">
+              <span>2</span>
+              <span data-i18n="stepTwo">Add a topic or source</span>
+            </div>
+
+            <div class="step">
+              <span>3</span>
+              <span data-i18n="stepThree">Generate your result</span>
+            </div>
           </aside>
 
-          <div>
-            <div class="studio-heading">
-              <h2 id="formTitle">Book & Chapter Summary</h2>
-              <span class="free-badge" data-en="Free and ad-supported" data-ar="مجاني ومدعوم بالإعلانات">
-                Free and ad-supported
-              </span>
+          <div class="studio-main">
+
+            <div class="studio-top">
+              <h2 id="studioTitle">Presentation Studio</h2>
+              <span class="demo-status" data-i18n="demoStatus">Preview mode — no API needed</span>
+            </div>
+
+            <div class="source-tabs" id="sourceTabs">
+              <button class="source-tab active" data-source="topic" data-i18n="sourceTopic">Topic</button>
+              <button class="source-tab" data-source="text" data-i18n="sourceText">Text / Notes</button>
+              <button class="source-tab" data-source="link" data-i18n="sourceLink">Website Link</button>
+              <button class="source-tab" data-source="book" data-i18n="sourceBook">Book / PDF</button>
             </div>
 
             <div class="form-grid">
               <div class="field">
-                <label data-en="Book name or topic" data-ar="اسم الكتاب أو الموضوع">Book name or topic</label>
-                <input id="bookName" placeholder="Example: Principles of Marketing">
-              </div>
-
-              <div class="field" id="chapterField">
-                <label data-en="Chapter or unit" data-ar="الفصل أو الباب">Chapter or unit</label>
-                <input id="chapter" placeholder="Example: Chapter 3">
-              </div>
-
-              <div class="field" id="pagesField">
-                <label data-en="Page range" data-ar="نطاق الصفحات">Page range</label>
-                <div class="page-range">
-                  <input id="fromPage" type="number" min="1" placeholder="From page 15">
-                  <input id="toPage" type="number" min="1" placeholder="To page 20">
-                </div>
+                <label id="mainLabel" data-i18n="mainLabel">Presentation topic</label>
+                <input id="mainInput" placeholder="Example: The impact of social media on education">
               </div>
 
               <div class="field">
-                <label data-en="Result type" data-ar="نوع النتيجة">Result type</label>
+                <label id="levelLabel" data-i18n="levelLabel">Level or audience</label>
+                <input id="levelInput" placeholder="Example: University students">
+              </div>
 
-                <div class="options">
-                  <button class="option selected" data-output="summary">Summary</button>
-                  <button class="option" data-output="quiz">Quiz</button>
-                  <button class="option" data-output="flashcards">Flashcards</button>
-                  <button class="option" data-output="voice">Voice Summary</button>
-                </div>
+              <div class="field full" id="textField">
+                <label id="textLabel" data-i18n="textLabel">Extra information or instructions</label>
+                <textarea id="textInput" placeholder="Tell StudyVex what you need, paste notes, or add useful details..."></textarea>
+              </div>
+
+              <div class="upload-box" id="uploadField">
+                <input id="fileInput" type="file" accept=".pdf,.doc,.docx,.txt">
+                <label for="fileInput" data-i18n="uploadLabel">Click to select a PDF, Word document, or text file</label>
+                <div id="fileName" style="margin-top:6px;"></div>
               </div>
 
               <div class="field full">
-                <label id="sourceLabel" data-en="Add content, notes, or a source link" data-ar="أضف المحتوى أو الملاحظات أو رابط المصدر">
-                  Add content, notes, or a source link
-                </label>
-
-                <textarea id="sourceText" placeholder="Paste a chapter, lecture notes, website link, or instructions here..."></textarea>
+                <label data-i18n="outputLabel">What would you like StudyVex to create?</label>
+                <div class="output-tabs" id="outputTabs"></div>
               </div>
             </div>
 
-            <button class="primary-btn generate-btn" id="generateBtn">
-              Create my result
+            <button class="main-btn generate-btn" id="generateButton" data-i18n="generate">
+              Generate preview
             </button>
 
-            <div class="ad-space">
-              Future advertisement space — Ads keep the essential tools free.
+            <div class="ad-note" data-i18n="adNote">
+              Future ad space — advertising will help keep core student tools free.
             </div>
 
             <div class="result" id="result">
-              <div class="result-head">
-                <h3 id="resultTitle">Your Result</h3>
-                <button class="copy-btn" id="copyBtn">Copy result</button>
+              <div class="result-header">
+                <h3 id="resultTitle">Your preview</h3>
+                <button class="copy-btn" id="copyButton" data-i18n="copy">Copy result</button>
               </div>
 
-              <div class="result-box" id="resultText"></div>
+              <div class="result-body" id="resultBody"></div>
             </div>
+
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="why" id="why">
+      <div class="container">
+        <div class="section-heading">
+          <h2 data-i18n="whyTitle">Designed to make studying feel lighter</h2>
+          <p data-i18n="whyText">One calm, focused place for every study task — in the language students prefer.</p>
+        </div>
+
+        <div class="why-grid">
+          <article class="why-card">
+            <div class="why-icon">◈</div>
+            <h3 data-i18n="whyOneTitle">Different ways to learn</h3>
+            <p data-i18n="whyOneText">Read a summary, test yourself, use flashcards, watch a video, or listen to a narration.</p>
+          </article>
+
+          <article class="why-card">
+            <div class="why-icon">◇</div>
+            <h3 data-i18n="whyTwoTitle">Made for real study life</h3>
+            <p data-i18n="whyTwoText">Useful for a quick question, exam revision, class projects, or teaching younger learners.</p>
+          </article>
+
+          <article class="why-card">
+            <div class="why-icon">↗</div>
+            <h3 data-i18n="whyThreeTitle">Built to grow with you</h3>
+            <p data-i18n="whyThreeText">Start free with ads, then add premium features and app support when the platform grows.</p>
+          </article>
         </div>
       </div>
     </section>
@@ -792,13 +1116,10 @@
   </main>
 
   <footer>
-    <div class="container footer-content">
+    <div class="container footer-inner">
       <div>
-        <strong>Study<span>Vex</span></strong>
-        <div data-en="Smart study tools for ambitious students."
-             data-ar="أدوات دراسة ذكية للطلاب الطموحين.">
-          Smart study tools for ambitious students.
-        </div>
+        <div class="footer-brand">Study<span>Vex</span></div>
+        <div data-i18n="footerText">AI study tools for curious learners.</div>
       </div>
 
       <span>© 2026 StudyVex</span>
@@ -806,160 +1127,575 @@
   </footer>
 
   <script>
-    let currentLanguage = "en";
-    let selectedMode = "book";
-    let selectedOutput = "summary";
+    let language = "en";
+    let activeService = "presentation";
+    let activeSource = "topic";
+    let activeOutput = "slides";
 
-    const serviceCards = document.querySelectorAll(".service-card");
-    const outputButtons = document.querySelectorAll(".option");
+    const translations = {
+      en: {
+        topbar: "Free learning tools supported by ads — ",
+        topbarStrong: "premium options can come later.",
+        navServices: "Services",
+        navStudio: "Study Studio",
+        navWhy: "Why StudyVex?",
+        navStart: "Start now",
+        eyebrow: "Your all-in-one AI learning space",
+        heroFirst: "Study smarter.",
+        heroSecond: "Create, learn, and grow.",
+        heroText: "One place for presentations, quizzes, flashcards, student questions, kid-friendly learning activities, and useful video explanations.",
+        heroCTA: "Explore StudyVex",
+        heroSecondary: "See all services",
+        previewLabel: "Presentation created from a topic",
+        previewTitle: "The Future of Renewable Energy",
+        previewSlides: "10 Slides",
+        previewSlidesText: "Ready to present",
+        previewCards: "16 Flashcards",
+        previewCardsText: "Ready to revise",
+        trustOne: "Built for students, teachers, and parents",
+        trustTwo: "English & Arabic learning support",
+        trustThree: "One platform, six smart services",
+        servicesTitle: "Everything a student needs in one place",
+        servicesText: "Pick a service below. Each one has its own focused experience, rather than forcing every task into one confusing box.",
+        servicePresentation: "Presentation Studio",
+        servicePresentationText: "Build a complete presentation from a topic, book, website, or notes.",
+        serviceStudy: "Study Builder",
+        serviceStudyText: "Turn text, websites, books, or topics into summaries, quizzes, and flashcards.",
+        serviceChat: "Ask StudyVex",
+        serviceChatText: "Ask a question naturally and get a clear student-friendly answer.",
+        serviceYoutube: "Learn with YouTube",
+        serviceYoutubeText: "Get an answer plus a useful video search for the same topic.",
+        servicePowerpoint: "PowerPoint Creator",
+        servicePowerpointText: "Create a polished slide plan and narration script from scratch.",
+        serviceKids: "Kids & Teachers Zone",
+        serviceKidsText: "Create fun, safe, age-appropriate quizzes and learning games.",
+        studioPageTitle: "StudyVex Studio",
+        studioPageText: "Choose a service, add your idea or source, then preview the result.",
+        sideTitle: "Your learning flow",
+        sideText: "Simple from the first idea to a ready-to-use study result.",
+        stepOne: "Choose a service",
+        stepTwo: "Add a topic or source",
+        stepThree: "Generate your result",
+        demoStatus: "Preview mode — no API needed",
+        sourceTopic: "Topic",
+        sourceText: "Text / Notes",
+        sourceLink: "Website Link",
+        sourceBook: "Book / PDF",
+        mainLabel: "Presentation topic",
+        levelLabel: "Level or audience",
+        textLabel: "Extra information or instructions",
+        uploadLabel: "Click to select a PDF, Word document, or text file",
+        outputLabel: "What would you like StudyVex to create?",
+        generate: "Generate preview",
+        adNote: "Future ad space — advertising will help keep core student tools free.",
+        copy: "Copy result",
+        whyTitle: "Designed to make studying feel lighter",
+        whyText: "One calm, focused place for every study task — in the language students prefer.",
+        whyOneTitle: "Different ways to learn",
+        whyOneText: "Read a summary, test yourself, use flashcards, watch a video, or listen to a narration.",
+        whyTwoTitle: "Made for real study life",
+        whyTwoText: "Useful for a quick question, exam revision, class projects, or teaching younger learners.",
+        whyThreeTitle: "Built to grow with you",
+        whyThreeText: "Start free with ads, then add premium features and app support when the platform grows.",
+        footerText: "AI study tools for curious learners."
+      },
 
-    const modes = {
-      book: {
-        en: "Book & Chapter Summary",
-        ar: "تلخيص كتاب أو فصل"
-      },
-      pages: {
-        en: "Pages to Quiz & Flashcards",
-        ar: "صفحات إلى Quiz وFlashcards"
-      },
-      presentation: {
-        en: "Presentation Builder",
-        ar: "صانع العروض التقديمية"
-      },
-      summary: {
-        en: "Quick Summary",
-        ar: "تلخيص سريع"
+      ar: {
+        topbar: "أدوات تعليمية مجانية مدعومة بالإعلانات — ",
+        topbarStrong: "ويمكن إضافة الاشتراكات المميزة لاحقًا.",
+        navServices: "الخدمات",
+        navStudio: "استوديو الدراسة",
+        navWhy: "لماذا StudyVex؟",
+        navStart: "ابدأ الآن",
+        eyebrow: "مساحتك المتكاملة للتعلّم بالذكاء الاصطناعي",
+        heroFirst: "ادرس بذكاء.",
+        heroSecond: "أنشئ، تعلّم، وتطور.",
+        heroText: "مكان واحد للعروض التقديمية والاختبارات والفلاش كاردز وأسئلة الطلاب والأنشطة التعليمية للأطفال وفيديوهات الشرح المفيدة.",
+        heroCTA: "اكتشف StudyVex",
+        heroSecondary: "شاهد كل الخدمات",
+        previewLabel: "عرض تم إنشاؤه من موضوع",
+        previewTitle: "مستقبل الطاقة المتجددة",
+        previewSlides: "10 شرائح",
+        previewSlidesText: "جاهز للعرض",
+        previewCards: "16 بطاقة",
+        previewCardsText: "جاهزة للمراجعة",
+        trustOne: "مصمم للطلاب والمعلمين وأولياء الأمور",
+        trustTwo: "دعم تعليمي بالعربية والإنجليزية",
+        trustThree: "منصة واحدة، ست خدمات ذكية",
+        servicesTitle: "كل ما يحتاجه الطالب في مكان واحد",
+        servicesText: "اختر خدمة من الأسفل. لكل خدمة تجربة خاصة وواضحة بدل وضع كل المهام داخل مربع واحد مربك.",
+        servicePresentation: "استوديو العروض",
+        servicePresentationText: "أنشئ عرضًا كاملًا من موضوع أو كتاب أو موقع أو ملاحظات.",
+        serviceStudy: "صانع المذاكرة",
+        serviceStudyText: "حوّل النصوص والمواقع والكتب والمواضيع إلى ملخصات واختبارات وفلاش كاردز.",
+        serviceChat: "اسأل StudyVex",
+        serviceChatText: "اسأل أي سؤال بطريقة طبيعية واحصل على إجابة واضحة ومناسبة للطالب.",
+        serviceYoutube: "تعلّم مع YouTube",
+        serviceYoutubeText: "احصل على إجابة مع بحث فيديو مفيد لنفس الموضوع.",
+        servicePowerpoint: "صانع PowerPoint",
+        servicePowerpointText: "أنشئ خطة شرائح احترافية ونصًا للتعليق الصوتي من الصفر.",
+        serviceKids: "منطقة الأطفال والمعلمين",
+        serviceKidsText: "أنشئ اختبارات وألعابًا تعليمية ممتعة وآمنة تناسب العمر.",
+        studioPageTitle: "استوديو StudyVex",
+        studioPageText: "اختر الخدمة، أضف فكرتك أو مصدرك، ثم شاهد النتيجة التجريبية.",
+        sideTitle: "خطواتك التعليمية",
+        sideText: "من الفكرة الأولى إلى نتيجة جاهزة للمذاكرة أو العرض.",
+        stepOne: "اختر الخدمة",
+        stepTwo: "أضف الموضوع أو المصدر",
+        stepThree: "أنشئ النتيجة",
+        demoStatus: "وضع معاينة — لا يحتاج API",
+        sourceTopic: "موضوع",
+        sourceText: "نص / ملاحظات",
+        sourceLink: "رابط موقع",
+        sourceBook: "كتاب / PDF",
+        mainLabel: "موضوع العرض",
+        levelLabel: "المستوى أو الجمهور",
+        textLabel: "معلومات أو تعليمات إضافية",
+        uploadLabel: "اضغط لاختيار ملف PDF أو Word أو نص",
+        outputLabel: "ماذا تريد من StudyVex أن ينشئ؟",
+        generate: "إنشاء معاينة",
+        adNote: "مساحة إعلانية مستقبلية — الإعلانات تساعد في إبقاء الأدوات الأساسية مجانية.",
+        copy: "نسخ النتيجة",
+        whyTitle: "مصمم لجعل الدراسة أسهل",
+        whyText: "مكان هادئ ومنظم لكل مهمة دراسية، وباللغة التي يفضلها الطالب.",
+        whyOneTitle: "طرق مختلفة للتعلم",
+        whyOneText: "اقرأ ملخصًا أو اختبر نفسك أو استخدم فلاش كاردز أو شاهد فيديو أو استمع إلى شرح.",
+        whyTwoTitle: "مصمم للدراسة الحقيقية",
+        whyTwoText: "مفيد للأسئلة السريعة ومراجعة الاختبارات ومشاريع الصف وتعليم الأطفال.",
+        whyThreeTitle: "منصة تنمو معك",
+        whyThreeText: "ابدأ مجانًا بالإعلانات ثم أضف ميزات مميزة ودعم التطبيق عندما تكبر المنصة.",
+        footerText: "أدوات دراسة ذكية للمتعلمين الفضوليين."
       }
     };
 
-    function updateLanguage() {
-      const isArabic = currentLanguage === "ar";
+    const services = {
+      presentation: {
+        en: {
+          title: "Presentation Studio",
+          mainLabel: "Presentation topic",
+          mainPlaceholder: "Example: The impact of social media on education",
+          levelLabel: "Level or audience",
+          levelPlaceholder: "Example: University students",
+          textLabel: "Extra information or instructions",
+          textPlaceholder: "Add important points, a website link, book details, or style preferences...",
+          outputs: [
+            ["slides", "Full slide plan"],
+            ["outline", "Presentation outline"],
+            ["narration", "Narration script"]
+          ]
+        },
+        ar: {
+          title: "استوديو العروض",
+          mainLabel: "موضوع العرض",
+          mainPlaceholder: "مثال: تأثير وسائل التواصل الاجتماعي على التعليم",
+          levelLabel: "المستوى أو الجمهور",
+          levelPlaceholder: "مثال: طلاب الجامعة",
+          textLabel: "معلومات أو تعليمات إضافية",
+          textPlaceholder: "أضف النقاط المهمة أو رابط موقع أو تفاصيل كتاب أو أسلوب العرض...",
+          outputs: [
+            ["slides", "خطة شرائح كاملة"],
+            ["outline", "مخطط العرض"],
+            ["narration", "نص للتعليق الصوتي"]
+          ]
+        }
+      },
+
+      study: {
+        en: {
+          title: "Study Builder",
+          mainLabel: "Topic, book, or chapter",
+          mainPlaceholder: "Example: Cell division — Chapter 4",
+          levelLabel: "Study level",
+          levelPlaceholder: "Example: High school biology",
+          textLabel: "Paste notes, an article, or instructions",
+          textPlaceholder: "Paste content here, or describe exactly what you want to study...",
+          outputs: [
+            ["summary", "Summary"],
+            ["quiz", "Quiz"],
+            ["flashcards", "Flashcards"]
+          ]
+        },
+        ar: {
+          title: "صانع المذاكرة",
+          mainLabel: "الموضوع أو الكتاب أو الفصل",
+          mainPlaceholder: "مثال: انقسام الخلية — الفصل الرابع",
+          levelLabel: "المستوى الدراسي",
+          levelPlaceholder: "مثال: أحياء للمرحلة الثانوية",
+          textLabel: "ألصق الملاحظات أو المقال أو التعليمات",
+          textPlaceholder: "ألصق المحتوى هنا أو اشرح ما الذي تريد مذاكرته...",
+          outputs: [
+            ["summary", "ملخص"],
+            ["quiz", "اختبار"],
+            ["flashcards", "فلاش كاردز"]
+          ]
+        }
+      },
+
+      chat: {
+        en: {
+          title: "Ask StudyVex",
+          mainLabel: "Your question",
+          mainPlaceholder: "Example: Why does photosynthesis need sunlight?",
+          levelLabel: "Your study level",
+          levelPlaceholder: "Example: Grade 9",
+          textLabel: "Optional context",
+          textPlaceholder: "Add your attempt, equation, or more details...",
+          outputs: [["answer", "Clear answer"]]
+        },
+        ar: {
+          title: "اسأل StudyVex",
+          mainLabel: "سؤالك",
+          mainPlaceholder: "مثال: لماذا تحتاج عملية البناء الضوئي إلى ضوء الشمس؟",
+          levelLabel: "مستواك الدراسي",
+          levelPlaceholder: "مثال: الصف التاسع",
+          textLabel: "سياق إضافي اختياري",
+          textPlaceholder: "أضف محاولتك أو معادلة أو تفاصيل أكثر...",
+          outputs: [["answer", "إجابة واضحة"]]
+        }
+      },
+
+      youtube: {
+        en: {
+          title: "Learn with YouTube",
+          mainLabel: "Question or learning topic",
+          mainPlaceholder: "Example: How to solve quadratic equations",
+          levelLabel: "Study level",
+          levelPlaceholder: "Example: Middle school",
+          textLabel: "What do you find difficult?",
+          textPlaceholder: "Explain which part you need help with...",
+          outputs: [["video", "Answer + video guide"]]
+        },
+        ar: {
+          title: "تعلّم مع YouTube",
+          mainLabel: "السؤال أو الموضوع",
+          mainPlaceholder: "مثال: كيف أحل المعادلات التربيعية؟",
+          levelLabel: "المستوى الدراسي",
+          levelPlaceholder: "مثال: المرحلة المتوسطة",
+          textLabel: "ما الجزء الذي تجده صعبًا؟",
+          textPlaceholder: "اشرح الجزء الذي تحتاج المساعدة فيه...",
+          outputs: [["video", "إجابة + دليل فيديو"]]
+        }
+      },
+
+      powerpoint: {
+        en: {
+          title: "PowerPoint Creator",
+          mainLabel: "PowerPoint topic",
+          mainPlaceholder: "Example: Cybersecurity for small businesses",
+          levelLabel: "Audience",
+          levelPlaceholder: "Example: Business class",
+          textLabel: "Presentation instructions",
+          textPlaceholder: "Add slide count, tone, required points, or visual style...",
+          outputs: [
+            ["deck", "PowerPoint deck"],
+            ["speaker", "Speaker notes"],
+            ["audio", "Narration script"]
+          ]
+        },
+        ar: {
+          title: "صانع PowerPoint",
+          mainLabel: "موضوع PowerPoint",
+          mainPlaceholder: "مثال: الأمن السيبراني للشركات الصغيرة",
+          levelLabel: "الجمهور",
+          levelPlaceholder: "مثال: طلاب إدارة الأعمال",
+          textLabel: "تعليمات العرض",
+          textPlaceholder: "أضف عدد الشرائح أو الأسلوب أو النقاط المطلوبة أو شكل التصميم...",
+          outputs: [
+            ["deck", "عرض PowerPoint"],
+            ["speaker", "ملاحظات المتحدث"],
+            ["audio", "نص للتعليق الصوتي"]
+          ]
+        }
+      },
+
+      kids: {
+        en: {
+          title: "Kids & Teachers Zone",
+          mainLabel: "Learning topic",
+          mainPlaceholder: "Example: Multiplication for age 7",
+          levelLabel: "Age group",
+          levelPlaceholder: "Example: 7–8 years old",
+          textLabel: "Fun learning instructions",
+          textPlaceholder: "Example: Make it colorful, easy, and include a short reward at the end...",
+          outputs: [
+            ["kidsquiz", "Fun quiz"],
+            ["game", "Learning game"],
+            ["lesson", "Mini lesson"]
+          ]
+        },
+        ar: {
+          title: "منطقة الأطفال والمعلمين",
+          mainLabel: "موضوع التعلّم",
+          mainPlaceholder: "مثال: الضرب لعمر 7 سنوات",
+          levelLabel: "الفئة العمرية",
+          levelPlaceholder: "مثال: من 7 إلى 8 سنوات",
+          textLabel: "تعليمات للنشاط الممتع",
+          textPlaceholder: "مثال: اجعله ملوّنًا وسهلًا وأضف مكافأة قصيرة في النهاية...",
+          outputs: [
+            ["kidsquiz", "اختبار ممتع"],
+            ["game", "لعبة تعليمية"],
+            ["lesson", "درس صغير"]
+          ]
+        }
+      }
+    };
+
+    const $ = id => document.getElementById(id);
+
+    function applyLanguage() {
+      const isArabic = language === "ar";
 
       document.documentElement.lang = isArabic ? "ar" : "en";
       document.documentElement.dir = isArabic ? "rtl" : "ltr";
 
-      document.querySelectorAll("[data-en]").forEach(el => {
-        el.textContent = isArabic ? el.dataset.ar : el.dataset.en;
+      document.querySelectorAll("[data-i18n]").forEach(element => {
+        const key = element.dataset.i18n;
+        if (translations[language][key]) {
+          element.textContent = translations[language][key];
+        }
       });
 
-      document.getElementById("languageBtn").textContent =
-        isArabic ? "English" : "العربية";
+      $("languageButton").textContent = isArabic ? "English" : "العربية";
 
-      document.getElementById("formTitle").textContent =
-        modes[selectedMode][currentLanguage];
-
-      document.getElementById("generateBtn").textContent =
-        isArabic ? "أنشئ النتيجة الآن" : "Create my result";
-
-      document.getElementById("resultTitle").textContent =
-        isArabic ? "نتيجتك" : "Your Result";
-
-      document.getElementById("copyBtn").textContent =
-        isArabic ? "نسخ النتيجة" : "Copy result";
+      selectService(activeService, false);
     }
 
-    document.getElementById("languageBtn").addEventListener("click", () => {
-      currentLanguage = currentLanguage === "en" ? "ar" : "en";
-      updateLanguage();
-    });
+    function selectService(service, scrollToStudio = true) {
+      activeService = service;
 
-    serviceCards.forEach(card => {
-      card.addEventListener("click", () => {
-        selectedMode = card.dataset.mode;
+      document.querySelectorAll(".service-card").forEach(card => {
+        card.classList.toggle("active", card.dataset.service === service);
+      });
 
-        serviceCards.forEach(item => item.classList.remove("active"));
-        card.classList.add("active");
+      const config = services[service][language];
 
-        document.getElementById("formTitle").textContent =
-          modes[selectedMode][currentLanguage];
+      $("studioTitle").textContent = config.title;
+      $("mainLabel").textContent = config.mainLabel;
+      $("mainInput").placeholder = config.mainPlaceholder;
+      $("levelLabel").textContent = config.levelLabel;
+      $("levelInput").placeholder = config.levelPlaceholder;
+      $("textLabel").textContent = config.textLabel;
+      $("textInput").placeholder = config.textPlaceholder;
 
-        document.getElementById("studio").scrollIntoView({
-          behavior: "smooth",
-          block: "center"
+      const tabs = $("outputTabs");
+      tabs.innerHTML = "";
+
+      config.outputs.forEach((item, index) => {
+        const button = document.createElement("button");
+        button.className = "output-tab" + (index === 0 ? " active" : "");
+        button.dataset.output = item[0];
+        button.textContent = item[1];
+
+        button.addEventListener("click", () => {
+          activeOutput = item[0];
+
+          document.querySelectorAll(".output-tab").forEach(tab => {
+            tab.classList.remove("active");
+          });
+
+          button.classList.add("active");
         });
+
+        tabs.appendChild(button);
       });
-    });
 
-    outputButtons.forEach(button => {
-      button.addEventListener("click", () => {
-        selectedOutput = button.dataset.output;
+      activeOutput = config.outputs[0][0];
 
-        outputButtons.forEach(item => item.classList.remove("selected"));
-        button.classList.add("selected");
-      });
-    });
+      if (scrollToStudio) {
+        $("studio").scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }
+    }
 
-    document.getElementById("generateBtn").addEventListener("click", async () => {
-      const text = document.getElementById("sourceText").value.trim();
-      const book = document.getElementById("bookName").value.trim();
+    function escapeHTML(value) {
+      const div = document.createElement("div");
+      div.textContent = value;
+      return div.innerHTML;
+    }
 
-      if (!text && !book) {
-        alert(currentLanguage === "ar"
-          ? "أضف اسم الكتاب أو المحتوى أولًا."
-          : "Please add a book name or content first.");
-        return;
+    function getDemoResult(topic) {
+      const safeTopic = escapeHTML(topic || (
+        language === "ar" ? "موضوعك الدراسي" : "your study topic"
+      ));
+
+      if (activeService === "presentation" || activeService === "powerpoint") {
+        return `
+          <h4>${language === "ar" ? "معاينة العرض التقديمي" : "Presentation Preview"}: ${safeTopic}</h4>
+          <p>${language === "ar"
+            ? "هذه معاينة لتجربة شكل النتيجة. عند ربط الـ API ستحصل على محتوى كامل وصور مقترحة لكل شريحة."
+            : "This is a preview of the final experience. Once the API is connected, every slide will contain complete content and image suggestions."}</p>
+
+          <div class="slide-list">
+            <div class="slide"><span class="slide-number">1</span><span>${language === "ar" ? "عنوان العرض ومقدمة جذابة" : "Title slide and engaging introduction"}</span></div>
+            <div class="slide"><span class="slide-number">2</span><span>${language === "ar" ? "المفهوم الأساسي ولماذا يهم" : "Core concept and why it matters"}</span></div>
+            <div class="slide"><span class="slide-number">3</span><span>${language === "ar" ? "أهم الأفكار مع شرح وصورة مقترحة" : "Key ideas with explanation and suggested visual"}</span></div>
+            <div class="slide"><span class="slide-number">4</span><span>${language === "ar" ? "أمثلة واقعية أو دراسة حالة" : "Real-world examples or case study"}</span></div>
+            <div class="slide"><span class="slide-number">5</span><span>${language === "ar" ? "الخلاصة والنقاط النهائية" : "Conclusion and key takeaways"}</span></div>
+          </div>
+        `;
       }
 
-      const button = document.getElementById("generateBtn");
-      const result = document.getElementById("result");
-      const resultText = document.getElementById("resultText");
-
-      button.disabled = true;
-      button.textContent = currentLanguage === "ar"
-        ? "جارٍ تجهيز النتيجة..."
-        : "Creating your result...";
-
-      result.classList.add("show");
-      resultText.textContent = currentLanguage === "ar"
-        ? "StudyVex يعمل على المحتوى..."
-        : "StudyVex is working on your content...";
-
-      try {
-        const response = await fetch("/api/generate", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            text,
-            book,
-            chapter: document.getElementById("chapter").value.trim(),
-            fromPage: document.getElementById("fromPage").value,
-            toPage: document.getElementById("toPage").value,
-            mode: selectedMode,
-            task: selectedOutput,
-            language: currentLanguage
-          })
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.error || "Unable to generate the result.");
+      if (activeService === "study") {
+        if (activeOutput === "quiz") {
+          return `
+            <h4>${language === "ar" ? "اختبار تجريبي" : "Quiz Preview"}: ${safeTopic}</h4>
+            <p><strong>1.</strong> ${language === "ar" ? "ما الفكرة الأساسية التي يجب أن تتذكرها؟" : "What is the most important idea to remember?"}</p>
+            <ul>
+              <li>A. ${language === "ar" ? "خيار تجريبي أول" : "First sample option"}</li>
+              <li>B. ${language === "ar" ? "خيار تجريبي ثانٍ" : "Second sample option"}</li>
+              <li>C. ${language === "ar" ? "خيار تجريبي ثالث" : "Third sample option"}</li>
+            </ul>
+            <p><strong>${language === "ar" ? "الإجابة:" : "Answer:"}</strong> ${language === "ar" ? "ستظهر الإجابة والشرح عند ربط الذكاء الاصطناعي." : "The correct answer and explanation will appear when AI is connected."}</p>
+          `;
         }
 
-        resultText.textContent = data.result;
+        if (activeOutput === "flashcards") {
+          return `
+            <h4>${language === "ar" ? "فلاش كاردز تجريبية" : "Flashcards Preview"}: ${safeTopic}</h4>
+            <p><strong>${language === "ar" ? "سؤال:" : "Question:"}</strong> ${language === "ar" ? "ما أهم مفهوم يجب فهمه؟" : "What is the key concept to understand?"}</p>
+            <p><strong>${language === "ar" ? "إجابة:" : "Answer:"}</strong> ${language === "ar" ? "ستظهر إجابة قصيرة وواضحة مبنية على المصدر الذي يضيفه الطالب." : "A short, clear answer based on the student's source will appear here."}</p>
+          `;
+        }
 
-      } catch (error) {
-  resultText.textContent =
-    "Error: " + error.message;
-} finally {
-  button.disabled = false;
+        return `
+          <h4>${language === "ar" ? "ملخص تجريبي" : "Summary Preview"}: ${safeTopic}</h4>
+          <p>${language === "ar"
+            ? "سيحوّل StudyVex المحتوى إلى ملخص منظم بعناوين ونقاط رئيسية وتعريفات ومراجعة سريعة قبل الاختبار."
+            : "StudyVex will turn the material into a structured summary with headings, key points, definitions, and a quick revision section."}</p>
+          <ul>
+            <li>${language === "ar" ? "الفكرة الأساسية" : "Main concept"}</li>
+            <li>${language === "ar" ? "أهم المصطلحات" : "Important definitions"}</li>
+            <li>${language === "ar" ? "نقاط للمراجعة السريعة" : "Quick revision points"}</li>
+          </ul>
+        `;
+      }
 
-  button.textContent = currentLanguage === "ar"
-    ? "أنشئ النتيجة الآن"
-    : "Create my result";
-}
+      if (activeService === "chat") {
+        return `
+          <h4>${language === "ar" ? "إجابة StudyVex" : "StudyVex Answer"}</h4>
+          <p>${language === "ar"
+            ? "عند ربط الـ API، ستظهر هنا إجابة واضحة خطوة بخطوة مناسبة لمستوى الطالب، مع أمثلة عند الحاجة."
+            : "Once the API is connected, a clear step-by-step answer will appear here, matched to the student's study level with examples when useful."}</p>
+          <p><strong>${language === "ar" ? "نصيحة:" : "Tip:"}</strong> ${language === "ar"
+            ? "أضف محاولتك أو الجزء الذي لم تفهمه لتحصل على إجابة أدق."
+            : "Add your own attempt or the part you find confusing for a more precise answer."}</p>
+        `;
+      }
+
+      if (activeService === "youtube") {
+        const query = encodeURIComponent(topic || "study explanation");
+        return `
+          <h4>${language === "ar" ? "دليل التعلّم بالفيديو" : "Video Learning Guide"}</h4>
+          <p>${language === "ar"
+            ? "سيشرح StudyVex الفكرة أولًا، ثم يبحث عن فيديو تعليمي عام مناسب لنفس الموضوع."
+            : "StudyVex will explain the idea first, then find a relevant public educational video for the same topic."}</p>
+          <a class="youtube-link" target="_blank" rel="noopener noreferrer"
+             href="https://www.youtube.com/results?search_query=${query}">
+             ▶ ${language === "ar" ? "ابحث عن فيديوهات تعليمية في YouTube" : "Search educational videos on YouTube"}
+          </a>
+        `;
+      }
+
+      return `
+        <h4>${language === "ar" ? "نشاط تعليمي تجريبي" : "Learning Activity Preview"}: ${safeTopic}</h4>
+        <p>${language === "ar"
+          ? "سيتم إنشاء نشاط ممتع يناسب العمر المحدد، مع أسئلة بسيطة ومكافأة إيجابية في النهاية."
+          : "A fun age-appropriate activity will be created with simple questions and positive encouragement at the end."}</p>
+        <ul>
+          <li>${language === "ar" ? "سؤال تفاعلي قصير" : "Short interactive question"}</li>
+          <li>${language === "ar" ? "لعبة أو تحدٍ بسيط" : "Simple learning game or challenge"}</li>
+          <li>${language === "ar" ? "نجمة مكافأة عند الإكمال" : "Reward star when completed"}</li>
+        </ul>
+      `;
+    }
+
+    document.querySelectorAll(".service-card").forEach(card => {
+      card.addEventListener("click", () => {
+        selectService(card.dataset.service);
+      });
     });
 
-    document.getElementById("copyBtn").addEventListener("click", async () => {
-      await navigator.clipboard.writeText(
-        document.getElementById("resultText").innerText
-      );
+    document.querySelectorAll(".source-tab").forEach(tab => {
+      tab.addEventListener("click", () => {
+        activeSource = tab.dataset.source;
 
-      document.getElementById("copyBtn").textContent =
-        currentLanguage === "ar" ? "تم النسخ ✓" : "Copied ✓";
+        document.querySelectorAll(".source-tab").forEach(button => {
+          button.classList.remove("active");
+        });
+
+        tab.classList.add("active");
+
+        const placeholders = {
+          en: {
+            topic: "Example: The impact of social media on education",
+            text: "Paste your notes, paragraph, or instructions...",
+            link: "Paste a website link here",
+            book: "Example: Biology Grade 10 — Chapter 4"
+          },
+          ar: {
+            topic: "مثال: تأثير وسائل التواصل الاجتماعي على التعليم",
+            text: "ألصق ملاحظاتك أو الفقرة أو التعليمات...",
+            link: "ألصق رابط الموقع هنا",
+            book: "مثال: أحياء الصف العاشر — الفصل الرابع"
+          }
+        };
+
+        $("mainInput").placeholder = placeholders[language][activeSource];
+      });
     });
+
+    $("languageButton").addEventListener("click", () => {
+      language = language === "en" ? "ar" : "en";
+      applyLanguage();
+    });
+
+    $("fileInput").addEventListener("change", event => {
+      const file = event.target.files[0];
+
+      $("fileName").textContent = file
+        ? `${language === "ar" ? "تم اختيار:" : "Selected:"} ${file.name}`
+        : "";
+    });
+
+    $("generateButton").addEventListener("click", () => {
+      const topic = $("mainInput").value.trim();
+
+      $("resultTitle").textContent = language === "ar"
+        ? "نتيجتك التجريبية"
+        : "Your Preview Result";
+
+      $("resultBody").innerHTML = getDemoResult(topic);
+      $("result").classList.add("show");
+
+      $("result").scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+      });
+    });
+
+    $("copyButton").addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText($("resultBody").innerText);
+
+        $("copyButton").textContent = language === "ar"
+          ? "تم النسخ ✓"
+          : "Copied ✓";
+
+        setTimeout(() => {
+          $("copyButton").textContent = language === "ar"
+            ? "نسخ النتيجة"
+            : "Copy result";
+        }, 1500);
+      } catch {
+        alert(language === "ar"
+          ? "تعذر نسخ النتيجة."
+          : "Unable to copy the result.");
+      }
+    });
+
+    applyLanguage();
   </script>
 
 </body>
