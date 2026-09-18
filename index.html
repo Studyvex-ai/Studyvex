@@ -1,737 +1,154 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>StudyVex — AI Learning Studio</title>
 
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap");
 
-    :root {
-      --navy: #11213d;
-      --violet: #7055f6;
-      --mint: #47d6b7;
-      --paper: #f6f8fc;
-      --muted: #68758d;
-      --line: #e4e9f4;
-      --shadow: 0 22px 55px rgba(24,45,79,.11);
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      background: var(--paper);
-      color: #172238;
-      font-family: "DM Sans", Arial, sans-serif;
-      line-height: 1.65;
-    }
-
-    [dir="rtl"] body,
-    [dir="rtl"] input,
-    [dir="rtl"] textarea,
-    [dir="rtl"] button {
-      font-family: Alexandria, Arial, sans-serif;
-    }
-
-    .container {
-      width: min(1180px, 92%);
-      margin: auto;
-    }
-
-    .topbar {
-      text-align: center;
-      padding: 9px;
-      background: #0b1931;
-      color: #cbd7ed;
-      font-size: 12px;
-    }
-
-    .topbar strong { color: #75e8cf; }
-
-    header {
-      height: 78px;
-      display: flex;
-      align-items: center;
-      background: rgba(255,255,255,.94);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--line);
-      position: sticky;
-      top: 0;
-      z-index: 30;
-    }
-
-    .nav {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-    }
-
-    .brand {
-      color: var(--navy);
-      text-decoration: none;
-      font-size: 24px;
-      font-weight: 800;
-    }
-
-    .brand span { color: var(--violet); }
-
-    .nav-links {
-      display: flex;
-      gap: 24px;
-    }
-
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    button,
-    .button {
-      border: 0;
-      border-radius: 11px;
-      font: inherit;
-      font-weight: 700;
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    .nav-actions {
-      display: flex;
-      gap: 8px;
-    }
-
-    .lang-btn {
-      background: #eeeaff;
-      color: #5b43cc;
-      padding: 9px 12px;
-      font-size: 12px;
-    }
-
-    .main-btn {
-      background: var(--violet);
-      color: white;
-      text-decoration: none;
-      padding: 11px 17px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      box-shadow: 0 9px 18px rgba(112,85,246,.2);
-    }
-
-    .main-btn:hover {
-      background: #5c43dd;
-      transform: translateY(-2px);
-    }
-
-    .hero {
-      padding: 82px 0 72px;
-      background: linear-gradient(135deg,#eef0ff,#fbfcff 53%,#effff9);
-      overflow: hidden;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.05fr .95fr;
-      align-items: center;
-      gap: 58px;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 7px 12px;
-      background: white;
-      border: 1px solid #ddd8ff;
-      border-radius: 999px;
-      color: #5c44d1;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .dot {
-      height: 8px;
-      width: 8px;
-      border-radius: 50%;
-      background: var(--mint);
-      box-shadow: 0 0 0 4px #d9fff5;
-    }
-
-    h1 {
-      margin: 17px 0;
-      color: var(--navy);
-      font-size: clamp(38px,5vw,64px);
-      line-height: 1.12;
-      letter-spacing: -2.5px;
-    }
-
-    h1 em {
-      color: var(--violet);
-      font-style: normal;
-    }
-
-    .hero p {
-      max-width: 610px;
-      color: var(--muted);
-      font-size: 16px;
-      margin: 0 0 25px;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .hero-actions .main-btn,
-    .outline-btn {
-      padding: 14px 20px;
-    }
-
-    .outline-btn {
-      background: white;
-      color: var(--navy);
-      border: 1px solid #dfe5f2;
-      text-decoration: none;
-      font-size: 13px;
-    }
-
-    .preview {
-      padding: 17px;
-      background: white;
-      border: 1px solid #e3e1ff;
-      border-radius: 25px;
-      box-shadow: var(--shadow);
-      transform: rotate(-2deg);
-    }
-
-    .preview-top {
-      display: flex;
-      justify-content: space-between;
-      color: var(--muted);
-      font-size: 11px;
-      padding-bottom: 13px;
-    }
-
-    .preview-main {
-      padding: 21px;
-      color: white;
-      border-radius: 16px;
-      background: linear-gradient(135deg,#172950,#55439f);
-    }
-
-    .preview-main small { color: #cbd1ff; }
-    .preview-main h3 { margin: 7px 0 14px; }
-
-    .line {
-      width: 100%;
-      height: 8px;
-      margin-top: 8px;
-      border-radius: 99px;
-      background: rgba(255,255,255,.2);
-    }
-
-    .line.medium { width: 82%; }
-    .line.short { width: 62%; }
-
-    .preview-bottom {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 11px;
-    }
-
-    .preview-box {
-      padding: 12px;
-      color: var(--muted);
-      background: #f6f7ff;
-      border-radius: 12px;
-      font-size: 11px;
-    }
-
-    .preview-box strong {
-      display: block;
-      color: var(--violet);
-      margin-bottom: 4px;
-    }
-
-    .trust {
-      padding: 18px 0;
-      background: white;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .trust-inner {
-      display: flex;
-      justify-content: center;
-      gap: 45px;
-      flex-wrap: wrap;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .trust-inner strong { color: var(--navy); }
-
-    section { padding: 80px 0; }
-
-    .heading {
-      max-width: 720px;
-      margin: 0 auto 37px;
-      text-align: center;
-    }
-
-    .heading h2 {
-      margin: 0 0 9px;
-      color: var(--navy);
-      font-size: 32px;
-      line-height: 1.3;
-    }
-
-    .heading p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .service-grid {
-      display: grid;
-      grid-template-columns: repeat(3,1fr);
-      gap: 15px;
-    }
-
-    .service {
-      min-height: 185px;
-      padding: 20px;
-      background: white;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    .service:hover,
-    .service.active {
-      border-color: #9c8dff;
-      box-shadow: 0 15px 32px rgba(77,59,174,.12);
-      transform: translateY(-4px);
-    }
-
-    .service.active { background: #fbfaff; }
-
-    .service-icon {
-      width: 42px;
-      height: 42px;
-      display: grid;
-      place-items: center;
-      border-radius: 12px;
-      color: #654be7;
-      background: #eeeaff;
-      font-size: 20px;
-    }
-
-    .service h3 {
-      margin: 14px 0 5px;
-      color: var(--navy);
-      font-size: 15px;
-    }
-
-    .service p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .studio-section {
-      background: linear-gradient(180deg,transparent,#eef1ff);
-    }
-
-    .studio {
-      display: grid;
-      grid-template-columns: 245px 1fr;
-      gap: 30px;
-      padding: 27px;
-      background: white;
-      border: 1px solid var(--line);
-      border-radius: 25px;
-      box-shadow: var(--shadow);
-    }
-
-    .side {
-      padding-right: 23px;
-      border-right: 1px solid var(--line);
-    }
-
-    [dir="rtl"] .side {
-      padding-right: 0;
-      padding-left: 23px;
-      border-right: 0;
-      border-left: 1px solid var(--line);
-    }
-
-    .side h3 {
-      margin: 0 0 6px;
-      font-size: 17px;
-    }
-
-    .side p {
-      margin: 0 0 18px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .step {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 16px 0;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .step b {
-      width: 26px;
-      height: 26px;
-      display: grid;
-      place-items: center;
-      flex: none;
-      color: var(--violet);
-      background: #eeeaff;
-      border-radius: 9px;
-    }
-
-    .step.active {
-      color: var(--navy);
-      font-weight: 700;
-    }
-
-    .step.active b {
-      color: white;
-      background: var(--violet);
-    }
-
-    .studio-top,
-    .result-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .studio-top {
-      margin-bottom: 18px;
-    }
-
-    .studio-top h2,
-    .result-head h3 {
-      margin: 0;
-      font-size: 21px;
-    }
-
-    .demo {
-      padding: 5px 8px;
-      color: #187d6c;
-      background: #effbf8;
-      border-radius: 8px;
-      font-size: 10px;
-      white-space: nowrap;
-    }
-
-    .tabs {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 17px;
-    }
-
-    .tab {
-      padding: 8px 11px;
-      color: var(--muted);
-      background: white;
-      border: 1px solid #dfe5f2;
-      border-radius: 9px;
-      font-size: 11px;
-    }
-
-    .tab.active {
-      color: var(--violet);
-      background: #f7f5ff;
-      border-color: var(--violet);
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-
-    .field {
-      display: grid;
-      gap: 7px;
-    }
-
-    .field.full { grid-column: 1 / -1; }
-
-    label {
-      color: var(--navy);
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    input,
-    textarea {
-      width: 100%;
-      padding: 12px;
-      color: #172238;
-      background: #fbfcff;
-      border: 1px solid #dce3f0;
-      border-radius: 11px;
-      outline: none;
-      font: inherit;
-      font-size: 13px;
-    }
-
-    textarea {
-      min-height: 130px;
-      resize: vertical;
-    }
-
-    input:focus,
-    textarea:focus {
-      border-color: var(--violet);
-      box-shadow: 0 0 0 3px #f0edff;
-    }
-
-    .upload {
-      grid-column: 1 / -1;
-      padding: 17px;
-      color: var(--muted);
-      background: #fafcff;
-      border: 1px dashed #bac7dd;
-      border-radius: 12px;
-      font-size: 12px;
-      text-align: center;
-    }
-
-    .upload input { display: none; }
-
-    .upload label {
-      color: var(--violet);
-      cursor: pointer;
-    }
-
-    .generate {
-      width: 100%;
-      margin-top: 17px;
-      padding: 14px;
-      font-size: 14px;
-    }
-
-    .ad-note {
-      margin-top: 16px;
-      padding: 9px;
-      color: #8692a7;
-      background: #fafcff;
-      border: 1px dashed #cbd5e7;
-      border-radius: 10px;
-      font-size: 10px;
-      text-align: center;
-    }
-
-    .result {
-      display: none;
-      margin-top: 22px;
-      padding-top: 21px;
-      border-top: 1px solid var(--line);
-    }
-
-    .result.show { display: block; }
-
-    .copy {
-      padding: 7px 10px;
-      color: var(--muted);
-      background: white;
-      border: 1px solid var(--line);
-      font-size: 11px;
-    }
-
-    .result-body {
-      margin-top: 12px;
-      padding: 18px;
-      color: #2f3d55;
-      background: #f8f9ff;
-      border-radius: 14px;
-      font-size: 13px;
-    }
-
-    .result-body h4 {
-      margin: 0 0 8px;
-      color: var(--navy);
-      font-size: 15px;
-    }
-
-    .result-body ul {
-      margin: 8px 0;
-      padding-inline-start: 20px;
-    }
-
-    .slides {
-      display: grid;
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-    .slide {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px;
-      background: white;
-      border: 1px solid #e5e9f4;
-      border-radius: 10px;
-    }
-
-    .num {
-      width: 25px;
-      height: 25px;
-      display: grid;
-      place-items: center;
-      flex: none;
-      color: var(--violet);
-      background: #eeebff;
-      border-radius: 7px;
-      font-size: 11px;
-      font-weight: 700;
-    }
-
-    .youtube {
-      display: inline-flex;
-      margin-top: 10px;
-      padding: 9px 12px;
-      color: #d82222;
-      background: #fff0f0;
-      border-radius: 9px;
-      text-decoration: none;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .why {
-      color: white;
-      background: var(--navy);
-    }
-
-    .why .heading h2 { color: white; }
-    .why .heading p { color: #b6c3dc; }
-
-    .why-grid {
-      display: grid;
-      grid-template-columns: repeat(3,1fr);
-      gap: 16px;
-    }
-
-    .why-card {
-      padding: 22px;
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.13);
-      border-radius: 18px;
-    }
-
-    .why-card i {
-      color: #75e8d1;
-      font-size: 22px;
-      font-style: normal;
-    }
-
-    .why-card h3 {
-      margin: 9px 0 5px;
-      font-size: 15px;
-    }
-
-    .why-card p {
-      margin: 0;
-      color: #bec9df;
-      font-size: 12px;
-    }
-
-    footer {
-      padding: 34px 0;
-      color: #9eabc1;
-      background: #09172b;
-      font-size: 12px;
-    }
-
-    .footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .footer-brand {
-      color: white;
-      font-size: 18px;
-      font-weight: 800;
-    }
-
-    .footer-brand span { color: #937cff; }
-
-    @media (max-width: 900px) {
-      .hero-grid,
-      .studio {
-        grid-template-columns: 1fr;
-      }
-
-      .preview {
-        max-width: 480px;
-        margin: auto;
-      }
-
-      .service-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .side,
-      [dir="rtl"] .side {
-        padding: 0 0 18px;
-        border: 0;
-        border-bottom: 1px solid var(--line);
-      }
-
-      .nav-links { display: none; }
-    }
-
-    @media (max-width: 540px) {
-      header { height: 68px; }
-      .hero { padding: 55px 0; }
-
-      .service-grid,
-      .form-grid,
-      .why-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .field.full { grid-column: auto; }
-      .start-btn { display: none; }
-
-      .footer {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      .studio { padding: 18px; }
-
-      .studio-top {
-        align-items: flex-start;
-        flex-direction: column;
-      }
+    :root{
+      --navy:#10213e;--violet:#7055f6;--mint:#48d8b8;--paper:#f6f8fc;
+      --muted:#69758a;--line:#e4e9f4;--white:#fff;--shadow:0 22px 55px rgba(24,45,79,.11)
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--paper);color:#172238;font-family:"DM Sans",Arial,sans-serif;line-height:1.65}
+    [dir="rtl"] body,[dir="rtl"] input,[dir="rtl"] textarea,[dir="rtl"] button{font-family:Alexandria,Arial,sans-serif}
+    .container{width:min(1180px,92%);margin:auto}
+    button,.button{border:0;border-radius:11px;font:inherit;font-weight:700;cursor:pointer;transition:.2s}
+    button:hover,.button:hover{transform:translateY(-1px)}
+
+    .topbar{background:#0b1931;color:#cbd7ed;text-align:center;padding:9px;font-size:12px}
+    .topbar strong{color:#79edd2}
+
+    header{height:78px;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);display:flex;align-items:center;position:sticky;top:0;z-index:30}
+    .nav{width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px}
+    .brand{font-size:24px;font-weight:800;color:var(--navy);text-decoration:none}
+    .brand span{color:var(--violet)}
+    .nav-links{display:flex;gap:24px}
+    .nav-links a{color:var(--muted);font-size:13px;font-weight:700;text-decoration:none}
+    .nav-actions{display:flex;gap:8px}
+    .lang-btn{background:#eeeaff;color:#5942c9;padding:9px 12px;font-size:12px}
+    .main-btn{background:var(--violet);color:white;text-decoration:none;padding:11px 17px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;box-shadow:0 9px 18px rgba(112,85,246,.2)}
+    .main-btn:hover{background:#5f45e5}
+
+    .hero{padding:82px 0 72px;background:linear-gradient(135deg,#eef0ff,#fbfcff 53%,#effff9);overflow:hidden}
+    .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:58px;align-items:center}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;background:white;border:1px solid #ddd8ff;color:#5f46d5;border-radius:999px;padding:7px 12px;font-size:12px;font-weight:700}
+    .dot{width:8px;height:8px;background:var(--mint);border-radius:50%;box-shadow:0 0 0 4px #d9fff5}
+    h1{margin:17px 0;color:var(--navy);font-size:clamp(38px,5vw,64px);line-height:1.12;letter-spacing:-2.5px}
+    h1 em{color:var(--violet);font-style:normal}
+    .hero p{max-width:610px;color:var(--muted);font-size:16px;margin:0 0 25px}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+    .hero-actions .main-btn,.outline-btn{padding:14px 20px}
+    .outline-btn{border:1px solid #dfe5f2;background:white;color:var(--navy);text-decoration:none;font-size:13px}
+
+    .preview{padding:17px;background:white;border:1px solid #e3e1ff;border-radius:25px;box-shadow:var(--shadow);transform:rotate(-2deg)}
+    .preview-top{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;padding-bottom:13px}
+    .preview-main{padding:21px;border-radius:16px;color:white;background:linear-gradient(135deg,#172950,#55439f)}
+    .preview-main small{color:#cbd1ff}.preview-main h3{margin:7px 0 14px}
+    .line{height:8px;width:100%;margin-top:8px;border-radius:99px;background:rgba(255,255,255,.2)}
+    .line.medium{width:82%}.line.short{width:62%}
+    .preview-bottom{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:11px}
+    .preview-box{padding:12px;background:#f6f7ff;border-radius:12px;color:var(--muted);font-size:11px}
+    .preview-box strong{display:block;color:var(--violet);margin-bottom:4px}
+
+    .trust{padding:18px 0;background:white;border-bottom:1px solid var(--line)}
+    .trust-inner{display:flex;justify-content:center;gap:45px;flex-wrap:wrap;color:var(--muted);font-size:12px}
+    .trust-inner strong{color:var(--navy)}
+
+    section{padding:80px 0}
+    .heading{max-width:720px;margin:0 auto 37px;text-align:center}
+    .heading h2{margin:0 0 9px;color:var(--navy);font-size:32px;line-height:1.3}
+    .heading p{margin:0;color:var(--muted);font-size:14px}
+
+    .service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+    .service{min-height:185px;padding:20px;background:white;border:1px solid var(--line);border-radius:18px;cursor:pointer;transition:.2s}
+    .service:hover,.service.active{border-color:#9c8dff;box-shadow:0 15px 32px rgba(77,59,174,.12);transform:translateY(-4px)}
+    .service.active{background:#fbfaff}
+    .service-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;background:#eeeaff;color:#654be7;font-size:20px}
+    .service h3{margin:14px 0 5px;color:var(--navy);font-size:15px}
+    .service p{margin:0;color:var(--muted);font-size:12px}
+
+    .plans-section{background:#f0f2ff}
+    .plans{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:920px;margin:auto}
+    .plan{position:relative;padding:27px;background:white;border:1px solid var(--line);border-radius:22px}
+    .plan.pro{border:2px solid var(--violet);box-shadow:var(--shadow)}
+    .popular{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--violet);color:white;border-radius:99px;padding:5px 12px;font-size:10px;white-space:nowrap}
+    .plan-name{display:flex;justify-content:space-between;align-items:center}
+    .plan-name h3{margin:0;font-size:21px;color:var(--navy)}
+    .price{margin:13px 0 17px;color:var(--navy);font-size:35px;font-weight:800}
+    .price span{font-size:13px;color:var(--muted);font-weight:500}
+    .plan ul{padding-inline-start:18px;margin:0 0 20px;color:#44536c;font-size:13px}
+    .plan li{margin:8px 0}
+    .plan li strong{color:var(--navy)}
+    .plan button{width:100%;padding:12px}
+    .free-btn{background:#edf0f8;color:var(--navy)}
+    .pro-btn{background:var(--violet);color:white}
+    .plan.active-plan{outline:3px solid #dcd6ff}
+
+    .studio-section{background:linear-gradient(180deg,transparent,#eef1ff)}
+    .studio{display:grid;grid-template-columns:265px 1fr;gap:30px;padding:27px;background:white;border:1px solid var(--line);border-radius:25px;box-shadow:var(--shadow)}
+    .side{padding-right:23px;border-right:1px solid var(--line)}
+    [dir="rtl"] .side{padding-right:0;padding-left:23px;border-right:0;border-left:1px solid var(--line)}
+    .side h3{margin:0 0 6px;font-size:17px}.side p{margin:0 0 18px;color:var(--muted);font-size:12px}
+    .step{display:flex;align-items:center;gap:10px;margin:15px 0;color:var(--muted);font-size:12px}
+    .step b{width:26px;height:26px;display:grid;place-items:center;flex:none;border-radius:9px;background:#eeeaff;color:var(--violet)}
+    .step.active{color:var(--navy);font-weight:700}.step.active b{background:var(--violet);color:white}
+
+    .usage{margin-top:23px;padding:14px;background:#f7f8ff;border:1px solid #e3e5fc;border-radius:14px}
+    .usage-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:11px;font-weight:700}
+    .usage-top span{color:var(--violet)}
+    .credit-number{font-size:23px;color:var(--navy);font-weight:800}
+    .credit-number small{font-size:10px;color:var(--muted);font-weight:500}
+    .progress{height:7px;margin:7px 0 13px;background:#e4e7f5;border-radius:99px;overflow:hidden}
+    .progress i{display:block;height:100%;background:linear-gradient(90deg,#7055f6,#9a85ff);border-radius:99px}
+    .usage-row{display:flex;justify-content:space-between;margin-top:7px;color:var(--muted);font-size:10px}
+    .usage-row b{color:var(--navy)}
+
+    .studio-top,.result-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .studio-top{margin-bottom:18px}.studio-top h2,.result-head h3{margin:0;font-size:21px}
+    .demo{padding:5px 8px;background:#effbf8;color:#187d6c;border-radius:8px;font-size:10px;white-space:nowrap}
+    .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:17px}
+    .tab{padding:8px 11px;background:white;border:1px solid #dfe5f2;color:var(--muted);border-radius:9px;font-size:11px}
+    .tab.active{background:#f7f5ff;border-color:var(--violet);color:var(--violet)}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .field{display:grid;gap:7px}.field.full{grid-column:1/-1}
+    label{font-size:12px;font-weight:700;color:var(--navy)}
+    input,textarea{width:100%;padding:12px;background:#fbfcff;border:1px solid #dce3f0;border-radius:11px;outline:0;font:inherit;font-size:13px}
+    textarea{min-height:130px;resize:vertical}
+    input:focus,textarea:focus{border-color:var(--violet);box-shadow:0 0 0 3px #f0edff}
+    .upload{grid-column:1/-1;padding:17px;background:#fafcff;border:1px dashed #bac7dd;border-radius:12px;color:var(--muted);text-align:center;font-size:12px}
+    .upload input{display:none}.upload label{color:var(--violet);cursor:pointer}
+    .generate{width:100%;margin-top:17px;padding:14px;font-size:14px}
+    .ad-note{margin-top:16px;padding:9px;background:#fafcff;border:1px dashed #cbd5e7;border-radius:10px;color:#8692a7;font-size:10px;text-align:center}
+    .result{display:none;margin-top:22px;padding-top:21px;border-top:1px solid var(--line)}
+    .result.show{display:block}
+    .copy{padding:7px 10px;background:white;border:1px solid var(--line);color:var(--muted);font-size:11px}
+    .result-body{position:relative;margin-top:12px;padding:18px;background:#f8f9ff;border-radius:14px;color:#2f3d55;font-size:13px}
+    .result-body h4{margin:0 0 8px;color:var(--navy);font-size:15px}.result-body ul{margin:8px 0;padding-inline-start:20px}
+    .watermark{position:absolute;top:10px;inset-inline-end:12px;color:#9b90c9;font-size:9px;font-weight:800;opacity:.8}
+    .slides{display:grid;gap:8px;margin-top:12px}.slide{display:flex;align-items:center;gap:10px;padding:10px;background:white;border:1px solid #e5e9f4;border-radius:10px}
+    .num{height:25px;width:25px;display:grid;place-items:center;flex:none;border-radius:7px;background:#eeebff;color:var(--violet);font-size:11px;font-weight:700}
+    .youtube{display:inline-flex;margin-top:10px;padding:9px 12px;background:#fff0f0;border-radius:9px;color:#d82222;text-decoration:none;font-size:12px;font-weight:700}
+
+    .why{background:var(--navy);color:white}.why .heading h2{color:white}.why .heading p{color:#b6c3dc}
+    .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .why-card{padding:22px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.13);border-radius:18px}
+    .why-card i{color:#75e8d1;font-size:22px;font-style:normal}.why-card h3{margin:9px 0 5px;font-size:15px}.why-card p{margin:0;color:#bec9df;font-size:12px}
+
+    footer{padding:34px 0;background:#09172b;color:#9eabc1;font-size:12px}
+    .footer{display:flex;justify-content:space-between;align-items:center;gap:20px}.footer-brand{color:white;font-size:18px;font-weight:800}.footer-brand span{color:#937cff}
+
+    @media(max-width:900px){
+      .hero-grid,.studio{grid-template-columns:1fr}.preview{max-width:480px;margin:auto}.service-grid{grid-template-columns:1fr 1fr}
+      .side,[dir="rtl"] .side{padding:0 0 18px;border:0;border-bottom:1px solid var(--line)}.nav-links{display:none}
+    }
+    @media(max-width:540px){
+      header{height:68px}.hero{padding:55px 0}.service-grid,.form-grid,.why-grid,.plans{grid-template-columns:1fr}.field.full{grid-column:auto}.start-btn{display:none}.footer{align-items:flex-start;flex-direction:column}.studio{padding:18px}.studio-top{align-items:flex-start;flex-direction:column}
     }
   </style>
 </head>
@@ -739,23 +156,23 @@
 <body>
 
   <div class="topbar">
-    <span id="topbarText">Free learning tools supported by ads — </span>
+    <span id="topbar">Free learning tools supported by ads — </span>
     <strong id="topbarStrong">premium options can come later.</strong>
   </div>
 
   <header>
     <div class="container nav">
-      <a href="#home" class="brand">Study<span>Vex</span></a>
+      <a class="brand" href="#home">Study<span>Vex</span></a>
 
       <nav class="nav-links">
         <a href="#services" id="navServices">Services</a>
+        <a href="#plans" id="navPlans">Plans & Credits</a>
         <a href="#studio" id="navStudio">Study Studio</a>
-        <a href="#why" id="navWhy">Why StudyVex?</a>
       </nav>
 
       <div class="nav-actions">
         <button class="lang-btn" id="langBtn">العربية</button>
-        <a class="main-btn start-btn" href="#studio" id="startBtn">Start now</a>
+        <a href="#studio" class="main-btn start-btn" id="startBtn">Start now</a>
       </div>
     </div>
   </header>
@@ -765,51 +182,33 @@
     <section class="hero">
       <div class="container hero-grid">
         <div>
-          <div class="eyebrow">
-            <span class="dot"></span>
-            <span id="eyebrowText">Your all-in-one AI learning space</span>
-          </div>
+          <div class="eyebrow"><span class="dot"></span><span id="eyebrow">Your all-in-one AI learning space</span></div>
 
           <h1>
-            <span id="heroFirst">Study smarter.</span><br>
-            <em id="heroSecond">Create, learn, and grow.</em>
+            <span id="heroOne">Study smarter.</span><br>
+            <em id="heroTwo">Create, learn, and grow.</em>
           </h1>
 
-          <p id="heroText">
-            One place for presentations, quizzes, flashcards, student questions,
-            kid-friendly learning activities, and useful video explanations.
-          </p>
+          <p id="heroText">One place for presentations, quizzes, flashcards, student questions, kid-friendly learning activities, and useful video explanations.</p>
 
           <div class="hero-actions">
             <a href="#studio" class="main-btn" id="heroBtn">Explore StudyVex</a>
-            <a href="#services" class="outline-btn" id="heroOutline">See all services</a>
+            <a href="#plans" class="outline-btn" id="heroPlanBtn">View plans</a>
           </div>
         </div>
 
         <div class="preview">
-          <div class="preview-top">
-            <span>StudyVex Studio</span>
-            <span>● ● ●</span>
-          </div>
+          <div class="preview-top"><span>StudyVex Studio</span><span>● ● ●</span></div>
 
           <div class="preview-main">
             <small id="previewLabel">Presentation created from a topic</small>
             <h3 id="previewTitle">The Future of Renewable Energy</h3>
-            <div class="line"></div>
-            <div class="line medium"></div>
-            <div class="line short"></div>
+            <div class="line"></div><div class="line medium"></div><div class="line short"></div>
           </div>
 
           <div class="preview-bottom">
-            <div class="preview-box">
-              <strong id="previewOneTitle">10 Slides</strong>
-              <span id="previewOneText">Ready to present</span>
-            </div>
-
-            <div class="preview-box">
-              <strong id="previewTwoTitle">16 Flashcards</strong>
-              <span id="previewTwoText">Ready to revise</span>
-            </div>
+            <div class="preview-box"><strong id="previewSlides">10 Slides</strong><span id="previewSlidesText">Ready to present</span></div>
+            <div class="preview-box"><strong id="previewCards">16 Flashcards</strong><span id="previewCardsText">Ready to revise</span></div>
           </div>
         </div>
       </div>
@@ -826,82 +225,69 @@
     <section id="services">
       <div class="container">
         <div class="heading">
-          <h2 id="servicesTitle">Everything a student needs in one place</h2>
-          <p id="servicesText">
-            Pick a service below. Every tool has a focused experience,
-            rather than putting everything inside one confusing box.
-          </p>
+          <h2 id="serviceTitle">Everything a student needs in one place</h2>
+          <p id="serviceText">Pick a service below. Every tool has a focused experience instead of putting every task inside one confusing box.</p>
         </div>
 
-        <div class="service-grid" id="serviceGrid">
+        <div class="service-grid">
+          <article class="service active" data-service="presentation"><div class="service-icon">▰</div><h3 data-en="Presentation Studio" data-ar="استوديو العروض">Presentation Studio</h3><p data-en="Build a complete presentation from a topic, book, website, or notes." data-ar="أنشئ عرضًا كاملًا من موضوع أو كتاب أو موقع أو ملاحظات.">Build a complete presentation from a topic, book, website, or notes.</p></article>
 
-          <article class="service active" data-service="presentation">
-            <div class="service-icon">▰</div>
-            <h3 data-en="Presentation Studio" data-ar="استوديو العروض">Presentation Studio</h3>
-            <p data-en="Build a complete presentation from a topic, book, website, or notes."
-               data-ar="أنشئ عرضًا كاملًا من موضوع أو كتاب أو موقع أو ملاحظات.">
-              Build a complete presentation from a topic, book, website, or notes.
-            </p>
+          <article class="service" data-service="study"><div class="service-icon">✦</div><h3 data-en="Study Builder" data-ar="صانع المذاكرة">Study Builder</h3><p data-en="Turn notes, books, topics, and text into study materials." data-ar="حوّل الملاحظات والكتب والمواضيع والنصوص إلى أدوات للمذاكرة.">Turn notes, books, topics, and text into study materials.</p></article>
+
+          <article class="service" data-service="quiz"><div class="service-icon">❓</div><h3 data-en="Quiz & Flashcard Maker" data-ar="صانع الاختبارات والفلاش كاردز">Quiz & Flashcard Maker</h3><p data-en="Turn a website link, book, topic, or paragraph into quizzes, flashcards, or a summary." data-ar="حوّل رابط موقع أو كتاب أو موضوع أو فقرة إلى اختبار أو فلاش كاردز أو ملخص.">Turn a website link, book, topic, or paragraph into quizzes, flashcards, or a summary.</p></article>
+
+          <article class="service" data-service="chat"><div class="service-icon">◌</div><h3 data-en="Ask StudyVex" data-ar="اسأل StudyVex">Ask StudyVex</h3><p data-en="Ask any question naturally and get a clear student-friendly answer." data-ar="اسأل أي سؤال بطريقة طبيعية واحصل على إجابة واضحة ومناسبة للطالب.">Ask any question naturally and get a clear student-friendly answer.</p></article>
+
+          <article class="service" data-service="youtube"><div class="service-icon">▶</div><h3 data-en="Learn with YouTube" data-ar="تعلّم مع YouTube">Learn with YouTube</h3><p data-en="Get an answer plus a useful video search for the same topic." data-ar="احصل على إجابة مع بحث فيديو مفيد لنفس الموضوع.">Get an answer plus a useful video search for the same topic.</p></article>
+
+          <article class="service" data-service="powerpoint"><div class="service-icon">▣</div><h3 data-en="PowerPoint Creator" data-ar="صانع PowerPoint">PowerPoint Creator</h3><p data-en="Create a polished slide plan and narration script from scratch." data-ar="أنشئ خطة شرائح احترافية ونصًا للتعليق الصوتي من الصفر.">Create a polished slide plan and narration script from scratch.</p></article>
+
+          <article class="service" data-service="kids"><div class="service-icon">★</div><h3 data-en="Kids & Teachers Zone" data-ar="منطقة الأطفال والمعلمين">Kids & Teachers Zone</h3><p data-en="Create fun, safe, age-appropriate quizzes and learning games." data-ar="أنشئ اختبارات وألعابًا تعليمية ممتعة وآمنة تناسب العمر.">Create fun, safe, age-appropriate quizzes and learning games.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="plans-section" id="plans">
+      <div class="container">
+        <div class="heading">
+          <h2 id="plansTitle">Simple plans. Clear limits.</h2>
+          <p id="plansText">Credits make usage clear and help keep StudyVex sustainable for students.</p>
+        </div>
+
+        <div class="plans">
+          <article class="plan" id="freePlan">
+            <div class="plan-name"><h3 id="freeTitle">Free</h3><span>Starter</span></div>
+            <div class="price">$0 <span id="freeMonth">/ month</span></div>
+
+            <ul id="freeList">
+              <li><strong>2</strong> Presentations</li>
+              <li><strong>5</strong> AI Images</li>
+              <li><strong>10 min</strong> Text-to-Speech</li>
+              <li><strong>20</strong> AI Text generations</li>
+              <li><strong>50</strong> Credits total</li>
+              <li>Watermark included</li>
+            </ul>
+
+            <button class="free-btn" id="freeBtn">Current plan</button>
           </article>
 
-          <article class="service" data-service="study">
-            <div class="service-icon">✦</div>
-            <h3 data-en="Study Builder" data-ar="صانع المذاكرة">Study Builder</h3>
-            <p data-en="Turn notes, books, topics, and text into study materials."
-               data-ar="حوّل الملاحظات والكتب والمواضيع والنصوص إلى أدوات للمذاكرة.">
-              Turn notes, books, topics, and text into study materials.
-            </p>
-          </article>
+          <article class="plan pro" id="proPlan">
+            <span class="popular" id="popular">MOST POPULAR</span>
 
-          <article class="service" data-service="quizMaker">
-            <div class="service-icon">❓</div>
-            <h3 data-en="Quiz & Flashcard Maker" data-ar="صانع الاختبارات والفلاش كاردز">
-              Quiz & Flashcard Maker
-            </h3>
-            <p data-en="Turn a website link, book, topic, or paragraph into quizzes, flashcards, or a summary."
-               data-ar="حوّل رابط موقع أو كتاب أو موضوع أو فقرة إلى اختبار أو فلاش كاردز أو ملخص.">
-              Turn a website link, book, topic, or paragraph into quizzes, flashcards, or a summary.
-            </p>
-          </article>
+            <div class="plan-name"><h3>StudyVex Pro</h3><span>$9.99</span></div>
+            <div class="price">$9.99 <span id="proMonth">/ month</span></div>
 
-          <article class="service" data-service="chat">
-            <div class="service-icon">◌</div>
-            <h3 data-en="Ask StudyVex" data-ar="اسأل StudyVex">Ask StudyVex</h3>
-            <p data-en="Ask any question naturally and get a clear student-friendly answer."
-               data-ar="اسأل أي سؤال بطريقة طبيعية واحصل على إجابة واضحة ومناسبة للطالب.">
-              Ask any question naturally and get a clear student-friendly answer.
-            </p>
-          </article>
+            <ul id="proList">
+              <li><strong>20</strong> Presentations</li>
+              <li><strong>100</strong> AI Images</li>
+              <li><strong>300 min</strong> Text-to-Speech</li>
+              <li><strong>500</strong> Credits total</li>
+              <li><strong>No watermark</strong></li>
+              <li><strong>Priority generation</strong></li>
+            </ul>
 
-          <article class="service" data-service="youtube">
-            <div class="service-icon">▶</div>
-            <h3 data-en="Learn with YouTube" data-ar="تعلّم مع YouTube">Learn with YouTube</h3>
-            <p data-en="Get an answer plus a useful video search for the same topic."
-               data-ar="احصل على إجابة مع بحث فيديو مفيد لنفس الموضوع.">
-              Get an answer plus a useful video search for the same topic.
-            </p>
+            <button class="pro-btn" id="proBtn">Upgrade to Pro</button>
           </article>
-
-          <article class="service" data-service="powerpoint">
-            <div class="service-icon">▣</div>
-            <h3 data-en="PowerPoint Creator" data-ar="صانع PowerPoint">PowerPoint Creator</h3>
-            <p data-en="Create a polished slide plan and narration script from scratch."
-               data-ar="أنشئ خطة شرائح احترافية ونصًا للتعليق الصوتي من الصفر.">
-              Create a polished slide plan and narration script from scratch.
-            </p>
-          </article>
-
-          <article class="service" data-service="kids">
-            <div class="service-icon">★</div>
-            <h3 data-en="Kids & Teachers Zone" data-ar="منطقة الأطفال والمعلمين">
-              Kids & Teachers Zone
-            </h3>
-            <p data-en="Create fun, safe, age-appropriate quizzes and learning games."
-               data-ar="أنشئ اختبارات وألعابًا تعليمية ممتعة وآمنة تناسب العمر.">
-              Create fun, safe, age-appropriate quizzes and learning games.
-            </p>
-          </article>
-
         </div>
       </div>
     </section>
@@ -910,7 +296,7 @@
       <div class="container">
         <div class="heading">
           <h2 id="studioPageTitle">StudyVex Studio</h2>
-          <p id="studioPageText">Choose a service, add your idea or source, then preview the result.</p>
+          <p id="studioPageText">Choose a service, add your idea or source, and preview the student experience.</p>
         </div>
 
         <div class="studio">
@@ -921,6 +307,17 @@
             <div class="step active"><b>1</b><span id="stepOne">Choose a service</span></div>
             <div class="step"><b>2</b><span id="stepTwo">Add a topic or source</span></div>
             <div class="step"><b>3</b><span id="stepThree">Generate your result</span></div>
+
+            <div class="usage">
+              <div class="usage-top"><span id="usagePlan">FREE PLAN</span><button class="lang-btn" id="usageUpgrade">Upgrade</button></div>
+              <div class="credit-number"><span id="creditLeft">50</span> <small>/ <span id="creditTotal">50</span> <span id="creditsWord">credits</span></small></div>
+              <div class="progress"><i id="creditBar" style="width:100%"></i></div>
+
+              <div class="usage-row"><span id="presentationUsageLabel">Presentations</span><b id="presentationUsage">0 / 2</b></div>
+              <div class="usage-row"><span id="imageUsageLabel">AI Images</span><b id="imageUsage">0 / 5</b></div>
+              <div class="usage-row"><span id="ttsUsageLabel">TTS minutes</span><b id="ttsUsage">0 / 10</b></div>
+              <div class="usage-row"><span id="textUsageLabel">AI Text</span><b id="textUsage">0 / 20</b></div>
+            </div>
           </aside>
 
           <div>
@@ -966,9 +363,7 @@
 
             <button class="main-btn generate" id="generateBtn">Generate preview</button>
 
-            <div class="ad-note" id="adNote">
-              Future ad space — advertising will help keep core student tools free.
-            </div>
+            <div class="ad-note" id="adNote">Future ad space — advertising will help keep core student tools free.</div>
 
             <div class="result" id="result">
               <div class="result-head">
@@ -983,7 +378,7 @@
       </div>
     </section>
 
-    <section class="why" id="why">
+    <section class="why">
       <div class="container">
         <div class="heading">
           <h2 id="whyTitle">Designed to make studying feel lighter</h2>
@@ -991,592 +386,374 @@
         </div>
 
         <div class="why-grid">
-          <article class="why-card">
-            <i>◈</i>
-            <h3 id="whyOneTitle">Different ways to learn</h3>
-            <p id="whyOneText">Read a summary, test yourself, use flashcards, watch a video, or listen to narration.</p>
-          </article>
-
-          <article class="why-card">
-            <i>◇</i>
-            <h3 id="whyTwoTitle">Made for real study life</h3>
-            <p id="whyTwoText">Useful for exam revision, quick questions, class projects, and teaching children.</p>
-          </article>
-
-          <article class="why-card">
-            <i>↗</i>
-            <h3 id="whyThreeTitle">Built to grow with you</h3>
-            <p id="whyThreeText">Start free with ads, then add premium features and app support later.</p>
-          </article>
+          <article class="why-card"><i>◈</i><h3 id="whyOneTitle">Different ways to learn</h3><p id="whyOneText">Read a summary, test yourself, use flashcards, watch a video, or listen to narration.</p></article>
+          <article class="why-card"><i>◇</i><h3 id="whyTwoTitle">Made for real study life</h3><p id="whyTwoText">Useful for exam revision, quick questions, class projects, and teaching children.</p></article>
+          <article class="why-card"><i>↗</i><h3 id="whyThreeTitle">Built to grow with you</h3><p id="whyThreeText">Start free with ads, then add premium features and app support later.</p></article>
         </div>
       </div>
     </section>
-
   </main>
 
   <footer>
     <div class="container footer">
-      <div>
-        <div class="footer-brand">Study<span>Vex</span></div>
-        <div id="footerText">AI study tools for curious learners.</div>
-      </div>
-
+      <div><div class="footer-brand">Study<span>Vex</span></div><div id="footerText">AI study tools for curious learners.</div></div>
       <span>© 2026 StudyVex</span>
     </div>
   </footer>
 
   <script>
+    const $ = id => document.getElementById(id);
+
     let language = "en";
     let activeService = "presentation";
     let activeOutput = "slides";
+    let currentPlan = localStorage.getItem("studyvex-plan") || "free";
 
-    const $ = id => document.getElementById(id);
+    const plans = {
+      free: { credits: 50, presentations: 2, images: 5, tts: 10, text: 20 },
+      pro: { credits: 500, presentations: 20, images: 100, tts: 300, text: 500 }
+    };
 
-    const text = {
+    let usage = JSON.parse(localStorage.getItem("studyvex-usage")) || {
+      free: { credits: 0, presentations: 0, images: 0, tts: 0, text: 0 },
+      pro: { credits: 0, presentations: 0, images: 0, tts: 0, text: 0 }
+    };
+
+    const dictionary = {
       en: {
-        topbar: "Free learning tools supported by ads — ",
-        strong: "premium options can come later.",
-        navServices: "Services",
-        navStudio: "Study Studio",
-        navWhy: "Why StudyVex?",
-        start: "Start now",
-        eyebrow: "Your all-in-one AI learning space",
-        heroFirst: "Study smarter.",
-        heroSecond: "Create, learn, and grow.",
-        heroText: "One place for presentations, quizzes, flashcards, student questions, kid-friendly learning activities, and useful video explanations.",
-        heroBtn: "Explore StudyVex",
-        heroOutline: "See all services",
-        previewLabel: "Presentation created from a topic",
-        previewTitle: "The Future of Renewable Energy",
-        previewOneTitle: "10 Slides",
-        previewOneText: "Ready to present",
-        previewTwoTitle: "16 Flashcards",
-        previewTwoText: "Ready to revise",
-        trustOne: "Built for students, teachers, and parents",
-        trustTwo: "English & Arabic learning support",
-        trustThree: "One platform, seven smart services",
-        servicesTitle: "Everything a student needs in one place",
-        servicesText: "Pick a service below. Every tool has a focused experience, rather than putting everything inside one confusing box.",
-        studioPageTitle: "StudyVex Studio",
-        studioPageText: "Choose a service, add your idea or source, then preview the result.",
-        flowTitle: "Your learning flow",
-        flowText: "Simple from the first idea to a ready-to-use study result.",
-        stepOne: "Choose a service",
-        stepTwo: "Add a topic or source",
-        stepThree: "Generate your result",
-        demo: "Preview mode — no API needed",
-        sourceTopic: "Topic",
-        sourceText: "Text / Notes",
-        sourceLink: "Website Link",
-        sourceBook: "Book / PDF",
-        upload: "Click to select a PDF, Word document, or text file",
-        output: "What would you like StudyVex to create?",
-        generate: "Generate preview",
-        ad: "Future ad space — advertising will help keep core student tools free.",
-        copy: "Copy result",
-        previewResult: "Your Preview Result",
-        whyTitle: "Designed to make studying feel lighter",
-        whyText: "One calm, focused place for every study task — in the language students prefer.",
-        whyOneTitle: "Different ways to learn",
-        whyOneText: "Read a summary, test yourself, use flashcards, watch a video, or listen to narration.",
-        whyTwoTitle: "Made for real study life",
-        whyTwoText: "Useful for exam revision, quick questions, class projects, and teaching children.",
-        whyThreeTitle: "Built to grow with you",
-        whyThreeText: "Start free with ads, then add premium features and app support later.",
-        footer: "AI study tools for curious learners."
+        topbar:"Free learning tools supported by ads — ",topbarStrong:"premium options can come later.",
+        navServices:"Services",navPlans:"Plans & Credits",navStudio:"Study Studio",start:"Start now",
+        eyebrow:"Your all-in-one AI learning space",heroOne:"Study smarter.",heroTwo:"Create, learn, and grow.",
+        heroText:"One place for presentations, quizzes, flashcards, student questions, kid-friendly learning activities, and useful video explanations.",
+        heroBtn:"Explore StudyVex",heroPlanBtn:"View plans",previewLabel:"Presentation created from a topic",
+        previewTitle:"The Future of Renewable Energy",previewSlides:"10 Slides",previewSlidesText:"Ready to present",
+        previewCards:"16 Flashcards",previewCardsText:"Ready to revise",
+        trustOne:"Built for students, teachers, and parents",trustTwo:"English & Arabic learning support",trustThree:"One platform, seven smart services",
+        serviceTitle:"Everything a student needs in one place",serviceText:"Pick a service below. Every tool has a focused experience instead of putting every task inside one confusing box.",
+        plansTitle:"Simple plans. Clear limits.",plansText:"Credits make usage clear and help keep StudyVex sustainable for students.",
+        freeTitle:"Free",freeMonth:"/ month",proMonth:"/ month",popular:"MOST POPULAR",freeBtn:"Current plan",proBtn:"Upgrade to Pro",
+        studioPageTitle:"StudyVex Studio",studioPageText:"Choose a service, add your idea or source, and preview the student experience.",
+        flowTitle:"Your learning flow",flowText:"Simple from the first idea to a ready-to-use study result.",
+        stepOne:"Choose a service",stepTwo:"Add a topic or source",stepThree:"Generate your result",
+        demo:"Preview mode — no API needed",sourceTopic:"Topic",sourceText:"Text / Notes",sourceLink:"Website Link",sourceBook:"Book / PDF",
+        upload:"Click to select a PDF, Word document, or text file",output:"What would you like StudyVex to create?",
+        generate:"Generate preview",ad:"Future ad space — advertising will help keep core student tools free.",
+        result:"Your Preview Result",copy:"Copy result",credits:"credits",upgrade:"Upgrade",
+        presentations:"Presentations",images:"AI Images",tts:"TTS minutes",aiText:"AI Text",
+        whyTitle:"Designed to make studying feel lighter",whyText:"One calm, focused place for every study task — in the language students prefer.",
+        whyOneTitle:"Different ways to learn",whyOneText:"Read a summary, test yourself, use flashcards, watch a video, or listen to narration.",
+        whyTwoTitle:"Made for real study life",whyTwoText:"Useful for exam revision, quick questions, class projects, and teaching children.",
+        whyThreeTitle:"Built to grow with you",whyThreeText:"Start free with ads, then add premium features and app support later.",
+        footer:"AI study tools for curious learners."
       },
-
       ar: {
-        topbar: "أدوات تعليمية مجانية مدعومة بالإعلانات — ",
-        strong: "ويمكن إضافة الاشتراكات المميزة لاحقًا.",
-        navServices: "الخدمات",
-        navStudio: "استوديو الدراسة",
-        navWhy: "لماذا StudyVex؟",
-        start: "ابدأ الآن",
-        eyebrow: "مساحتك المتكاملة للتعلم بالذكاء الاصطناعي",
-        heroFirst: "ادرس بذكاء.",
-        heroSecond: "أنشئ، تعلّم، وتطور.",
-        heroText: "مكان واحد للعروض التقديمية والاختبارات والفلاش كاردز وأسئلة الطلاب والأنشطة التعليمية للأطفال وفيديوهات الشرح المفيدة.",
-        heroBtn: "اكتشف StudyVex",
-        heroOutline: "شاهد كل الخدمات",
-        previewLabel: "عرض تم إنشاؤه من موضوع",
-        previewTitle: "مستقبل الطاقة المتجددة",
-        previewOneTitle: "10 شرائح",
-        previewOneText: "جاهز للعرض",
-        previewTwoTitle: "16 بطاقة",
-        previewTwoText: "جاهزة للمراجعة",
-        trustOne: "مصمم للطلاب والمعلمين وأولياء الأمور",
-        trustTwo: "دعم تعليمي بالعربية والإنجليزية",
-        trustThree: "منصة واحدة، سبع خدمات ذكية",
-        servicesTitle: "كل ما يحتاجه الطالب في مكان واحد",
-        servicesText: "اختر خدمة من الأسفل. كل أداة لها تجربة واضحة بدل وضع كل المهام داخل مربع واحد مربك.",
-        studioPageTitle: "استوديو StudyVex",
-        studioPageText: "اختر الخدمة، أضف فكرتك أو مصدرك، ثم شاهد النتيجة التجريبية.",
-        flowTitle: "خطواتك التعليمية",
-        flowText: "من الفكرة الأولى إلى نتيجة جاهزة للمذاكرة أو العرض.",
-        stepOne: "اختر الخدمة",
-        stepTwo: "أضف الموضوع أو المصدر",
-        stepThree: "أنشئ النتيجة",
-        demo: "وضع معاينة — لا يحتاج API",
-        sourceTopic: "موضوع",
-        sourceText: "نص / ملاحظات",
-        sourceLink: "رابط موقع",
-        sourceBook: "كتاب / PDF",
-        upload: "اضغط لاختيار ملف PDF أو Word أو نص",
-        output: "ماذا تريد من StudyVex أن ينشئ؟",
-        generate: "إنشاء معاينة",
-        ad: "مساحة إعلانية مستقبلية — الإعلانات تساعد في إبقاء الأدوات الأساسية مجانية.",
-        copy: "نسخ النتيجة",
-        previewResult: "نتيجتك التجريبية",
-        whyTitle: "مصمم لجعل الدراسة أسهل",
-        whyText: "مكان هادئ ومنظم لكل مهمة دراسية، وباللغة التي يفضلها الطالب.",
-        whyOneTitle: "طرق مختلفة للتعلم",
-        whyOneText: "اقرأ ملخصًا أو اختبر نفسك أو استخدم فلاش كاردز أو شاهد فيديو أو استمع إلى شرح.",
-        whyTwoTitle: "مصمم للدراسة الحقيقية",
-        whyTwoText: "مفيد لمراجعة الاختبارات والأسئلة السريعة ومشاريع الصف وتعليم الأطفال.",
-        whyThreeTitle: "منصة تنمو معك",
-        whyThreeText: "ابدأ مجانًا بالإعلانات ثم أضف ميزات مميزة ودعم التطبيق لاحقًا.",
-        footer: "أدوات دراسة ذكية للمتعلمين الفضوليين."
+        topbar:"أدوات تعليمية مجانية مدعومة بالإعلانات — ",topbarStrong:"ويمكن إضافة الاشتراكات المميزة لاحقًا.",
+        navServices:"الخدمات",navPlans:"الباقات والرصيد",navStudio:"استوديو الدراسة",start:"ابدأ الآن",
+        eyebrow:"مساحتك المتكاملة للتعلم بالذكاء الاصطناعي",heroOne:"ادرس بذكاء.",heroTwo:"أنشئ، تعلّم، وتطور.",
+        heroText:"مكان واحد للعروض التقديمية والاختبارات والفلاش كاردز وأسئلة الطلاب والأنشطة التعليمية للأطفال وفيديوهات الشرح المفيدة.",
+        heroBtn:"اكتشف StudyVex",heroPlanBtn:"شاهد الباقات",previewLabel:"عرض تم إنشاؤه من موضوع",
+        previewTitle:"مستقبل الطاقة المتجددة",previewSlides:"10 شرائح",previewSlidesText:"جاهز للعرض",
+        previewCards:"16 بطاقة",previewCardsText:"جاهزة للمراجعة",
+        trustOne:"مصمم للطلاب والمعلمين وأولياء الأمور",trustTwo:"دعم تعليمي بالعربية والإنجليزية",trustThree:"منصة واحدة، سبع خدمات ذكية",
+        serviceTitle:"كل ما يحتاجه الطالب في مكان واحد",serviceText:"اختر خدمة من الأسفل. كل أداة لها تجربة واضحة بدل وضع كل المهام داخل مربع واحد مربك.",
+        plansTitle:"باقات بسيطة وحدود واضحة.",plansText:"الرصيد يوضح الاستخدام ويساعد على بقاء StudyVex متاحًا للطلاب.",
+        freeTitle:"مجاني",freeMonth:"/ شهريًا",proMonth:"/ شهريًا",popular:"الأكثر اختيارًا",freeBtn:"الباقة الحالية",proBtn:"الترقية إلى Pro",
+        studioPageTitle:"استوديو StudyVex",studioPageText:"اختر الخدمة وأضف فكرتك أو مصدرك ثم شاهد تجربة النتيجة.",
+        flowTitle:"خطواتك التعليمية",flowText:"من الفكرة الأولى إلى نتيجة جاهزة للمذاكرة أو العرض.",
+        stepOne:"اختر الخدمة",stepTwo:"أضف الموضوع أو المصدر",stepThree:"أنشئ النتيجة",
+        demo:"وضع معاينة — لا يحتاج API",sourceTopic:"موضوع",sourceText:"نص / ملاحظات",sourceLink:"رابط موقع",sourceBook:"كتاب / PDF",
+        upload:"اضغط لاختيار ملف PDF أو Word أو نص",output:"ماذا تريد من StudyVex أن ينشئ؟",
+        generate:"إنشاء معاينة",ad:"مساحة إعلانية مستقبلية — الإعلانات تساعد في إبقاء الأدوات الأساسية مجانية.",
+        result:"نتيجتك التجريبية",copy:"نسخ النتيجة",credits:"رصيد",upgrade:"ترقية",
+        presentations:"العروض",images:"صور AI",tts:"دقائق الصوت",aiText:"نصوص AI",
+        whyTitle:"مصمم لجعل الدراسة أسهل",whyText:"مكان هادئ ومنظم لكل مهمة دراسية وباللغة التي يفضلها الطالب.",
+        whyOneTitle:"طرق مختلفة للتعلم",whyOneText:"اقرأ ملخصًا أو اختبر نفسك أو استخدم فلاش كاردز أو شاهد فيديو أو استمع إلى شرح.",
+        whyTwoTitle:"مصمم للدراسة الحقيقية",whyTwoText:"مفيد لمراجعة الاختبارات والأسئلة السريعة ومشاريع الصف وتعليم الأطفال.",
+        whyThreeTitle:"منصة تنمو معك",whyThreeText:"ابدأ مجانًا بالإعلانات ثم أضف ميزات مميزة ودعم التطبيق لاحقًا.",
+        footer:"أدوات دراسة ذكية للمتعلمين الفضوليين."
       }
     };
 
     const services = {
-      presentation: {
-        en: {
-          title: "Presentation Studio",
-          main: "Presentation topic",
-          mainPlaceholder: "Example: The impact of social media on education",
-          level: "Level or audience",
-          levelPlaceholder: "Example: University students",
-          extra: "Extra information or instructions",
-          extraPlaceholder: "Add important points, a website link, book details, or style preferences...",
-          outputs: [["slides","Full slide plan"],["outline","Presentation outline"],["narration","Narration script"]]
-        },
-        ar: {
-          title: "استوديو العروض",
-          main: "موضوع العرض",
-          mainPlaceholder: "مثال: تأثير وسائل التواصل الاجتماعي على التعليم",
-          level: "المستوى أو الجمهور",
-          levelPlaceholder: "مثال: طلاب الجامعة",
-          extra: "معلومات أو تعليمات إضافية",
-          extraPlaceholder: "أضف النقاط المهمة أو رابط موقع أو تفاصيل كتاب أو أسلوب العرض...",
-          outputs: [["slides","خطة شرائح كاملة"],["outline","مخطط العرض"],["narration","نص للتعليق الصوتي"]]
-        }
+      presentation:{
+        en:{title:"Presentation Studio",main:"Presentation topic",mainPH:"Example: The impact of social media on education",level:"Level or audience",levelPH:"Example: University students",extra:"Extra information or instructions",extraPH:"Add important points, a website link, book details, or style preferences...",outputs:[["slides","Full slide plan"],["narration","Narration script"],["image","AI visual"]]},
+        ar:{title:"استوديو العروض",main:"موضوع العرض",mainPH:"مثال: تأثير وسائل التواصل الاجتماعي على التعليم",level:"المستوى أو الجمهور",levelPH:"مثال: طلاب الجامعة",extra:"معلومات أو تعليمات إضافية",extraPH:"أضف النقاط المهمة أو رابط موقع أو تفاصيل كتاب أو أسلوب العرض...",outputs:[["slides","خطة شرائح كاملة"],["narration","نص للتعليق الصوتي"],["image","صورة AI"]]}
       },
-
-      study: {
-        en: {
-          title: "Study Builder",
-          main: "Topic, book, or chapter",
-          mainPlaceholder: "Example: Cell division — Chapter 4",
-          level: "Study level",
-          levelPlaceholder: "Example: High school biology",
-          extra: "Paste notes, an article, or instructions",
-          extraPlaceholder: "Paste content here, or describe exactly what you want to study...",
-          outputs: [["summary","Summary"],["quiz","Quiz"],["flashcards","Flashcards"]]
-        },
-        ar: {
-          title: "صانع المذاكرة",
-          main: "الموضوع أو الكتاب أو الفصل",
-          mainPlaceholder: "مثال: انقسام الخلية — الفصل الرابع",
-          level: "المستوى الدراسي",
-          levelPlaceholder: "مثال: أحياء للمرحلة الثانوية",
-          extra: "ألصق الملاحظات أو المقال أو التعليمات",
-          extraPlaceholder: "ألصق المحتوى هنا أو اشرح ما الذي تريد مذاكرته...",
-          outputs: [["summary","ملخص"],["quiz","اختبار"],["flashcards","فلاش كاردز"]]
-        }
+      study:{
+        en:{title:"Study Builder",main:"Topic, book, or chapter",mainPH:"Example: Cell division — Chapter 4",level:"Study level",levelPH:"Example: High school biology",extra:"Paste notes, an article, or instructions",extraPH:"Paste content here or describe what you want to study...",outputs:[["summary","Summary"],["quiz","Quiz"],["flashcards","Flashcards"]]},
+        ar:{title:"صانع المذاكرة",main:"الموضوع أو الكتاب أو الفصل",mainPH:"مثال: انقسام الخلية — الفصل الرابع",level:"المستوى الدراسي",levelPH:"مثال: أحياء للمرحلة الثانوية",extra:"ألصق الملاحظات أو المقال أو التعليمات",extraPH:"ألصق المحتوى هنا أو اشرح ما الذي تريد مذاكرته...",outputs:[["summary","ملخص"],["quiz","اختبار"],["flashcards","فلاش كاردز"]]}
       },
-
-      quizMaker: {
-        en: {
-          title: "Quiz & Flashcard Maker",
-          main: "Website link, book, topic, or paragraph",
-          mainPlaceholder: "Example: https://example.com/article",
-          level: "Study level",
-          levelPlaceholder: "Example: High school",
-          extra: "Paste a paragraph, notes, or instructions",
-          extraPlaceholder: "Paste your material here, add a website link, or explain the quiz you need...",
-          outputs: [["quiz","Quiz"],["flashcards","Flashcards"],["summary","Summary"]]
-        },
-        ar: {
-          title: "صانع الاختبارات والفلاش كاردز",
-          main: "رابط موقع أو كتاب أو موضوع أو فقرة",
-          mainPlaceholder: "مثال: https://example.com/article",
-          level: "المستوى الدراسي",
-          levelPlaceholder: "مثال: المرحلة الثانوية",
-          extra: "ألصق الفقرة أو الملاحظات أو التعليمات",
-          extraPlaceholder: "ألصق المادة هنا أو أضف رابط موقع أو اشرح نوع الاختبار الذي تريده...",
-          outputs: [["quiz","اختبار"],["flashcards","فلاش كاردز"],["summary","ملخص"]]
-        }
+      quiz:{
+        en:{title:"Quiz & Flashcard Maker",main:"Website link, book, topic, or paragraph",mainPH:"Example: https://example.com/article",level:"Study level",levelPH:"Example: High school",extra:"Paste a paragraph, notes, or instructions",extraPH:"Paste material here, add a link, or explain the quiz you need...",outputs:[["quiz","Quiz"],["flashcards","Flashcards"],["summary","Summary"]]},
+        ar:{title:"صانع الاختبارات والفلاش كاردز",main:"رابط موقع أو كتاب أو موضوع أو فقرة",mainPH:"مثال: https://example.com/article",level:"المستوى الدراسي",levelPH:"مثال: المرحلة الثانوية",extra:"ألصق الفقرة أو الملاحظات أو التعليمات",extraPH:"ألصق المادة هنا أو أضف رابط موقع أو اشرح نوع الاختبار الذي تريده...",outputs:[["quiz","اختبار"],["flashcards","فلاش كاردز"],["summary","ملخص"]]}
       },
-
-      chat: {
-        en: {
-          title: "Ask StudyVex",
-          main: "Your question",
-          mainPlaceholder: "Example: Why does photosynthesis need sunlight?",
-          level: "Your study level",
-          levelPlaceholder: "Example: Grade 9",
-          extra: "Optional context",
-          extraPlaceholder: "Add your attempt, equation, or more details...",
-          outputs: [["answer","Clear answer"]]
-        },
-        ar: {
-          title: "اسأل StudyVex",
-          main: "سؤالك",
-          mainPlaceholder: "مثال: لماذا تحتاج عملية البناء الضوئي إلى ضوء الشمس؟",
-          level: "مستواك الدراسي",
-          levelPlaceholder: "مثال: الصف التاسع",
-          extra: "سياق إضافي اختياري",
-          extraPlaceholder: "أضف محاولتك أو معادلة أو تفاصيل أكثر...",
-          outputs: [["answer","إجابة واضحة"]]
-        }
+      chat:{
+        en:{title:"Ask StudyVex",main:"Your question",mainPH:"Example: Why does photosynthesis need sunlight?",level:"Your study level",levelPH:"Example: Grade 9",extra:"Optional context",extraPH:"Add your attempt, equation, or more details...",outputs:[["answer","Clear answer"]]},
+        ar:{title:"اسأل StudyVex",main:"سؤالك",mainPH:"مثال: لماذا تحتاج عملية البناء الضوئي إلى ضوء الشمس؟",level:"مستواك الدراسي",levelPH:"مثال: الصف التاسع",extra:"سياق إضافي اختياري",extraPH:"أضف محاولتك أو معادلة أو تفاصيل أكثر...",outputs:[["answer","إجابة واضحة"]]}
       },
-
-      youtube: {
-        en: {
-          title: "Learn with YouTube",
-          main: "Question or learning topic",
-          mainPlaceholder: "Example: How to solve quadratic equations",
-          level: "Study level",
-          levelPlaceholder: "Example: Middle school",
-          extra: "What do you find difficult?",
-          extraPlaceholder: "Explain which part you need help with...",
-          outputs: [["video","Answer + video guide"]]
-        },
-        ar: {
-          title: "تعلّم مع YouTube",
-          main: "السؤال أو الموضوع",
-          mainPlaceholder: "مثال: كيف أحل المعادلات التربيعية؟",
-          level: "المستوى الدراسي",
-          levelPlaceholder: "مثال: المرحلة المتوسطة",
-          extra: "ما الجزء الذي تجده صعبًا؟",
-          extraPlaceholder: "اشرح الجزء الذي تحتاج المساعدة فيه...",
-          outputs: [["video","إجابة + دليل فيديو"]]
-        }
+      youtube:{
+        en:{title:"Learn with YouTube",main:"Question or learning topic",mainPH:"Example: How to solve quadratic equations",level:"Study level",levelPH:"Example: Middle school",extra:"What do you find difficult?",extraPH:"Explain which part you need help with...",outputs:[["video","Answer + video guide"]]},
+        ar:{title:"تعلّم مع YouTube",main:"السؤال أو الموضوع",mainPH:"مثال: كيف أحل المعادلات التربيعية؟",level:"المستوى الدراسي",levelPH:"مثال: المرحلة المتوسطة",extra:"ما الجزء الذي تجده صعبًا؟",extraPH:"اشرح الجزء الذي تحتاج المساعدة فيه...",outputs:[["video","إجابة + دليل فيديو"]]}
       },
-
-      powerpoint: {
-        en: {
-          title: "PowerPoint Creator",
-          main: "PowerPoint topic",
-          mainPlaceholder: "Example: Cybersecurity for small businesses",
-          level: "Audience",
-          levelPlaceholder: "Example: Business class",
-          extra: "Presentation instructions",
-          extraPlaceholder: "Add slide count, tone, required points, or visual style...",
-          outputs: [["deck","PowerPoint deck"],["speaker","Speaker notes"],["audio","Narration script"]]
-        },
-        ar: {
-          title: "صانع PowerPoint",
-          main: "موضوع PowerPoint",
-          mainPlaceholder: "مثال: الأمن السيبراني للشركات الصغيرة",
-          level: "الجمهور",
-          levelPlaceholder: "مثال: طلاب إدارة الأعمال",
-          extra: "تعليمات العرض",
-          extraPlaceholder: "أضف عدد الشرائح أو الأسلوب أو النقاط المطلوبة أو شكل التصميم...",
-          outputs: [["deck","عرض PowerPoint"],["speaker","ملاحظات المتحدث"],["audio","نص للتعليق الصوتي"]]
-        }
+      powerpoint:{
+        en:{title:"PowerPoint Creator",main:"PowerPoint topic",mainPH:"Example: Cybersecurity for small businesses",level:"Audience",levelPH:"Example: Business class",extra:"Presentation instructions",extraPH:"Add slide count, tone, required points, or visual style...",outputs:[["slides","PowerPoint deck"],["narration","Speaker notes"],["image","AI visual"]]},
+        ar:{title:"صانع PowerPoint",main:"موضوع PowerPoint",mainPH:"مثال: الأمن السيبراني للشركات الصغيرة",level:"الجمهور",levelPH:"مثال: طلاب إدارة الأعمال",extra:"تعليمات العرض",extraPH:"أضف عدد الشرائح أو الأسلوب أو النقاط المطلوبة أو شكل التصميم...",outputs:[["slides","عرض PowerPoint"],["narration","ملاحظات المتحدث"],["image","صورة AI"]]}
       },
-
-      kids: {
-        en: {
-          title: "Kids & Teachers Zone",
-          main: "Learning topic",
-          mainPlaceholder: "Example: Multiplication for age 7",
-          level: "Age group",
-          levelPlaceholder: "Example: 7–8 years old",
-          extra: "Fun learning instructions",
-          extraPlaceholder: "Example: Make it colorful, easy, and include a reward at the end...",
-          outputs: [["kidsquiz","Fun quiz"],["game","Learning game"],["lesson","Mini lesson"]]
-        },
-        ar: {
-          title: "منطقة الأطفال والمعلمين",
-          main: "موضوع التعلّم",
-          mainPlaceholder: "مثال: الضرب لعمر 7 سنوات",
-          level: "الفئة العمرية",
-          levelPlaceholder: "مثال: من 7 إلى 8 سنوات",
-          extra: "تعليمات للنشاط الممتع",
-          extraPlaceholder: "مثال: اجعله ملوّنًا وسهلًا وأضف مكافأة قصيرة في النهاية...",
-          outputs: [["kidsquiz","اختبار ممتع"],["game","لعبة تعليمية"],["lesson","درس صغير"]]
-        }
+      kids:{
+        en:{title:"Kids & Teachers Zone",main:"Learning topic",mainPH:"Example: Multiplication for age 7",level:"Age group",levelPH:"Example: 7–8 years old",extra:"Fun learning instructions",extraPH:"Example: Make it colorful, easy, and include a reward...",outputs:[["quiz","Fun quiz"],["game","Learning game"],["lesson","Mini lesson"]]},
+        ar:{title:"منطقة الأطفال والمعلمين",main:"موضوع التعلّم",mainPH:"مثال: الضرب لعمر 7 سنوات",level:"الفئة العمرية",levelPH:"مثال: من 7 إلى 8 سنوات",extra:"تعليمات للنشاط الممتع",extraPH:"مثال: اجعله ملوّنًا وسهلًا وأضف مكافأة...",outputs:[["quiz","اختبار ممتع"],["game","لعبة تعليمية"],["lesson","درس صغير"]]}
       }
     };
 
-    function applyLanguage() {
-      document.documentElement.lang = language;
-      document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
-
-      const t = text[language];
-
-      $("topbarText").textContent = t.topbar;
-      $("topbarStrong").textContent = t.strong;
-      $("navServices").textContent = t.navServices;
-      $("navStudio").textContent = t.navStudio;
-      $("navWhy").textContent = t.navWhy;
-      $("startBtn").textContent = t.start;
-      $("eyebrowText").textContent = t.eyebrow;
-      $("heroFirst").textContent = t.heroFirst;
-      $("heroSecond").textContent = t.heroSecond;
-      $("heroText").textContent = t.heroText;
-      $("heroBtn").textContent = t.heroBtn;
-      $("heroOutline").textContent = t.heroOutline;
-      $("previewLabel").textContent = t.previewLabel;
-      $("previewTitle").textContent = t.previewTitle;
-      $("previewOneTitle").textContent = t.previewOneTitle;
-      $("previewOneText").textContent = t.previewOneText;
-      $("previewTwoTitle").textContent = t.previewTwoTitle;
-      $("previewTwoText").textContent = t.previewTwoText;
-      $("trustOne").textContent = t.trustOne;
-      $("trustTwo").textContent = t.trustTwo;
-      $("trustThree").textContent = t.trustThree;
-      $("servicesTitle").textContent = t.servicesTitle;
-      $("servicesText").textContent = t.servicesText;
-      $("studioPageTitle").textContent = t.studioPageTitle;
-      $("studioPageText").textContent = t.studioPageText;
-      $("flowTitle").textContent = t.flowTitle;
-      $("flowText").textContent = t.flowText;
-      $("stepOne").textContent = t.stepOne;
-      $("stepTwo").textContent = t.stepTwo;
-      $("stepThree").textContent = t.stepThree;
-      $("demoText").textContent = t.demo;
-      $("sourceTopic").textContent = t.sourceTopic;
-      $("sourceText").textContent = t.sourceText;
-      $("sourceLink").textContent = t.sourceLink;
-      $("sourceBook").textContent = t.sourceBook;
-      $("uploadLabel").textContent = t.upload;
-      $("outputLabel").textContent = t.output;
-      $("generateBtn").textContent = t.generate;
-      $("adNote").textContent = t.ad;
-      $("copyBtn").textContent = t.copy;
-      $("resultTitle").textContent = t.previewResult;
-      $("whyTitle").textContent = t.whyTitle;
-      $("whyText").textContent = t.whyText;
-      $("whyOneTitle").textContent = t.whyOneTitle;
-      $("whyOneText").textContent = t.whyOneText;
-      $("whyTwoTitle").textContent = t.whyTwoTitle;
-      $("whyTwoText").textContent = t.whyTwoText;
-      $("whyThreeTitle").textContent = t.whyThreeTitle;
-      $("whyThreeText").textContent = t.whyThreeText;
-      $("footerText").textContent = t.footer;
-
-      $("langBtn").textContent = language === "en" ? "العربية" : "English";
-
-      document.querySelectorAll("[data-en]").forEach(item => {
-        item.textContent = language === "en"
-          ? item.dataset.en
-          : item.dataset.ar;
-      });
-
-      selectService(activeService, false);
+    function saveUsage(){
+      localStorage.setItem("studyvex-plan",currentPlan);
+      localStorage.setItem("studyvex-usage",JSON.stringify(usage));
     }
 
-    function selectService(service, scroll = true) {
-      activeService = service;
+    function renderUsage(){
+      const p=plans[currentPlan];
+      const u=usage[currentPlan];
+      const remaining=Math.max(0,p.credits-u.credits);
+      const percent=(remaining/p.credits)*100;
 
-      document.querySelectorAll(".service").forEach(card => {
-        card.classList.toggle("active", card.dataset.service === service);
+      $("usagePlan").textContent=currentPlan==="pro"?"STUDYVEX PRO":"FREE PLAN";
+      $("creditLeft").textContent=remaining;
+      $("creditTotal").textContent=p.credits;
+      $("creditBar").style.width=percent+"%";
+      $("presentationUsage").textContent=`${u.presentations} / ${p.presentations}`;
+      $("imageUsage").textContent=`${u.images} / ${p.images}`;
+      $("ttsUsage").textContent=`${u.tts} / ${p.tts}`;
+      $("textUsage").textContent=`${u.text} / ${p.text}`;
+
+      $("freePlan").classList.toggle("active-plan",currentPlan==="free");
+      $("proPlan").classList.toggle("active-plan",currentPlan==="pro");
+      $("freeBtn").textContent=currentPlan==="free"?(language==="ar"?"الباقة الحالية":"Current plan"):(language==="ar"?"اختيار المجاني":"Choose Free");
+      $("proBtn").textContent=currentPlan==="pro"?(language==="ar"?"باقة Pro الحالية":"Current Pro plan"):(language==="ar"?"الترقية إلى Pro":"Upgrade to Pro");
+    }
+
+    function setPlan(plan){
+      currentPlan=plan;
+      saveUsage();
+      renderUsage();
+
+      alert(language==="ar"
+        ? (plan==="pro"?"هذه معاينة لباقة Pro. سنربط زر الدفع بـ Stripe لاحقًا.":"تم تغيير المعاينة إلى الباقة المجانية.")
+        : (plan==="pro"?"This is a Pro preview. Stripe payment will be connected later.":"Preview changed to the Free plan."));
+    }
+
+    function applyLanguage(){
+      const t=dictionary[language];
+      document.documentElement.lang=language;
+      document.documentElement.dir=language==="ar"?"rtl":"ltr";
+
+      const ids={
+        topbar:"topbar",topbarStrong:"topbarStrong",navServices:"navServices",navPlans:"navPlans",navStudio:"navStudio",
+        startBtn:"start",eyebrow:"eyebrow",heroOne:"heroOne",heroTwo:"heroTwo",heroText:"heroText",
+        heroBtn:"heroBtn",heroPlanBtn:"heroPlanBtn",previewLabel:"previewLabel",previewTitle:"previewTitle",
+        previewSlides:"previewSlides",previewSlidesText:"previewSlidesText",previewCards:"previewCards",previewCardsText:"previewCardsText",
+        trustOne:"trustOne",trustTwo:"trustTwo",trustThree:"trustThree",serviceTitle:"serviceTitle",serviceText:"serviceText",
+        plansTitle:"plansTitle",plansText:"plansText",freeTitle:"freeTitle",freeMonth:"freeMonth",proMonth:"proMonth",popular:"popular",
+        studioPageTitle:"studioPageTitle",studioPageText:"studioPageText",flowTitle:"flowTitle",flowText:"flowText",
+        stepOne:"stepOne",stepTwo:"stepTwo",stepThree:"stepThree",demoText:"demo",sourceTopic:"sourceTopic",
+        sourceText:"sourceText",sourceLink:"sourceLink",sourceBook:"sourceBook",uploadLabel:"upload",
+        outputLabel:"output",generateBtn:"generate",adNote:"ad",resultTitle:"result",copyBtn:"copy",
+        creditsWord:"credits",usageUpgrade:"upgrade",presentationUsageLabel:"presentations",imageUsageLabel:"images",
+        ttsUsageLabel:"tts",textUsageLabel:"aiText",whyTitle:"whyTitle",whyText:"whyText",
+        whyOneTitle:"whyOneTitle",whyOneText:"whyOneText",whyTwoTitle:"whyTwoTitle",whyTwoText:"whyTwoText",
+        whyThreeTitle:"whyThreeTitle",whyThreeText:"whyThreeText",footerText:"footer"
+      };
+
+      Object.entries(ids).forEach(([id,key])=>$(id).textContent=t[key]);
+      $("langBtn").textContent=language==="en"?"العربية":"English";
+
+      document.querySelectorAll("[data-en]").forEach(el=>{
+        el.textContent=language==="en"?el.dataset.en:el.dataset.ar;
       });
 
-      const config = services[service][language];
+      selectService(activeService,false);
+      renderUsage();
+    }
 
-      $("studioTitle").textContent = config.title;
-      $("mainLabel").textContent = config.main;
-      $("mainInput").placeholder = config.mainPlaceholder;
-      $("levelLabel").textContent = config.level;
-      $("levelInput").placeholder = config.levelPlaceholder;
-      $("textLabel").textContent = config.extra;
-      $("textInput").placeholder = config.extraPlaceholder;
+    function selectService(service,scroll=true){
+      activeService=service;
 
-      $("outputTabs").innerHTML = "";
-
-      config.outputs.forEach((output, index) => {
-        const button = document.createElement("button");
-
-        button.className = "tab" + (index === 0 ? " active" : "");
-        button.textContent = output[1];
-        button.dataset.output = output[0];
-
-        button.addEventListener("click", () => {
-          activeOutput = output[0];
-
-          document.querySelectorAll("#outputTabs .tab").forEach(tab => {
-            tab.classList.remove("active");
-          });
-
-          button.classList.add("active");
-        });
-
-        $("outputTabs").appendChild(button);
+      document.querySelectorAll(".service").forEach(card=>{
+        card.classList.toggle("active",card.dataset.service===service);
       });
 
-      activeOutput = config.outputs[0][0];
+      const c=services[service][language];
+      $("studioTitle").textContent=c.title;
+      $("mainLabel").textContent=c.main;
+      $("mainInput").placeholder=c.mainPH;
+      $("levelLabel").textContent=c.level;
+      $("levelInput").placeholder=c.levelPH;
+      $("textLabel").textContent=c.extra;
+      $("textInput").placeholder=c.extraPH;
 
-      if (scroll) {
-        $("studio").scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
+      $("outputTabs").innerHTML="";
+      c.outputs.forEach((item,index)=>{
+        const btn=document.createElement("button");
+        btn.className="tab"+(index===0?" active":"");
+        btn.textContent=item[1];
+        btn.onclick=()=>{
+          activeOutput=item[0];
+          document.querySelectorAll("#outputTabs .tab").forEach(x=>x.classList.remove("active"));
+          btn.classList.add("active");
+        };
+        $("outputTabs").appendChild(btn);
+      });
+
+      activeOutput=c.outputs[0][0];
+
+      if(scroll){
+        $("studio").scrollIntoView({behavior:"smooth",block:"start"});
       }
     }
 
-    function escapeHTML(value) {
-      const div = document.createElement("div");
-      div.textContent = value;
+    function getCost(){
+      if(activeService==="presentation"||activeService==="powerpoint"){
+        if(activeOutput==="image") return {type:"images",cost:4};
+        if(activeOutput==="narration") return {type:"tts",cost:1};
+        return {type:"presentations",cost:10};
+      }
+
+      if(activeOutput==="image") return {type:"images",cost:4};
+      if(activeOutput==="narration") return {type:"tts",cost:1};
+      return {type:"text",cost:1};
+    }
+
+    function useCredit(){
+      const p=plans[currentPlan];
+      const u=usage[currentPlan];
+      const item=getCost();
+
+      if(u.credits+item.cost>p.credits || u[item.type]+1>p[item.type]){
+        const message=language==="ar"
+          ? "لقد وصلت إلى حد باقتك لهذه الميزة. يمكنك الترقية إلى Pro أو انتظار التجديد الشهري."
+          : "You have reached your plan limit for this feature. Upgrade to Pro or wait for the monthly renewal.";
+
+        alert(message);
+        return false;
+      }
+
+      u.credits+=item.cost;
+      u[item.type]+=1;
+      saveUsage();
+      renderUsage();
+      return true;
+    }
+
+    function escapeHTML(value){
+      const div=document.createElement("div");
+      div.textContent=value;
       return div.innerHTML;
     }
 
-    function demoResult(topic) {
-      const safeTopic = escapeHTML(
-        topic || (language === "ar" ? "موضوعك الدراسي" : "your study topic")
-      );
+    function demoResult(topic){
+      const safe=escapeHTML(topic||(language==="ar"?"موضوعك الدراسي":"your study topic"));
+      const watermark=currentPlan==="free"
+        ? `<span class="watermark">Made with StudyVex</span>`
+        : "";
 
-      if (activeService === "presentation" || activeService === "powerpoint") {
-        return `
-          <h4>${language === "ar" ? "معاينة العرض التقديمي" : "Presentation Preview"}: ${safeTopic}</h4>
-          <p>${language === "ar"
-            ? "هذه معاينة لتجربة النتيجة. عند ربط الذكاء الاصطناعي ستحصل على المحتوى الكامل وصور مقترحة لكل شريحة."
-            : "This is a preview. Once AI is connected, every slide will include complete content and image suggestions."}</p>
-
+      if(activeService==="presentation"||activeService==="powerpoint"){
+        return `${watermark}
+          <h4>${language==="ar"?"معاينة العرض التقديمي":"Presentation Preview"}: ${safe}</h4>
+          <p>${language==="ar"?"هذه معاينة لتجربة العرض. عند ربط الذكاء الاصطناعي ستظهر الشرائح الكاملة والصور المقترحة.":"This is a presentation preview. Once AI is connected, complete slides and image suggestions will appear here."}</p>
           <div class="slides">
-            <div class="slide"><span class="num">1</span><span>${language === "ar" ? "عنوان العرض ومقدمة جذابة" : "Title slide and engaging introduction"}</span></div>
-            <div class="slide"><span class="num">2</span><span>${language === "ar" ? "المفهوم الأساسي ولماذا يهم" : "Core concept and why it matters"}</span></div>
-            <div class="slide"><span class="num">3</span><span>${language === "ar" ? "أهم الأفكار مع شرح وصورة مقترحة" : "Key ideas with explanation and suggested visual"}</span></div>
-            <div class="slide"><span class="num">4</span><span>${language === "ar" ? "أمثلة واقعية أو دراسة حالة" : "Real-world examples or case study"}</span></div>
-            <div class="slide"><span class="num">5</span><span>${language === "ar" ? "الخلاصة والنقاط النهائية" : "Conclusion and key takeaways"}</span></div>
-          </div>
-        `;
+            <div class="slide"><span class="num">1</span><span>${language==="ar"?"عنوان العرض ومقدمة جذابة":"Title slide and engaging introduction"}</span></div>
+            <div class="slide"><span class="num">2</span><span>${language==="ar"?"المفهوم الأساسي ولماذا يهم":"Core concept and why it matters"}</span></div>
+            <div class="slide"><span class="num">3</span><span>${language==="ar"?"أهم الأفكار مع شرح وصورة مقترحة":"Key ideas with explanation and suggested visual"}</span></div>
+            <div class="slide"><span class="num">4</span><span>${language==="ar"?"أمثلة واقعية أو دراسة حالة":"Real-world examples or case study"}</span></div>
+            <div class="slide"><span class="num">5</span><span>${language==="ar"?"الخلاصة والنقاط النهائية":"Conclusion and key takeaways"}</span></div>
+          </div>`;
       }
 
-      if (activeService === "study" || activeService === "quizMaker") {
-        if (activeOutput === "quiz") {
-          return `
-            <h4>${language === "ar" ? "اختبار تجريبي" : "Quiz Preview"}: ${safeTopic}</h4>
-            <p><strong>1.</strong> ${language === "ar" ? "ما الفكرة الأساسية التي يجب أن تتذكرها؟" : "What is the most important idea to remember?"}</p>
-            <ul>
-              <li>A. ${language === "ar" ? "خيار تجريبي أول" : "First sample option"}</li>
-              <li>B. ${language === "ar" ? "خيار تجريبي ثانٍ" : "Second sample option"}</li>
-              <li>C. ${language === "ar" ? "خيار تجريبي ثالث" : "Third sample option"}</li>
-            </ul>
-            <p><strong>${language === "ar" ? "الإجابة:" : "Answer:"}</strong> ${language === "ar" ? "ستظهر الإجابة والشرح الكامل عند ربط الذكاء الاصطناعي." : "The correct answer and explanation will appear when AI is connected."}</p>
-          `;
+      if(activeService==="study"||activeService==="quiz"){
+        if(activeOutput==="quiz"){
+          return `${watermark}<h4>${language==="ar"?"اختبار تجريبي":"Quiz Preview"}: ${safe}</h4>
+            <p><strong>1.</strong> ${language==="ar"?"ما الفكرة الأساسية التي يجب أن تتذكرها؟":"What is the most important idea to remember?"}</p>
+            <ul><li>A. ${language==="ar"?"خيار تجريبي أول":"First sample option"}</li><li>B. ${language==="ar"?"خيار تجريبي ثانٍ":"Second sample option"}</li><li>C. ${language==="ar"?"خيار تجريبي ثالث":"Third sample option"}</li></ul>
+            <p><strong>${language==="ar"?"الإجابة:":"Answer:"}</strong> ${language==="ar"?"ستظهر الإجابة والشرح الكامل عند ربط الذكاء الاصطناعي.":"The answer and explanation will appear when AI is connected."}</p>`;
         }
 
-        if (activeOutput === "flashcards") {
-          return `
-            <h4>${language === "ar" ? "فلاش كاردز تجريبية" : "Flashcards Preview"}: ${safeTopic}</h4>
-            <p><strong>${language === "ar" ? "سؤال:" : "Question:"}</strong> ${language === "ar" ? "ما أهم مفهوم يجب فهمه؟" : "What is the key concept to understand?"}</p>
-            <p><strong>${language === "ar" ? "إجابة:" : "Answer:"}</strong> ${language === "ar" ? "ستظهر إجابة قصيرة وواضحة مبنية على المصدر الذي يضيفه الطالب." : "A short, clear answer based on the student's source will appear here."}</p>
-          `;
+        if(activeOutput==="flashcards"){
+          return `${watermark}<h4>${language==="ar"?"فلاش كاردز تجريبية":"Flashcards Preview"}: ${safe}</h4>
+            <p><strong>${language==="ar"?"سؤال:":"Question:"}</strong> ${language==="ar"?"ما أهم مفهوم يجب فهمه؟":"What is the key concept to understand?"}</p>
+            <p><strong>${language==="ar"?"إجابة:":"Answer:"}</strong> ${language==="ar"?"ستظهر إجابة قصيرة وواضحة مبنية على المحتوى المضاف.":"A clear answer based on the uploaded or pasted material will appear here."}</p>`;
         }
 
-        return `
-          <h4>${language === "ar" ? "ملخص تجريبي" : "Summary Preview"}: ${safeTopic}</h4>
-          <p>${language === "ar"
-            ? "سيحوّل StudyVex المحتوى إلى ملخص منظم بعناوين ونقاط رئيسية وتعريفات ومراجعة سريعة."
-            : "StudyVex will turn the material into a structured summary with headings, key points, definitions, and quick revision notes."}</p>
-          <ul>
-            <li>${language === "ar" ? "الفكرة الأساسية" : "Main concept"}</li>
-            <li>${language === "ar" ? "أهم المصطلحات" : "Important definitions"}</li>
-            <li>${language === "ar" ? "نقاط للمراجعة السريعة" : "Quick revision points"}</li>
-          </ul>
-        `;
+        return `${watermark}<h4>${language==="ar"?"ملخص تجريبي":"Summary Preview"}: ${safe}</h4>
+          <p>${language==="ar"?"سيحوّل StudyVex المحتوى إلى ملخص منظم بعناوين ونقاط رئيسية وتعريفات ومراجعة سريعة.":"StudyVex will turn the material into a structured summary with headings, key points, definitions, and quick revision notes."}</p>
+          <ul><li>${language==="ar"?"الفكرة الأساسية":"Main concept"}</li><li>${language==="ar"?"أهم المصطلحات":"Important definitions"}</li><li>${language==="ar"?"نقاط للمراجعة السريعة":"Quick revision points"}</li></ul>`;
       }
 
-      if (activeService === "chat") {
-        return `
-          <h4>${language === "ar" ? "إجابة StudyVex" : "StudyVex Answer"}</h4>
-          <p>${language === "ar"
-            ? "عند ربط الذكاء الاصطناعي، ستظهر إجابة واضحة خطوة بخطوة مناسبة لمستوى الطالب."
-            : "Once AI is connected, a clear step-by-step answer matched to the student's study level will appear here."}</p>
-        `;
+      if(activeService==="youtube"){
+        const q=encodeURIComponent(topic||"study explanation");
+        return `${watermark}<h4>${language==="ar"?"دليل التعلّم بالفيديو":"Video Learning Guide"}</h4>
+          <p>${language==="ar"?"سيشرح StudyVex الفكرة أولًا ثم يقترح فيديو تعليمي مناسبًا.":"StudyVex will explain the idea first, then suggest a suitable educational video."}</p>
+          <a class="youtube" target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=${q}">▶ ${language==="ar"?"ابحث عن فيديوهات تعليمية في YouTube":"Search educational videos on YouTube"}</a>`;
       }
 
-      if (activeService === "youtube") {
-        const query = encodeURIComponent(topic || "study explanation");
-
-        return `
-          <h4>${language === "ar" ? "دليل التعلّم بالفيديو" : "Video Learning Guide"}</h4>
-          <p>${language === "ar"
-            ? "سيشرح StudyVex الفكرة أولًا، ثم يرسل فيديو تعليمي مناسبًا لنفس الموضوع."
-            : "StudyVex will explain the idea first, then send a suitable educational video for the same topic."}</p>
-
-          <a class="youtube" target="_blank" rel="noopener noreferrer"
-             href="https://www.youtube.com/results?search_query=${query}">
-            ▶ ${language === "ar" ? "ابحث عن فيديوهات تعليمية في YouTube" : "Search educational videos on YouTube"}
-          </a>
-        `;
+      if(activeService==="chat"){
+        return `${watermark}<h4>${language==="ar"?"إجابة StudyVex":"StudyVex Answer"}</h4>
+          <p>${language==="ar"?"عند ربط الذكاء الاصطناعي ستظهر إجابة واضحة خطوة بخطوة ومناسبة لمستوى الطالب.":"Once AI is connected, a clear step-by-step answer matched to the student's level will appear here."}</p>`;
       }
 
-      return `
-        <h4>${language === "ar" ? "نشاط تعليمي تجريبي" : "Learning Activity Preview"}: ${safeTopic}</h4>
-        <p>${language === "ar"
-          ? "سيتم إنشاء نشاط ممتع يناسب العمر المحدد، مع أسئلة بسيطة ومكافأة إيجابية في النهاية."
-          : "A fun age-appropriate activity will be created with simple questions and positive encouragement at the end."}</p>
-        <ul>
-          <li>${language === "ar" ? "سؤال تفاعلي قصير" : "Short interactive question"}</li>
-          <li>${language === "ar" ? "لعبة أو تحدٍ بسيط" : "Simple learning game or challenge"}</li>
-          <li>${language === "ar" ? "نجمة مكافأة عند الإكمال" : "Reward star when completed"}</li>
-        </ul>
-      `;
+      return `${watermark}<h4>${language==="ar"?"نشاط تعليمي تجريبي":"Learning Activity Preview"}: ${safe}</h4>
+        <p>${language==="ar"?"سيتم إنشاء نشاط ممتع يناسب العمر المحدد مع أسئلة بسيطة ومكافأة إيجابية في النهاية.":"A fun age-appropriate activity will be created with simple questions and positive encouragement at the end."}</p>
+        <ul><li>${language==="ar"?"سؤال تفاعلي قصير":"Short interactive question"}</li><li>${language==="ar"?"لعبة أو تحدٍ بسيط":"Simple learning game or challenge"}</li><li>${language==="ar"?"نجمة مكافأة عند الإكمال":"Reward star when completed"}</li></ul>`;
     }
 
-    document.querySelectorAll(".service").forEach(card => {
-      card.addEventListener("click", () => {
-        selectService(card.dataset.service);
-      });
+    document.querySelectorAll(".service").forEach(card=>{
+      card.addEventListener("click",()=>selectService(card.dataset.service));
     });
 
-    document.querySelectorAll(".tabs > .tab[data-source]").forEach(tab => {
-      tab.addEventListener("click", () => {
-        document.querySelectorAll(".tabs > .tab[data-source]").forEach(item => {
-          item.classList.remove("active");
-        });
-
+    document.querySelectorAll("[data-source]").forEach(tab=>{
+      tab.addEventListener("click",()=>{
+        document.querySelectorAll("[data-source]").forEach(x=>x.classList.remove("active"));
         tab.classList.add("active");
       });
     });
 
-    $("langBtn").addEventListener("click", () => {
-      language = language === "en" ? "ar" : "en";
+    $("langBtn").addEventListener("click",()=>{
+      language=language==="en"?"ar":"en";
       applyLanguage();
     });
 
-    $("fileInput").addEventListener("change", event => {
-      const file = event.target.files[0];
+    $("freeBtn").addEventListener("click",()=>setPlan("free"));
+    $("proBtn").addEventListener("click",()=>setPlan("pro"));
+    $("usageUpgrade").addEventListener("click",()=>setPlan("pro"));
 
-      $("fileName").textContent = file
-        ? `${language === "ar" ? "تم اختيار:" : "Selected:"} ${file.name}`
+    $("fileInput").addEventListener("change",event=>{
+      const file=event.target.files[0];
+      $("fileName").textContent=file
+        ? `${language==="ar"?"تم اختيار: ":"Selected: "}${file.name}`
         : "";
     });
 
-    $("generateBtn").addEventListener("click", () => {
-      $("resultBody").innerHTML = demoResult($("mainInput").value.trim());
-      $("result").classList.add("show");
+    $("generateBtn").addEventListener("click",()=>{
+      if(!useCredit()) return;
 
-      $("result").scrollIntoView({
-        behavior: "smooth",
-        block: "nearest"
-      });
+      $("resultBody").innerHTML=demoResult($("mainInput").value.trim());
+      $("result").classList.add("show");
+      $("result").scrollIntoView({behavior:"smooth",block:"nearest"});
     });
 
-    $("copyBtn").addEventListener("click", async () => {
-      try {
+    $("copyBtn").addEventListener("click",async()=>{
+      try{
         await navigator.clipboard.writeText($("resultBody").innerText);
+        $("copyBtn").textContent=language==="ar"?"تم النسخ ✓":"Copied ✓";
 
-        $("copyBtn").textContent = language === "ar" ? "تم النسخ ✓" : "Copied ✓";
-
-        setTimeout(() => {
-          $("copyBtn").textContent = language === "ar" ? "نسخ النتيجة" : "Copy result";
-        }, 1500);
-
-      } catch {
-        alert(language === "ar" ? "تعذر نسخ النتيجة." : "Unable to copy the result.");
+        setTimeout(()=>{
+          $("copyBtn").textContent=language==="ar"?"نسخ النتيجة":"Copy result";
+        },1500);
+      }catch{
+        alert(language==="ar"?"تعذر نسخ النتيجة.":"Unable to copy the result.");
       }
     });
 
     applyLanguage();
+    renderUsage();
   </script>
-
 </body>
 </html>
